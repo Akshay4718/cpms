@@ -13,20 +13,14 @@ function Signup() {
 
   const prefillEmail = location?.state?.prefillEmail || '';
 
-  // if login user visit redirect to home page
   useEffect(() => {
-    if (isAuthenticated()) {
-      navigate("../student/dashboard");
-    }
+    if (isAuthenticated()) navigate("../student/dashboard");
   }, [navigate]);
 
-  // useState for toast display
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
-
   const [error, setError] = useState({});
 
-  // useState for from data 
   const [formData, setFormData] = useState({
     first_name: '',
     email: prefillEmail,
@@ -38,14 +32,13 @@ function Signup() {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    if (e.target.name === 'first_name') setError({ ...error, first_name: '' })
-    if (e.target.name === 'email') setError({ ...error, email: '' })
-    if (e.target.name === 'number') setError({ ...error, number: '' })
-    if (e.target.name === 'password') {
-      setError({ ...error, password: '' })
-      if (!validatePassword(e.target.value)) setError({ ...error, password: 'Password Must Contains: Minimum 8 Char with atleast 1 Special Char, 1 Number, 1 Uppercase, 1 Lowercase' })
+
+    if (e.target.name === 'password' && e.target.value && !validatePassword(e.target.value)) {
+      setError({ ...error, password: 'Password must be 8+ chars, include uppercase, lowercase, number & special char' });
+    } else {
+      setError({ ...error, [e.target.name]: '' });
     }
-  }
+  };
 
   function validatePassword(password) {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -54,55 +47,31 @@ function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData?.email && !formData?.first_name && !formData?.number && !formData?.password)
-      return setError({ email: 'Email Required!', first_name: 'Name Required!', number: 'Number Required!', password: 'Password Required!' })
-    if (!formData?.email || !formData?.first_name || !formData?.number || !formData?.password) {
-      let email, first_name, number, password;
-      if (!formData?.email) email = 'Email Required!';
-      if (!formData?.first_name) first_name = 'Name Required!';
-      if (!formData?.number) number = 'Number Required!';
-      if (!formData?.password) password = 'Password Required!';
-      setError({ email: email, first_name: first_name, number: number, password: password })
-      return;
-    }
 
-    if (!validatePassword(formData?.password)) return setError({ password: 'Password Must Contains: Minimum 8 Char with atleast 1 Special Char, 1 Number, 1 Uppercase, 1 Lowercase' })
-
-    if (formData?.number?.length !== 10) return setError({ ...error, number: 'Number Length Should be 10 digital only!' })
+    const newErrors = {};
+    if (!first_name) newErrors.first_name = 'Name Required!';
+    if (!email) newErrors.email = 'Email Required!';
+    if (!number) newErrors.number = 'Number Required!';
+    if (!password) newErrors.password = 'Password Required!';
+    if (number && number.length !== 10) newErrors.number = 'Number must be 10 digits!';
+    if (password && !validatePassword(password)) newErrors.password = 'Password must be 8+ chars, include uppercase, lowercase, number & special char';
+    if (Object.keys(newErrors).length) return setError(newErrors);
 
     try {
-      const response = await axios.post(`${BASE_URL}/student/signup`, formData);
-      // console.log(response.data);
-      setToastMessage("User Created Successfully! Now You Can Login.");
+      await axios.post(`${BASE_URL}/student/signup`, formData);
+      navigate('../student/login', {
+        state: { showToastPass: true, toastMessagePass: "User Created Successfully! Now You Can Login." }
+      });
+    } catch (err) {
+      setToastMessage(err?.response?.data?.msg || 'Something went wrong');
       setShowToast(true);
-
-      const dataToPass = {
-        showToastPass: true,
-        toastMessagePass: "User Created Successfully! Now You Can Login."
-      }
-      navigate('../student/login', { state: dataToPass });
-
-      // after 3sec to go login page
-      // setTimeout(() => navigate("../student/login"), 2000);
-    } catch (error) {
-      if (error.response.data.msg) {
-        setToastMessage(error.response.data.msg);
-        setShowToast(true);
-      }
-      console.log("Student Signup.jsx => ", error);
     }
-  }
+  };
 
-  // toggle eye
   const [isEyeOpen, setEyeOpen] = useState(false);
-
-  const handleEye = () => {
-    setEyeOpen(!isEyeOpen);
-  }
 
   return (
     <>
-      {/* for any message "toast" */}
       <Toast
         show={showToast}
         onClose={() => setShowToast(false)}
@@ -111,77 +80,89 @@ function Signup() {
         position="bottom-end"
       />
 
-      <div className="flex justify-center items-center py-2 min-h-screen bg-gradient-to-r from-red-400 from-10% via-pink-300 via-40% to-purple-300 to-100% ">
-        <form className="form-signin flex justify-center items-center flex-col gap-3 backdrop-blur-md bg-white/30 border border-white/20 rounded-lg shadow shadow-red-400 p-8 w-1/3 max-lg:w-2/3 max-md:w-3/4 max-[400px]:w-4/5" onSubmit={handleSubmit}>
-          <div className='flex justify-center items-center flex-col'>
-            <img className="mb-4 rounded-xl shadow w-30 h-28 lg:w-40 lg:h-40" src={`${Logo}`} alt="Logo Image" />
-            <h1 className="h3 mb-3 font-weight-normal">Sign Up as a Student</h1>
+      <div className="flex justify-center items-center min-h-screen bg-gray-50 py-6">
+        <form
+          className="flex flex-col gap-4 bg-white p-8 rounded-lg shadow-md w-96 max-sm:w-11/12"
+          onSubmit={handleSubmit}
+        >
+          <div className="flex flex-col items-center">
+            <img src={Logo} alt="Logo" className="w-24 h-24 mb-4 rounded-lg" />
+            <h1 className="text-2xl font-bold text-gray-800 mb-2">Sign Up as a Student</h1>
           </div>
-          <div className="w-full">
-            <label htmlFor="inputName" className="sr-only">Name</label>
-            <input type="text" id="inputName" className="form-control ml-1" placeholder="Name" autoFocus="" fdprocessedid="gwlj3s" autoComplete='Name' name='first_name' value={first_name} onChange={handleChange} />
-            <div className="text-red-500 ml-2">
-              <span>{error?.first_name}</span>
-            </div>
+
+          {/* Name */}
+          <div>
+            <input
+              type="text"
+              name="first_name"
+              value={first_name}
+              onChange={handleChange}
+              placeholder="Name"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
+            />
+            {error.first_name && <p className="text-red-500 text-sm mt-1">{error.first_name}</p>}
           </div>
-          <div className="w-full">
-            <label htmlFor="inputEmail" className="sr-only">Email Address</label>
-            <input type="email" id="inputEmail" className="form-control ml-1" placeholder="Email Address" autoFocus="" fdprocessedid="gwlj3s" autoComplete='email' name='email' value={email} onChange={handleChange} />
-            <div className="text-red-500 ml-2">
-              <span>{error?.email}</span>
-            </div>
+
+          {/* Email */}
+          <div>
+            <input
+              type="email"
+              name="email"
+              value={email}
+              onChange={handleChange}
+              placeholder="Email Address"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
+            />
+            {error.email && <p className="text-red-500 text-sm mt-1">{error.email}</p>}
           </div>
-          <div className="w-full">
-            <label htmlFor="inputNumber" className="sr-only">Phone Number</label>
+
+          {/* Phone Number */}
+          <div>
             <input
               type="number"
-              id="inputNumber"
-              className="form-control ml-1"
-              placeholder="Phone Number"
-              autoFocus=""
-              fdprocessedid="gwlj3s"
-              autoComplete='number'
-              name='number'
+              name="number"
               value={number}
               onChange={handleChange}
-              onInput={(e) => {
-                if (e.target.value > 10) {
-                  e.target.value = e.target.value.slice(0, 10);
-                }
-              }}
+              placeholder="Phone Number"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
+              onInput={(e) => e.target.value = e.target.value.slice(0, 10)}
             />
-            <div className="text-red-500 ml-2">
-              <span>{error?.number}</span>
-            </div>
+            {error.number && <p className="text-red-500 text-sm mt-1">{error.number}</p>}
           </div>
 
-          <div className="w-full">
-            <div className="flex justify-center items-center w-full">
-              <label htmlFor="inputPassword" className="sr-only">Password</label>
-              <input type={`${isEyeOpen ? "text" : "password"}`} id="inputPassword" className="form-control" placeholder="Password" fdprocessedid="9sysne" autoComplete='current-password' name='password' value={password} onChange={handleChange} />
-              <i className={`${isEyeOpen ? "fa-solid fa-eye" : "fa-regular fa-eye-slash"} -ml-6 cursor-pointer`} onClick={handleEye}></i>
-            </div>
-            <div className="text-red-500 ml-2">
-              <span>{error?.password}</span>
-            </div>
+          {/* Password */}
+          <div className="relative">
+            <input
+              type={isEyeOpen ? "text" : "password"}
+              name="password"
+              value={password}
+              onChange={handleChange}
+              placeholder="Password"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
+            />
+            <i
+              className={`absolute right-3 top-3 cursor-pointer ${isEyeOpen ? "fa-solid fa-eye" : "fa-regular fa-eye-slash"}`}
+              onClick={() => setEyeOpen(!isEyeOpen)}
+            ></i>
+            {error.password && <p className="text-red-500 text-sm mt-1">{error.password}</p>}
           </div>
 
-          <div className="flex justify-center items-center flex-col">
-            <button
-              className="btn btn-primary btn-block"
-              type="submit"
-            >
-              Sign Up
-            </button>
-          </div>
-          <span className='text-center'>Already having account?
-            <span className='text-blue-500 font-bold cursor-pointer px-1' onClick={() => navigate('../student/login')}>Login</span>
-          </span>
-          <p className="text-muted text-center text-gray-400">© College Placement Management System 2024 - 25</p>
+          <button type="submit" className="w-full bg-gray-800 text-white py-2 rounded-md hover:bg-gray-700 transition">
+            Sign Up
+          </button>
+
+          <p className="text-center text-gray-600 text-sm">
+            Already have an account?{" "}
+            <span className="text-blue-500 cursor-pointer" onClick={() => navigate('../student/login')}>
+              Login
+            </span>
+          </p>
+
+          <p className="text-center text-gray-400 text-xs mt-2">© College Placement Management System 2025 - 26</p>
         </form>
       </div>
     </>
-  )
+  );
 }
 
-export default Signup
+export default Signup;

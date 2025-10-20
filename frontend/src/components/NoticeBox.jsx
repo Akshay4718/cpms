@@ -9,26 +9,22 @@ function NoticeBox() {
   const [noticesData, setNoticesData] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
 
-  // Fetch the current user data
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
         const token = localStorage.getItem('token');
         const response = await axios.get(`${BASE_URL}/user/detail`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          }
+          headers: { Authorization: `Bearer ${token}` },
         });
         setCurrentUser({ role: response.data.role });
       } catch (error) {
-        console.log("Error fetching user details => ", error);
+        console.log('Error fetching user details => ', error);
       }
     };
 
     fetchCurrentUser();
   }, []);
 
-  // Fetch notices only after the user role is available
   useEffect(() => {
     if (currentUser?.role) {
       fetchNotices();
@@ -38,18 +34,16 @@ function NoticeBox() {
   const fetchNotices = async () => {
     try {
       const response = await axios.get(`${BASE_URL}/management/get-all-notices`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        }
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
 
       let filteredNotices = [];
       if (currentUser?.role === 'management_admin') {
-        filteredNotices = response.data.filter(notice => notice.sender_role === 'tpo_admin');
+        filteredNotices = response.data.filter((n) => n.sender_role === 'tpo_admin');
       } else if (currentUser?.role === 'tpo_admin') {
-        filteredNotices = response.data.filter(notice => notice.receiver_role === 'tpo_admin');
+        filteredNotices = response.data.filter((n) => n.receiver_role === 'tpo_admin');
       } else if (currentUser?.role === 'student') {
-        filteredNotices = response.data.filter(notice => notice.receiver_role === 'student');
+        filteredNotices = response.data.filter((n) => n.receiver_role === 'student');
       }
 
       setNoticesData(filteredNotices);
@@ -61,70 +55,84 @@ function NoticeBox() {
   };
 
   return (
-    <div className="my-2 mx-2 w-full backdrop-blur-md bg-white/30 border border-white/20 rounded-lg py-2 px-3 shadow shadow-red-400">
-      <div className="flex justify-between items-center">
-        <h3 className="font-semibold my-2">Notice</h3>
-        <span className=''>
-          {
-            currentUser?.role === 'student' && (
-              <Link to='/student/all-notice' className='no-underline text-blue-500 hover:text-blue-700'>
-                View All
-              </Link>
-            )
-          }
-          {
-            currentUser?.role === 'tpo_admin' && (
-              <Link to='/tpo/all-notice' className='no-underline text-blue-500 hover:text-blue-700'>
-                View All
-              </Link>
-            )
-          }
-          {
-            currentUser?.role === 'management_admin' && (
-              <Link to='/management/all-notice' className='no-underline text-blue-500 hover:text-blue-700'>
-                View All
-              </Link>
-            )
-          }
+    <div className="my-3 mx-2 w-full backdrop-blur-xl bg-gradient-to-br from-white/40 to-white/10 border border-white/30 rounded-xl py-4 px-5 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-3 border-b border-gray-300/50 pb-2">
+        <h3 className="font-semibold text-lg text-gray-800 flex items-center gap-2">
+          <i className="fa-solid fa-bullhorn text-blue-600"></i> Notice Board
+        </h3>
+
+        <span>
+          {currentUser?.role === 'student' && (
+            <Link to="/student/all-notice" className="text-blue-600 hover:text-blue-800 text-sm font-medium">
+              View All →
+            </Link>
+          )}
+          {currentUser?.role === 'tpo_admin' && (
+            <Link to="/tpo/all-notice" className="text-blue-600 hover:text-blue-800 text-sm font-medium">
+              View All →
+            </Link>
+          )}
+          {currentUser?.role === 'management_admin' && (
+            <Link to="/management/all-notice" className="text-blue-600 hover:text-blue-800 text-sm font-medium">
+              View All →
+            </Link>
+          )}
         </span>
       </div>
 
+      {/* Content */}
       {loading ? (
-        <div className="flex justify-center items-center">
-          <i className="fa-solid fa-spinner fa-spin text-2xl" />
+        <div className="flex justify-center items-center py-6">
+          <i className="fa-solid fa-spinner fa-spin text-2xl text-blue-600"></i>
         </div>
       ) : (
         <div className="relative h-72 overflow-hidden">
-          <div className="absolute bottom-0 w-full h-full animate-scrollUp">
+          <div className="absolute bottom-0 w-full h-full animate-scrollUp space-y-4 px-1">
             {noticesData?.length > 0 ? (
-              noticesData.map((notice, index) => (
-                <div key={index} className="py-2 h-fit">
-                  <Link
-                    className='text-blue-500 hover:text-blue-700'
-                    to={
-                      currentUser?.role === 'student'
-                        ? `/student/notice/${notice?._id}`
-                        : currentUser?.role === 'tpo_admin'
+              noticesData.map((notice, index) => {
+                const isNew =
+                  (new Date() - new Date(notice?.createdAt)) / (1000 * 60 * 60 * 24) <= 2;
+
+                return (
+                  <div
+                    key={index}
+                    className="bg-white/70 hover:bg-white/90 border border-gray-200 rounded-lg p-3 transition-all duration-200 shadow-sm hover:shadow-md"
+                  >
+                    <Link
+                      className="text-blue-700 hover:text-blue-900 font-medium text-base no-underline"
+                      to={
+                        currentUser?.role === 'student'
+                          ? `/student/notice/${notice?._id}`
+                          : currentUser?.role === 'tpo_admin'
                           ? `/tpo/notice/${notice?._id}`
                           : currentUser.role === 'management_admin'
-                            ? `/management/notice/${notice?._id}`
-                            : ''
-                    }
-                    target="_blank"
-                  >
-                    {notice?.title}
-                    {/* Show the badge if the notice is within 2 days */}
-                    {(new Date() - new Date(notice?.createdAt)) / (1000 * 60 * 60 * 24) <= 2 && (
-                      <Badge className="mx-2" bg="primary">New</Badge>
-                    )}
-                  </Link>
-                  <span className='no-underline mx-1 text-gray-400'>
-                    {new Date(notice?.createdAt).toLocaleDateString('en-IN') + " " + new Date(notice?.createdAt).toLocaleTimeString('en-IN')}
-                  </span>
-                </div>
-              ))
+                          ? `/management/notice/${notice?._id}`
+                          : ''
+                      }
+                      target="_blank"
+                    >
+                      {notice?.title}
+                      {isNew && (
+                        <Badge
+                          bg="primary"
+                          className="ml-2 text-xs px-2 py-1 rounded-md"
+                          style={{ verticalAlign: 'middle' }}
+                        >
+                          New
+                        </Badge>
+                      )}
+                    </Link>
+
+                    <div className="text-gray-500 text-sm mt-1">
+                      {new Date(notice?.createdAt).toLocaleDateString('en-IN')}{' '}
+                      {new Date(notice?.createdAt).toLocaleTimeString('en-IN')}
+                    </div>
+                  </div>
+                );
+              })
             ) : (
-              <div>No notices found!</div>
+              <div className="text-center text-gray-500 mt-10">No notices found!</div>
             )}
           </div>
         </div>

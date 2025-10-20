@@ -2,29 +2,40 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
 
 const authenticateToken = async (req, res, next) => {
-  const token = req.header('Authorization')?.replace('Bearer ', '');
-
-  if (!token) return res.status(401).json({ msg: 'Login Required!' });
-
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const authHeader = req.header('Authorization');
 
-    // Find the user with the matching token
-    const user = await User.findOne({ _id: decoded.userId, token });
+    if (!authHeader) return res.status(401).json({ msg: 'Login Required!' });
 
-    if (!user) return res.status(401).json({ msg: 'Token is not valid! Plase Login.' });
-    // console.log(user);
+    const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : authHeader;
+
+    if (!token) return res.status(401).json({ msg: 'Login Required!' });
+
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
+      if (err.name === 'TokenExpiredError') {
+        return res.status(401).json({ msg: 'Session Expired! Please Login Again.' });
+      } else {
+        return res.status(401).json({ msg: 'Invalid Token! Please Login.' });
+      }
+    }
+
+    // If you really need to verify token against DB, uncomment this:
+    // const user = await User.findOne({ _id: decoded.userId, token });
+    // if (!user) return res.status(401).json({ msg: 'Token is not valid! Please Login.' });
+
+    // Instead, just find the user by ID
+    const user = await User.findById(decoded.userId);
+    if (!user) return res.status(401).json({ msg: 'User not found! Please Login.' });
 
     req.user = user;
     next();
-  } catch (error) {
-    if (error.name === "TokenExpiredError") {
-      res.status(401).json({ msg: 'Session Expired! Please Login Again.' });
-    } else {
-      console.log("auth.middleware.js => ", error);
-      res.status(401).json({ msg: 'Please Login First' });
-    }
+  } catch (err) {
+    console.error('auth.middleware.js =>', err);
+    res.status(500).json({ msg: 'Internal Server Error' });
   }
-}
+};
 
 module.exports = authenticateToken;

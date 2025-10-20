@@ -10,7 +10,7 @@ const AccordionPlaceholder = () => {
       >
         <Accordion.Header>Fourth Year</Accordion.Header>
         <Accordion.Body>
-          <Accordion flush defaultActiveKey={['Computer']} className="flex flex-col gap-2">
+          <Accordion flush defaultActiveKey={['CSE']} className="flex flex-col gap-2">
             {[...Array(5)].map((_, idx) => (
               <Placeholder key={idx} as="p" animation="glow">
                 <Placeholder className='w-full' />

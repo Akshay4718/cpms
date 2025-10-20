@@ -383,7 +383,7 @@ function ViewUserData() {
                           <div className="space-y-4">
                             {userData?.studentProfile?.UIN && (
                               <div>
-                                <span className="text-gray-700 font-bold">UIN: </span>
+                                <span className="text-gray-700 font-bold">USN: </span>
                                 <span className="text-gray-800">
                                   {userData?.studentProfile?.UIN}
                                 </span>
@@ -556,7 +556,7 @@ function ViewUserData() {
                           <>
                             <div className="">
                               <div className="font-bold">
-                                SSC:
+                                SSLC:
                               </div>
                               <div className="space-y-1 pl-2">
                                 {
@@ -601,7 +601,7 @@ function ViewUserData() {
                           <>
                             <div className="">
                               <div className="font-bold">
-                                HSC:
+                                PUC:
                               </div>
                               <div className="space-y-1 pl-2">
                                 {

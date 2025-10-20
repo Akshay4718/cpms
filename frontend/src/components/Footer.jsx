@@ -8,11 +8,10 @@ function Footer({ isSidebarVisible }) {
           <span className="font-semibold">Developed & Maintained by</span>
           <span className="px-1">
             <a
-              href="https://www.linkedin.com/in/moinnaik/"
-              target='_blanck'
+              
               className='cursor-pointer font-bold text-blue-500 no-underline hover:text-blue-700'
             >
-              Moin MN
+              Major Project Team - NIE
             </a>
           </span>
         </div>
