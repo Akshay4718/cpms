@@ -187,7 +187,7 @@ function UpdatePlacementProfile() {
 
                           {userData?.studentProfile?.uin && (
                             <div>
-                              <span className="text-gray-700 font-bold">UIN: </span>
+                              <span className="text-gray-700 font-bold">USN: </span>
                               <span className="text-gray-800">
                                 {userData?.studentProfile?.uin}
                               </span>
@@ -386,7 +386,7 @@ function UpdatePlacementProfile() {
                     <span className='text-2xl max-sm:text-xl'>Past Qualification</span>
                     <div className="grid grid-cols-3 max-sm:grid-cols-1">
                       <div className="px-2 py-3 flex flex-col gap-2">
-                        <FloatingLabel controlId="floatingSelectSSC" label="SSC Board Name">
+                        <FloatingLabel controlId="floatingSelectSSC" label="SSLC Board Name">
                           <Form.Select
                             aria-label="Floating label select SSCBoard"
                             className='cursor-pointer'
@@ -408,8 +408,8 @@ function UpdatePlacementProfile() {
                               });
                             }}
                           >
-                            <option disabled value="undefined" className='text-gray-400'>Enter Your SSC Board Name</option>
-                            <option value="Maharashtra State Board of Secondary and Higher Secondary Education (MSBSHSE)">Maharashtra State Board of Secondary and Higher Secondary Education (MSBSHSE)</option>
+                            <option disabled value="undefined" className='text-gray-400'>Enter Your SSLC Board Name</option>
+                            <option value="Karnataka Secondary Education Examination Board(KSEEB)">Karnataka Secondary Education Examination Board(KSEEB)</option>
                             <option value="Central Board of Secondary Education (CBSE)">Central Board of Secondary Education (CBSE)</option>
                             <option value="Council for the Indian School Certificate Examinations (CISCE)">Council for the Indian School Certificate Examinations (CISCE)</option>
                             <option value="Other">Other</option>
@@ -418,7 +418,7 @@ function UpdatePlacementProfile() {
                         <FloatingLabel controlId="floatingSSCMarks" label="SSC Percentage">
                           <Form.Control
                             type="number"
-                            placeholder="SSC Percentage"
+                            placeholder="SSLC Percentage"
                             name='sscPercentage'
                             value={userData?.studentProfile?.pastQualification?.ssc?.percentage}
                             onChange={(e) => {
@@ -438,10 +438,10 @@ function UpdatePlacementProfile() {
                             }}
                           />
                         </FloatingLabel>
-                        <FloatingLabel controlId="floatingSelectSSCPassingYear" label="SSC Passing Year">
+                        <FloatingLabel controlId="floatingSelectSSCPassingYear" label="SSLC Passing Year">
                           <Form.Control
                             type="number"
-                            placeholder="SSC Passing Year"
+                            placeholder="SSLC Passing Year"
                             name='sscPassingYear'
                             value={userData?.studentProfile?.pastQualification?.ssc?.year}
                             onChange={(e) => {
@@ -464,9 +464,9 @@ function UpdatePlacementProfile() {
                       </div>
 
                       <div className="px-2 py-3 flex flex-col gap-2">
-                        <FloatingLabel controlId="floatingSelectHSC" label="HSC Board Name">
+                        <FloatingLabel controlId="floatingSelectHSC" label="PUC Board Name">
                           <Form.Select
-                            aria-label="Floating label select HSC Board"
+                            aria-label="Floating label select PUC Board"
                             className='cursor-pointer'
                             name='hscBoard'
                             value={userData?.studentProfile?.pastQualification?.hsc?.board || "undefined"}
@@ -486,18 +486,18 @@ function UpdatePlacementProfile() {
                               });
                             }}
                           >
-                            <option disabled value="undefined" className='text-gray-400'>Enter Your SSC Board Name</option>
-                            <option value="Maharashtra State Board of Secondary and Higher Secondary Education (MSBSHSE)">Maharashtra State Board of Secondary and Higher Secondary Education (MSBSHSE)</option>
+                            <option disabled value="undefined" className='text-gray-400'>Enter Your PUC Board Name</option>
+                            <option value="Karnataka Secondary Education Examination Board(KSEEB)">Karnataka Secondary Education Examination Board(KSEEB)</option>
                             <option value="Central Board of Secondary Education (CBSE)">Central Board of Secondary Education (CBSE)</option>
                             <option value="Council for the Indian School Certificate Examinations (CISCE)">Council for the Indian School Certificate Examinations (CISCE)</option>
-                            <option value="NoHSC">No HSC</option>
+                            <option value="No PUC">No PUC</option>
                             <option value="Other">Other</option>
                           </Form.Select>
                         </FloatingLabel>
-                        <FloatingLabel controlId="floatingHSCMarks" label="HSC Percentage">
+                        <FloatingLabel controlId="floatingHSCMarks" label="PUC Percentage">
                           <Form.Control
                             type="number"
-                            placeholder="HSC Percentage"
+                            placeholder="PUC Percentage"
                             name='hscPercentage'
                             value={userData?.studentProfile?.pastQualification?.hsc?.percentage || ""}
                             onChange={(e) => {
@@ -517,10 +517,10 @@ function UpdatePlacementProfile() {
                             }}
                           />
                         </FloatingLabel>
-                        <FloatingLabel controlId="floatingSelectHSCPassingYear" label="HSC Passing Year">
+                        <FloatingLabel controlId="floatingSelectHSCPassingYear" label="PUC Passing Year">
                           <Form.Control
                             type="number"
-                            placeholder="HSC Passing Year"
+                            placeholder="PUC Passing Year"
                             name='hscPassingYear'
                             value={userData?.studentProfile?.pastQualification?.hsc?.year || ""}
                             onChange={(e) => {
@@ -566,7 +566,7 @@ function UpdatePlacementProfile() {
                             }}
                           >
                             <option disabled value="undefined" className='text-gray-400'>Enter Your Diploma University Name</option>
-                            <option value="Mumbai University">Mumbai University</option>
+                            <option value="VTU">VTU</option>
                             <option value="NoDiploma">No Diploma</option>
                             <option value="Other">Other</option>
                           </Form.Select>

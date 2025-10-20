@@ -265,7 +265,7 @@ function UpdateJobStatus() {
                                 {
                                   currentUser?.uin && (
                                     <div>
-                                      <span className="text-gray-700 font-bold">UIN: </span>
+                                      <span className="text-gray-700 font-bold">USN: </span>
                                       <span className="text-blue-500 font-bold">
                                         {currentUser?.uin}
                                       </span>

@@ -42,7 +42,7 @@ const StudentTable = ({ branchName, studentData }) => {
             <tr>
               <th style={{ width: "6%" }}>Roll No.</th>
               <th style={{ width: "15%" }}>Full Name</th>
-              <th style={{ width: "10%" }}>UIN</th>
+              <th style={{ width: "10%" }}>USN</th>
               <th style={{ width: "15%" }}>Email</th>
               <th style={{ width: "11%" }}>Phone Number</th>
               <th style={{ width: "10%" }}>Resume</th>
