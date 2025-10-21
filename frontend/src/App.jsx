@@ -12,6 +12,7 @@ const UpdatePlacementProfile = lazy(() => import("./components/Students/UpdatePl
 const UpdateJobStatus = lazy(() => import("./components/Students/UpdateJobStatus.jsx"));
 const AddInternship = lazy(() => import("./components/Students/AddInternship.jsx"));
 const MyAppliedJobs = lazy(() => import("./components/Students/MyApplied.jsx"));
+const ResumeAnalyzer = lazy(() => import("./components/Students/resumeAnalyzer.jsx"));
 // TPO pages
 const LoginTPO = lazy(() => import("./pages/TPO/Login.jsx"));
 const HomeTPO = lazy(() => import('./pages/TPO/Home.jsx'));
@@ -181,6 +182,10 @@ function App() {
               {/* all notice */}
               <Route element={<Layout header="All Notices" />}>
                 <Route path="/student/all-notice" element={<ViewAllNotice />} />
+              </Route>
+              {/* resume analyzer */}
+              <Route element={<Layout header="" />}>
+                <Route path="/student/resume-analyzer" element={<ResumeAnalyzer />} />
               </Route>
             </Route>
 

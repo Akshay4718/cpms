@@ -58,4 +58,10 @@ export const SidebarData = [
       },
     ],
   },
+  {
+    title: "Resume Analyzer",
+    path: "/student/resume-analyzer",
+    icon: <FaRegCalendarCheck />,
+  },
+
 ];
