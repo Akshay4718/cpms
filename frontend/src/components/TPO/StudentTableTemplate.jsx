@@ -6,76 +6,73 @@ import { Link } from 'react-router-dom';
 import { BASE_URL } from '../../config/backend_url';
 
 const StudentTable = ({ branchName, studentData }) => {
+  const [currentUser, setCurrentUser] = useState({ role: '' });
 
-  // useState for load data
-  const [currentUser, setCurrentUser] = useState({
-    role: '',
-  });
-
-  // checking for authentication
   useEffect(() => {
     const token = localStorage.getItem('token');
-    axios.get(`${BASE_URL}/user/detail`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-      .then(res => {
-        setCurrentUser({
-          role: res.data.role,
-        });
+    axios
+      .get(`${BASE_URL}/user/detail`, {
+        headers: { Authorization: `Bearer ${token}` },
       })
-      .catch(err => {
-        console.log("AddUserTable.jsx => ", err);
-        setToastMessage(err);
-        setShowToast(true);
+      .then((res) => {
+        setCurrentUser({ role: res.data.role });
+      })
+      .catch((err) => {
+        console.error('StudentTableTemplate.jsx => ', err);
       });
   }, []);
 
-
   return (
-    <Accordion.Item eventKey={branchName} className='shadow-md'>
-      <Accordion.Header>{branchName}</Accordion.Header>
-      <Accordion.Body>
-        <Table striped borderless hover className='w-fit'>
-          <thead>
-            <tr>
-              <th style={{ width: "6%" }}>Roll No.</th>
-              <th style={{ width: "15%" }}>Full Name</th>
-              <th style={{ width: "10%" }}>USN</th>
-              <th style={{ width: "15%" }}>Email</th>
-              <th style={{ width: "11%" }}>Phone Number</th>
-              <th style={{ width: "10%" }}>Resume</th>
-              <th style={{ width: "11%" }}>No. of Internships</th>
-              <th style={{ width: "11%" }}>No. of Applied Jobs</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              studentData?.length > 0 ? (
+    <Accordion className="mt-3" alwaysOpen>
+      <Accordion.Item eventKey={branchName} className="shadow-md">
+        <Accordion.Header>{branchName}</Accordion.Header>
+        <Accordion.Body>
+          <Table striped borderless hover className="w-fit">
+            <thead>
+              <tr>
+                <th style={{ width: '6%' }}>Roll No.</th>
+                <th style={{ width: '15%' }}>Full Name</th>
+                <th style={{ width: '10%' }}>USN</th>
+                <th style={{ width: '15%' }}>Email</th>
+                <th style={{ width: '11%' }}>Phone Number</th>
+                <th style={{ width: '10%' }}>Resume</th>
+                <th style={{ width: '11%' }}>No. of Internships</th>
+                <th style={{ width: '11%' }}>No. of Applied Jobs</th>
+              </tr>
+            </thead>
+            <tbody>
+              {studentData?.length > 0 ? (
                 studentData
                   ?.sort((a, b) => {
                     const rollA = parseInt(a?.studentProfile?.rollNumber || 0);
                     const rollB = parseInt(b?.studentProfile?.rollNumber || 0);
-                    return rollA - rollB; // Sort in ascending order of roll numbers
+                    return rollA - rollB;
                   })
                   ?.map((student, index) => (
                     <tr key={index}>
                       <td>{student?.studentProfile?.rollNumber}</td>
                       <td>
-                        {(currentUser.role === 'tpo_admin' || currentUser.role === 'management_admin') &&
-                          <Link to={`/${currentUser.role === 'tpo_admin' ? 'tpo' : 'management'}/user/${student?._id}`} className='no-underline text-blue-500 hover:text-blue-700'>
-                            {student?.first_name + " " + student?.middle_name + " " + student?.last_name}
+                        {(currentUser.role === 'tpo_admin' ||
+                          currentUser.role === 'management_admin') && (
+                          <Link
+                            to={`/${
+                              currentUser.role === 'tpo_admin'
+                                ? 'tpo'
+                                : 'management'
+                            }/user/${student?._id}`}
+                            className="no-underline text-blue-500 hover:text-blue-700"
+                          >
+                            {`${student?.first_name} ${student?.middle_name} ${student?.last_name}`}
                           </Link>
-                        }
+                        )}
                       </td>
                       <td>{student?.studentProfile?.UIN}</td>
                       <td>
                         <a
-                          href={"mailto:" + student?.email}
+                          href={`mailto:${student?.email}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className='no-underline text-blue-500 hover:text-blue-700'
+                          className="no-underline text-blue-500 hover:text-blue-700"
                         >
                           {student?.email}
                         </a>
@@ -86,7 +83,7 @@ const StudentTable = ({ branchName, studentData }) => {
                           href={student?.studentProfile?.resume}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className='no-underline text-blue-500 hover:text-blue-700'
+                          className="no-underline text-blue-500 hover:text-blue-700"
                         >
                           View Resume
                         </a>
@@ -99,14 +96,13 @@ const StudentTable = ({ branchName, studentData }) => {
                 <tr>
                   <td colSpan={8}>No Student Registered!</td>
                 </tr>
-              )
-            }
-          </tbody>
-        </Table>
-      </Accordion.Body>
-    </Accordion.Item>
+              )}
+            </tbody>
+          </Table>
+        </Accordion.Body>
+      </Accordion.Item>
+    </Accordion>
   );
 };
-
 
 export default StudentTable;

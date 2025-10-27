@@ -101,7 +101,7 @@ function StudentYearAndBranchView() {
         <AccordionPlaceholder />
       ) : (
         <div className="my-4 max-md:p-2 md:p-6 overflow-auto">
-          <Accordion defaultActiveKey={['1']} flush className="flex flex-col gap-4">
+          <Accordion defaultActiveKey={['1']} flush alwaysOpen className="flex flex-col gap-4">
 
             {/* Fourth Year */}
             <Accordion.Item eventKey="1" className="shadow-lg">
@@ -158,6 +158,7 @@ function StudentYearAndBranchView() {
                 <StudentTable branchName="EEE" studentData={firstYearEEE} />
               </Accordion.Body>
             </Accordion.Item>
+
           </Accordion>
         </div>
       )}
@@ -166,6 +167,7 @@ function StudentYearAndBranchView() {
 }
 
 export default StudentYearAndBranchView;
+
 
 
 // old code

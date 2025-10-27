@@ -32,7 +32,7 @@ const UserSchema = new mongoose.Schema({
     rollNumber: { type: Number },
     resume: { type: String, },
     UIN: { type: String, unique: true, sparse: true, trim: true },
-    department: { type: String, enum: ['Computer', 'Civil', 'ECS', 'AIDS', 'Mechanical'] },
+    department: { type: String, enum: ['CSE', 'ISE', 'AIML', 'MECH', 'CIVIL','ECE','EEE'] },
     year: { type: Number, enum: [1, 2, 3, 4] },
     addmissionYear: { type: Number },
     gap: { type: Boolean, default: false },
