@@ -81,14 +81,32 @@ const AllCompanyDetail = async (req, res) => {
 
 const DeleteCompany = async (req, res) => {
   try {
-    // await CompanySchema.findByIdAndDelete(req.body.companyId);
-    const company = await CompanySchema.findById(req.body.companyId);
-    // company and related jobs removed
+    const { companyId } = req.body;
+    
+    if (!companyId) {
+      return res.status(400).json({ msg: 'Company ID is required!' });
+    }
+
+    console.log('Attempting to delete company with ID:', companyId);
+    
+    const company = await CompanySchema.findById(companyId);
+    
+    if (!company) {
+      console.log('Company not found with ID:', companyId);
+      return res.status(404).json({ msg: 'Company not found!' });
+    }
+    
+    console.log('Found company:', company.companyName);
+    
+    // company and related jobs removed via pre-delete middleware
     await company.deleteOne();
+    
+    console.log('Company deleted successfully:', company.companyName);
+    
     return res.json({ msg: "Company Deleted Successfully!" });
   } catch (error) {
-    console.log("company.all-company.controller.js = DeleteCompany => ", error);
-    return res.status(500).json({ msg: 'Server Error' });
+    console.error("company.all-company.controller.js = DeleteCompany => ", error);
+    return res.status(500).json({ msg: 'Failed to delete company. Please try again.' });
   }
 }
 

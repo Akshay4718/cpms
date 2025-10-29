@@ -6,7 +6,7 @@ import authMiddleware from '../middleware/auth.middleware.js';
 const router = express.Router();
 
 // All routes require authentication
-router.use(authMiddleware);
+router.use(authMiddleware());
 
 // TPO routes
 router.post('/create', createMeeting);

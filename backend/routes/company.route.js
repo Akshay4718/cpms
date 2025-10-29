@@ -10,15 +10,15 @@ import { AddCompany, UpdateCompany, CompanyDetail, AllCompanyDetail, DeleteCompa
 
 
 
-router.get('/company-detail', authenticateToken, AllCompanyDetail);
-// router.get('/company-detail/:companyId', authenticateToken, CompanyDetail);
+router.get('/company-detail', authenticateToken(), AllCompanyDetail);
+// router.get('/company-detail/:companyId', authenticateToken(), CompanyDetail);
 
 // company details 
-router.post('/add-company', authenticateToken, AddCompany);
+router.post('/add-company', authenticateToken(), AddCompany);
 
-router.post('/update-company', authenticateToken, UpdateCompany);
+router.post('/update-company', authenticateToken(), UpdateCompany);
 
-router.post('/delete-company', authenticateToken, DeleteCompany);
+router.post('/delete-company', authenticateToken(), DeleteCompany);
 
 router.get('/company-data', CompanyDetail);
 

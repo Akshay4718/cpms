@@ -31,7 +31,7 @@ router.post('/upload-resume', upload.single('resume'), UploadResume);
 // Route to upload offer letter
 router.post('/upload-offer-letter', upload.single('offerLetter'), UploadOfferLetter);
 // Route to delete offer letter
-router.post('/delete-offer-letter/:jobId/:studentId', authenticateToken, DeleteOfferLetter);
+router.post('/delete-offer-letter/:jobId/:studentId', authenticateToken(), DeleteOfferLetter);
 
 // apply to job
 router.put('/job/:jobId/:studentId', AppliedToJob);
@@ -43,18 +43,18 @@ router.get('/check-applied/:jobId/:studentId', CheckAlreadyApplied);
 router.post('/update-status/:jobId/:studentId', UpdateJobStatus);
 
 // get all internship of a student
-router.get('/internship', authenticateToken, GetInternships);
+router.get('/internship', authenticateToken(), GetInternships);
 // update internship of a student
-router.post('/update-internship', authenticateToken, UpdateInternship);
+router.post('/update-internship', authenticateToken(), UpdateInternship);
 // delete internship of a student
-router.post('/delete-internship', authenticateToken, DeleteInternship);
+router.post('/delete-internship', authenticateToken(), DeleteInternship);
 
 
 
 // for tpo and management only
 // student arrays
-router.get('/all-students-data-year-and-branch', authenticateToken, StudentDataYearBranchWise)
+router.get('/all-students-data-year-and-branch', authenticateToken(), StudentDataYearBranchWise)
 // student who is on interview or hired
-router.get('/notify-interview-hired', authenticateToken, NotifyStudentStatus)
+router.get('/notify-interview-hired', authenticateToken(), NotifyStudentStatus)
 
 export default router;

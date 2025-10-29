@@ -11,20 +11,63 @@ const jobSchema = new mongoose.Schema({
   applicationDeadline: { type: Date },
   // company details
   company: { type: Schema.Types.ObjectId, ref: 'Company', required: true },
-  // applicants details
+  
+  // Placement workflow stages
+  placementStage: {
+    type: String,
+    enum: ['open', 'closed', 'shortlisting', 'interviewing', 'completed'],
+    default: 'open'
+  },
+  
+  // Excel export tracking
+  applicantsExported: { type: Boolean, default: false },
+  exportedAt: { type: Date },
+  
+  // Shortlist tracking
+  shortlistReceived: { type: Boolean, default: false },
+  shortlistReceivedAt: { type: Date },
+  
+  // applicants details with enhanced workflow
   applicants: [
     {
       studentId: { type: Schema.Types.ObjectId, ref: 'Users' },
-      currentRound: {
+      
+      // Application stage tracking
+      applicationStatus: {
         type: String,
-        enum: ['Aptitude Test', 'Technical Interview', 'HR Interview', 'Group Discussion']
+        enum: ['applied', 'shortlisted', 'rejected', 'in-process', 'selected', 'placed'],
+        default: 'applied'
       },
-      roundStatus: { type: String, enum: ['pending', 'passed', 'failed'] },
+      
+      // Interview rounds tracking
+      interviewRounds: [
+        {
+          roundName: { type: String }, // e.g., "Aptitude Test", "Technical Round 1"
+          roundDate: { type: Date },
+          status: { type: String, enum: ['scheduled', 'cleared', 'failed', 'pending'], default: 'pending' },
+          remarks: { type: String },
+          updatedAt: { type: Date, default: Date.now }
+        }
+      ],
+      
+      // Current active round
+      currentRound: { type: String },
+      
+      // Selection details
+      isSelected: { type: Boolean, default: false },
       selectionDate: { type: Date },
+      package: { type: Number },
       joiningDate: { type: Date },
       offerLetter: { type: String },
-      status: { type: String, enum: ['applied', 'interview', 'hired', 'rejected'], default: 'applied' },
-      appliedAt: { type: Date, default: Date.now }
+      
+      // Timestamps
+      appliedAt: { type: Date, default: Date.now },
+      shortlistedAt: { type: Date },
+      rejectedAt: { type: Date },
+      placedAt: { type: Date },
+      
+      // Notes by TPO
+      tpoRemarks: { type: String }
     }
   ]
 });

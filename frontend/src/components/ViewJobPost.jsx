@@ -268,6 +268,20 @@ function ViewJobPost() {
                     <>
                       {/* pending */}
                       <div className="">
+                        {/* Manage Applicants Button for TPO */}
+                        {(currentUser.role === 'tpo_admin' || currentUser.role === 'management_admin') && applicant?.length > 0 && (
+                          <div className="mb-4">
+                            <Link 
+                              to={`/tpo/manage-applicants/${jobId}`}
+                              className="inline-flex items-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-colors no-underline shadow-md"
+                            >
+                              <i className="fa-solid fa-users-gear"></i>
+                              <span className="font-semibold">Manage Applicants & Status</span>
+                              <span className="bg-white text-indigo-600 px-2 py-1 rounded-full text-sm font-bold">{applicant.length}</span>
+                            </Link>
+                          </div>
+                        )}
+                        
                         {/* Applicants applied */}
                         <Accordion defaultActiveKey={['3']} alwaysOpen className='shadow rounded'>
                           <Accordion.Item eventKey="3">
@@ -317,7 +331,7 @@ function ViewJobPost() {
                                               </td>
                                               <td>{app.email}</td>
                                               <td>{(app?.currentRound?.charAt(0)?.toUpperCase() + app?.currentRound?.slice(1)) || '-'}</td>
-                                              <td>{app.status.charAt(0).toUpperCase() + app.status.slice(1)}</td>
+                                              <td>{app.applicationStatus ? (app.applicationStatus.charAt(0).toUpperCase() + app.applicationStatus.slice(1)) : (app.status ? (app.status.charAt(0).toUpperCase() + app.status.slice(1)) : 'Applied')}</td>
                                               <td>{new Date(app.appliedAt).toLocaleString('en-IN')}</td>
                                             </tr>
                                           ))

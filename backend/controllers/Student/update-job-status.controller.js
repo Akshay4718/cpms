@@ -17,12 +17,20 @@ const UpdateJobStatus = async (req, res) => {
         if (req.body.applicant.joiningDate) app.joiningDate = req.body.applicant.joiningDate;
         if (req.body.applicant.offerLetter) app.offerLetter = req.body.applicant.offerLetter;
         if (req.body.applicant.status) app.status = req.body.applicant.status;
+        if (req.body.applicant.applicationStatus) {
+          app.applicationStatus = req.body.applicant.applicationStatus;
+          app.status = req.body.applicant.applicationStatus; // Keep both in sync
+        }
       }
     });
 
     student?.studentProfile?.appliedJobs?.find(app => {
       if (app.jobId == req.params.jobId) {
         if (req.body.applicant.status) app.status = req.body.applicant.status;
+        if (req.body.applicant.applicationStatus) {
+          app.applicationStatus = req.body.applicant.applicationStatus;
+          app.status = req.body.applicant.applicationStatus; // Keep both in sync
+        }
         if (req.body.applicant.package) app.package = req.body.applicant.package;
       }
     })

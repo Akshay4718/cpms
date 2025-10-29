@@ -16,18 +16,18 @@ import UpdatePassword from '../controllers/user/user.update-password.js';
 import UserData from '../controllers/user/user.show-data.js';
 
 // details of users student
-router.get('/detail', authenticateToken, UserDetail);
+router.get('/detail', authenticateToken(), UserDetail);
 
 // all user in lenght 
-router.get('/all-users', authenticateToken, AllUsersLen);
+router.get('/all-users', authenticateToken(), AllUsersLen);
 
-router.get('/:userId', authenticateToken, UserData);
+router.get('/:userId', authenticateToken(), UserData);
 
 router.post('/upload-photo', upload.single('profileImgs'), UpdatePhoto);
 
-router.post('/update-profile', authenticateToken, UpdateProfile);
+router.post('/update-profile', authenticateToken(), UpdateProfile);
 
-router.post('/change-password', authenticateToken, UpdatePassword);
+router.post('/change-password', authenticateToken(), UpdatePassword);
 
 
 export default router;

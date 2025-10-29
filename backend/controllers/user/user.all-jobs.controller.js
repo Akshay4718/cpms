@@ -64,7 +64,8 @@ const JobWithApplicants = async (req, res) => {
       name: applicant.studentId.first_name + " " + applicant.studentId.last_name,
       email: applicant.studentId.email,
       currentRound: applicant.currentRound,
-      status: applicant.status,
+      status: applicant.status, // Legacy field for backward compatibility
+      applicationStatus: applicant.applicationStatus || applicant.status || 'applied',
       appliedAt: applicant.appliedAt,
     }));
 
@@ -95,7 +96,8 @@ const StudentJobsApplied = async (req, res) => {
         companyName: job.company.companyName,
         numberOfApplicants: job.applicants.length, // Count number of applicants
         appliedAt: applicantDetails.appliedAt, // Fetch the appliedAt date for this student
-        status: applicantDetails.status // Fetch the status for this student's application
+        status: applicantDetails.status, // Legacy field
+        applicationStatus: applicantDetails.applicationStatus || applicantDetails.status || 'applied'
       };
     });
 

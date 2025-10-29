@@ -9,7 +9,6 @@ const Login = lazy(() => import("./pages/students/Login.jsx"));
 const Signup = lazy(() => import("./pages/students/Signup.jsx"));
 const HomeStudent = lazy(() => import('./pages/students/Home.jsx'));
 const UpdatePlacementProfile = lazy(() => import("./components/Students/UpdatePlacementProfile.jsx"));
-const UpdateJobStatus = lazy(() => import("./components/Students/UpdateJobStatus.jsx"));
 const AddInternship = lazy(() => import("./components/Students/AddInternship.jsx"));
 const MyAppliedJobs = lazy(() => import("./components/Students/MyApplied.jsx"));
 const ResumeAnalyzer = lazy(() => import("./components/Students/resumeAnalyzer.jsx"));
@@ -26,6 +25,7 @@ const PostJobTPO = lazy(() => import("./components/TPO/PostJob.jsx"));
 const AddNewUser = lazy(() => import("./components/Management/AddNewUser.jsx"));
 const AddCompany = lazy(() => import("./components/TPO/AddCompany.jsx"));
 const TPOMeetings = lazy(() => import("./components/TPO/OnlineMeetings.jsx"));
+const ManageApplicants = lazy(() => import("./components/TPO/ManageApplicants.jsx"));
 // Management pages
 const HomeManagement = lazy(() => import('./pages/Management/Home.jsx'));
 const LoginManagement = lazy(() => import("./pages/Management/Login.jsx"));
@@ -165,10 +165,6 @@ function App() {
               <Route element={<Layout header="Placement Profile" />}>
                 <Route path="/student/placement-profile" element={<UpdatePlacementProfile />} />
               </Route>
-              {/* update status of job */}
-              <Route element={<Layout header="Update Job Application Status" />}>
-                <Route path="/student/status/:jobId" element={<UpdateJobStatus />} />
-              </Route>
               {/* view all internships */}
               <Route element={<Layout header="My Internships" />}>
                 <Route path="/student/internship" element={<ViewAllInternship />} />
@@ -276,6 +272,10 @@ function App() {
               {/* meetings */}
               <Route element={<Layout header="Online Meetings" />}>
                 <Route path="/tpo/meetings" element={<TPOMeetings />} />
+              </Route>
+              {/* manage applicants */}
+              <Route element={<Layout header="Manage Applicants" />}>
+                <Route path="/tpo/manage-applicants/:jobId" element={<ManageApplicants />} />
               </Route>
             </Route>
 

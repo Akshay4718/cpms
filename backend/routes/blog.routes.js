@@ -5,7 +5,7 @@ import authMiddleware from '../middleware/auth.middleware.js';
 const router = express.Router();
 
 // All routes require authentication
-router.use(authMiddleware);
+router.use(authMiddleware());
 
 // Create a new blog
 router.post('/create', blogController.createBlog);

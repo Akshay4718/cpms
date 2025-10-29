@@ -31,6 +31,7 @@ import companyRoute from './routes/company.route.js';
 import blogRoute from './routes/blog.routes.js';
 import roadmapRoute from './routes/roadmap.routes.js';
 import meetingRoute from './routes/meeting.routes.js';
+import placementWorkflowRoute from './routes/placement-workflow.routes.js';
 
 // routes for user
 app.use('/user', userRoute);
@@ -54,6 +55,9 @@ app.use('/roadmap', roadmapRoute);
 
 // route for meetings
 app.use('/meeting', meetingRoute);
+
+// route for placement workflow
+app.use('/placement-workflow', placementWorkflowRoute);
 
 app.listen(process.env.PORT, () => {
   console.log(`server is running in http://localhost:${process.env.PORT}`);

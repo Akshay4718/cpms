@@ -74,8 +74,20 @@ function AllCompany() {
   }
 
   const confirmDelete = async (companyId) => {
+    console.log('Deleting company with ID:', companyId);
+    
     try {
       const token = localStorage.getItem('token');
+      
+      if (!token) {
+        setToastMessage('Authentication required. Please login again.');
+        setShowToast(true);
+        setShowModal(false);
+        return;
+      }
+
+      console.log('Sending delete request to:', `${BASE_URL}/company/delete-company`);
+      
       const response = await axios.post(`${BASE_URL}/company/delete-company`,
         { companyId },
         {
@@ -85,19 +97,31 @@ function AllCompany() {
         },
       );
 
+      console.log('Delete response:', response.data);
+      
       setShowModal(false);
-      fetchCompanys();
+      
       if (response?.data?.msg) {
         setToastMessage(response?.data?.msg);
         setShowToast(true);
       }
-      setLoading(false);
+      
+      // Refresh company list
+      await fetchCompanys();
     } catch (error) {
+      console.error("Error deleting company => ", error);
+      console.error("Error response:", error?.response?.data);
+      
+      setShowModal(false);
+      
       if (error?.response?.data?.msg) {
         setToastMessage(error?.response?.data?.msg);
-        setShowToast(true);
+      } else if (error?.message) {
+        setToastMessage(`Error: ${error.message}`);
+      } else {
+        setToastMessage('Failed to delete company. Please try again.');
       }
-      console.log("Error deleting job ", error);
+      setShowToast(true);
     }
   }
 

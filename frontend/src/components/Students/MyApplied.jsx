@@ -128,35 +128,56 @@ function MyApplied() {
                         </div>
                       </td>
                       <td className="px-4 py-3 text-sm">
-                        {job?.status === 'applied' && (
-                          <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
-                            <i className="fa-solid fa-paper-plane"></i>
-                            Applied
-                          </span>
-                        )}
-                        {job?.status === 'shortlisted' && (
-                          <span className="inline-flex items-center gap-1 bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-semibold">
-                            <i className="fa-solid fa-list-check"></i>
-                            Shortlisted
-                          </span>
-                        )}
-                        {job?.status === 'selected' && (
-                          <span className="inline-flex items-center gap-1 bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
-                            <i className="fa-solid fa-circle-check"></i>
-                            Selected
-                          </span>
-                        )}
-                        {job?.status === 'rejected' && (
-                          <span className="inline-flex items-center gap-1 bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold">
-                            <i className="fa-solid fa-circle-xmark"></i>
-                            Rejected
-                          </span>
-                        )}
-                        {!['applied', 'shortlisted', 'selected', 'rejected'].includes(job?.status) && (
-                          <span className="inline-flex items-center gap-1 bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-semibold">
-                            {job?.status.charAt(0).toUpperCase() + job?.status.slice(1)}
-                          </span>
-                        )}
+                        {(() => {
+                          const status = job?.applicationStatus || job?.status || 'applied';
+                          
+                          if (status === 'applied') {
+                            return (
+                              <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                <i className="fa-solid fa-paper-plane"></i>
+                                Applied
+                              </span>
+                            );
+                          }
+                          if (status === 'shortlisted') {
+                            return (
+                              <span className="inline-flex items-center gap-1 bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                <i className="fa-solid fa-list-check"></i>
+                                Shortlisted
+                              </span>
+                            );
+                          }
+                          if (status === 'in-process') {
+                            return (
+                              <span className="inline-flex items-center gap-1 bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                <i className="fa-solid fa-spinner"></i>
+                                In Process
+                              </span>
+                            );
+                          }
+                          if (status === 'placed') {
+                            return (
+                              <span className="inline-flex items-center gap-1 bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                <i className="fa-solid fa-circle-check"></i>
+                                Placed
+                              </span>
+                            );
+                          }
+                          if (status === 'rejected') {
+                            return (
+                              <span className="inline-flex items-center gap-1 bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                <i className="fa-solid fa-circle-xmark"></i>
+                                Rejected
+                              </span>
+                            );
+                          }
+                          
+                          return (
+                            <span className="inline-flex items-center gap-1 bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-semibold">
+                              {status.charAt(0).toUpperCase() + status.slice(1)}
+                            </span>
+                          );
+                        })()}
                       </td>
                       <td className="px-4 py-3 text-sm text-center">
                         <span className="inline-flex items-center justify-center w-10 h-10 bg-purple-100 text-purple-600 rounded-full font-bold">

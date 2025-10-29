@@ -21,23 +21,23 @@ import { SendNotice, GetAllNotice, DeleteNotice, GetNotice } from '../controller
 
 router.post('/login', Login);
 
-router.get('/tpo-users', authenticateToken, UsersTPO);
+router.get('/tpo-users', authenticateToken(), UsersTPO);
 
-router.post('/deletetpo', authenticateToken, DeleteTPO);
+router.post('/deletetpo', authenticateToken(), DeleteTPO);
 
 // add management, tpo and student
-router.post('/addtpo', authenticateToken, AddTPO);
-router.post('/add-management', authenticateToken, AddManagement);
-router.post('/add-student', authenticateToken, AddStudent);
+router.post('/addtpo', authenticateToken(), AddTPO);
+router.post('/add-management', authenticateToken(), AddManagement);
+router.post('/add-student', authenticateToken(), AddStudent);
 
 // notices all route here 
-router.post('/send-notice', authenticateToken, SendNotice);
+router.post('/send-notice', authenticateToken(), SendNotice);
 
-router.get('/get-all-notices', authenticateToken, GetAllNotice);
+router.get('/get-all-notices', authenticateToken(), GetAllNotice);
 
-router.get('/get-notice', authenticateToken, GetNotice);
+router.get('/get-notice', authenticateToken(), GetNotice);
 
-router.post('/delete-notice', authenticateToken, DeleteNotice);
+router.post('/delete-notice', authenticateToken(), DeleteNotice);
 
 
 export default router;

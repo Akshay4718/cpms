@@ -18,22 +18,22 @@ router.post('/login', Login);
 
 
 // post job listing data
-router.post('/post-job', authenticateToken, PostJob);
+router.post('/post-job', authenticateToken(), PostJob);
 
 // all jobs 
-router.get('/jobs',authenticateToken, AllJobs);
+router.get('/jobs', authenticateToken(), AllJobs);
 
 // delete job 
-router.post('/delete-job',authenticateToken, DeleteJob);
+router.post('/delete-job', authenticateToken(), DeleteJob);
 
 // view a job 
-router.get('/job/:jobId', authenticateToken, JobData);
+router.get('/job/:jobId', authenticateToken(), JobData);
 
 // job with its applicants 
-router.get('/job/applicants/:jobId', authenticateToken, JobWithApplicants)
+router.get('/job/applicants/:jobId', authenticateToken(), JobWithApplicants)
 
 // student jobs applied 
-router.get('/myjob/:studentId', authenticateToken, StudentJobsApplied)
+router.get('/myjob/:studentId', authenticateToken(), StudentJobsApplied)
 
 
 export default router;
