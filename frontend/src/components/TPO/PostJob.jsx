@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import {useState, useRef, useEffect } from "react";
 import JoditEditor from 'jodit-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -316,3 +316,4 @@ function PostJob() {
   )
 }
 export default PostJob
+

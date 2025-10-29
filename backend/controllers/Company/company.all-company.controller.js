@@ -1,4 +1,4 @@
-const CompanySchema = require("../../models/company.model");
+import CompanySchema from '../../models/company.model.js';
 
 
 const AddCompany = async (req, res) => {
@@ -93,7 +93,7 @@ const DeleteCompany = async (req, res) => {
 }
 
 
-module.exports = {
+export {
   AddCompany,
   UpdateCompany,
   CompanyDetail,

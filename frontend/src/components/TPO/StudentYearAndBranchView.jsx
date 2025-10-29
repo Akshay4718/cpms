@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import {useEffect, useState } from "react";
 import Accordion from 'react-bootstrap/Accordion';
 import axios from 'axios';
 import StudentTable from './StudentTableTemplate';
@@ -171,7 +171,7 @@ export default StudentYearAndBranchView;
 
 
 // old code
-// import React, { useEffect, useState } from 'react';
+// import {useEffect, useState } from "react";
 // import Accordion from 'react-bootstrap/Accordion';
 // import axios from 'axios';
 // import StudentTable from './StudentTableTemplate';
@@ -336,3 +336,4 @@ export default StudentYearAndBranchView;
 // }
 
 // export default StudentYearAndBranchView
+

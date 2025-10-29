@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const UserSchema = new mongoose.Schema({
   first_name: { type: String, trim: true },
@@ -29,14 +29,14 @@ const UserSchema = new mongoose.Schema({
   // Student specific fields
   studentProfile: {
     isApproved: { type: Boolean },
-    rollNumber: { type: Number },
+    rollNumber: { type: Number, unique: true, sparse: true },
     resume: { type: String, },
-    UIN: { type: String, unique: true, sparse: true, trim: true },
+    USN: { type: String, unique: true, sparse: true, trim: true },
     department: { type: String, enum: ['CSE', 'ISE', 'AIML', 'MECH', 'CIVIL','ECE','EEE'] },
     year: { type: Number, enum: [1, 2, 3, 4] },
     addmissionYear: { type: Number },
     gap: { type: Boolean, default: false },
-    liveKT: { type: Number, default: 0 },
+    activeBacklog: { type: Number, default: 0 },
     SGPA: {
       sem1: { type: Number },
       sem2: { type: Number },
@@ -48,12 +48,12 @@ const UserSchema = new mongoose.Schema({
       sem8: { type: Number }
     },
     pastQualification: {
-      ssc: {
+      sslc: {
         board: { type: String },
         percentage: { type: Number },
         year: { type: Number }
       },
-      hsc: {
+      puc: {
         board: { type: String },
         percentage: { type: Number },
         year: { type: Number }
@@ -99,6 +99,56 @@ const UserSchema = new mongoose.Schema({
 
 });
 
+// Virtual field for CGPA calculation based on completed semesters
+UserSchema.virtual('studentProfile.CGPA').get(function() {
+  if (!this.studentProfile || !this.studentProfile.SGPA) return null;
+  
+  const sgpaValues = [
+    this.studentProfile.SGPA.sem1,
+    this.studentProfile.SGPA.sem2,
+    this.studentProfile.SGPA.sem3,
+    this.studentProfile.SGPA.sem4,
+    this.studentProfile.SGPA.sem5,
+    this.studentProfile.SGPA.sem6,
+    this.studentProfile.SGPA.sem7,
+    this.studentProfile.SGPA.sem8
+  ].filter(sgpa => sgpa !== null && sgpa !== undefined && sgpa !== '' && !isNaN(sgpa));
+  
+  if (sgpaValues.length === 0) return null;
+  
+  const sum = sgpaValues.reduce((acc, val) => acc + parseFloat(val), 0);
+  const cgpa = sum / sgpaValues.length;
+  
+  return parseFloat(cgpa.toFixed(2));
+});
+
+// Ensure virtuals are included in JSON output
+UserSchema.set('toJSON', { virtuals: true });
+UserSchema.set('toObject', { virtuals: true });
+
+// Auto-increment roll number for new students
+UserSchema.pre('save', async function (next) {
+  try {
+    // Only assign roll number for students who don't have one
+    if (this.role === 'student' && this.isNew && !this.studentProfile.rollNumber) {
+      const User = mongoose.model('Users');
+      
+      // Find the highest roll number
+      const lastStudent = await User.findOne(
+        { role: 'student', 'studentProfile.rollNumber': { $exists: true } },
+        { 'studentProfile.rollNumber': 1 }
+      ).sort({ 'studentProfile.rollNumber': -1 });
+      
+      // Assign next roll number (start from 1001 if no students exist)
+      this.studentProfile.rollNumber = lastStudent?.studentProfile?.rollNumber 
+        ? lastStudent.studentProfile.rollNumber + 1 
+        : 1001;
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
 
 // Middleware to delete job applicants before deleting the user
 UserSchema.pre('deleteOne', { document: true, query: false }, async function (next) {
@@ -127,4 +177,4 @@ UserSchema.pre('deleteOne', { document: true, query: false }, async function (ne
 
 
 
-module.exports = mongoose.model("Users", UserSchema);
+export default mongoose.model('Users', UserSchema);

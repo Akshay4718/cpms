@@ -1,28 +1,22 @@
-const express = require('express');
+import express from 'express';
 
 // router after /student/
 const router = express.Router();
 
 // import multer for student resume upadate 
-const upload = require('../config/Multer.js');
-
-const authenticateToken = require('../middleware/auth.middleware');
+import upload from '../config/Multer.js';
+import authenticateToken from '../middleware/auth.middleware.js';
 
 // student sign controller
-const Signup = require('../controllers/Student/signup.controller.js');
+import Signup from '../controllers/Student/signup.controller.js';
 // student login controller
-const Login = require('../controllers/Student/login.controller.js');
-
-const UploadResume = require('../controllers/Student/resume.controller.js');
-const { UploadOfferLetter, DeleteOfferLetter } = require('../controllers/Student/offer-letter.controller.js');
-
-const { AppliedToJob, CheckAlreadyApplied } = require('../controllers/Student/apply-job.controller.js');
-
-const { UpdateJobStatus } = require('../controllers/Student/update-job-status.controller.js');
-
-const { GetInternships, UpdateInternship, DeleteInternship } = require('../controllers/Student/internship.controller.js');
-
-const { StudentDataYearBranchWise, NotifyStudentStatus } = require('../controllers/Student/student-data-for-admin.controller.js');
+import Login from '../controllers/Student/login.controller.js';
+import UploadResume from '../controllers/Student/resume.controller.js';
+import { UploadOfferLetter, DeleteOfferLetter } from '../controllers/Student/offer-letter.controller.js';
+import { AppliedToJob, CheckAlreadyApplied } from '../controllers/Student/apply-job.controller.js';
+import { UpdateJobStatus } from '../controllers/Student/update-job-status.controller.js';
+import { GetInternships, UpdateInternship, DeleteInternship } from '../controllers/Student/internship.controller.js';
+import { StudentDataYearBranchWise, NotifyStudentStatus } from '../controllers/Student/student-data-for-admin.controller.js';
 
 // signup post request for student
 router.post('/signup', Signup);
@@ -63,4 +57,4 @@ router.get('/all-students-data-year-and-branch', authenticateToken, StudentDataY
 // student who is on interview or hired
 router.get('/notify-interview-hired', authenticateToken, NotifyStudentStatus)
 
-module.exports = router;
+export default router;

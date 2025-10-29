@@ -1,6 +1,5 @@
 // Filename - components/SidebarData.js
 
-import React from "react";
 import { FaListUl } from "react-icons/fa";
 import { AiFillHome } from "react-icons/ai";
 import { RiArrowDownSFill, RiArrowUpSFill, RiPlayListAddLine } from "react-icons/ri";
@@ -116,3 +115,4 @@ export const SidebarData = [
     ],
   },
 ];
+

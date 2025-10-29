@@ -1,5 +1,4 @@
-import React from "react";
-import { FaListUl, FaCheckSquare, FaEnvelopeOpenText } from "react-icons/fa";
+import { FaListUl, FaCheckSquare, FaEnvelopeOpenText, FaVideo } from "react-icons/fa";
 import { AiFillHome } from "react-icons/ai";
 import { RiArrowDownSFill, RiArrowUpSFill, RiPlayListAddLine } from "react-icons/ri";
 import { PiStudentDuotone } from "react-icons/pi";
@@ -93,4 +92,10 @@ export const SidebarData = [
       },
     ],
   },
+  {
+    title: "Meetings",
+    path: "/tpo/meetings",
+    icon: <FaVideo />
+  },
 ];
+

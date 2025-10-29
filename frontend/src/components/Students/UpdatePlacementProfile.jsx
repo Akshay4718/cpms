@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import {useEffect, useState } from "react";
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
@@ -310,8 +310,16 @@ function UpdatePlacementProfile() {
                         </div>
                       </div>
 
-                      {/* current year, live kt and any gap  */}
+                      {/* current year, active backlog and any gap  */}
                       <div className="px-2 py-3 flex flex-col gap-3">
+                        {/* Display Calculated CGPA */}
+                        {userData?.studentProfile?.CGPA && (
+                          <div className="bg-blue-50 border-2 border-blue-400 rounded-lg p-3 text-center">
+                            <span className="text-gray-700 font-semibold">Calculated CGPA: </span>
+                            <span className="text-blue-600 font-bold text-xl">{userData?.studentProfile?.CGPA}</span>
+                            <p className="text-xs text-gray-500 mt-1">Based on completed semesters</p>
+                          </div>
+                        )}
                         <FloatingLabel controlId="floatingSelectYear" label="Current Year">
                           <Form.Select
                             aria-label="Floating label select year"
@@ -335,18 +343,18 @@ function UpdatePlacementProfile() {
                             <option value="4">4th</option>
                           </Form.Select>
                         </FloatingLabel>
-                        <FloatingLabel controlId="floatingLiveKT" label="Live KT's">
+                        <FloatingLabel controlId="floatingActiveBacklog" label="Active Backlog">
                           <Form.Control
                             type="number"
-                            placeholder="Live KT's"
-                            name='liveKT'
-                            value={userData?.studentProfile?.liveKT || 0}
+                            placeholder="Active Backlog"
+                            name='activeBacklog'
+                            value={userData?.studentProfile?.activeBacklog || 0}
                             onChange={(e) => {
                               setUserData({
                                 ...userData,
                                 studentProfile: {
                                   ...userData?.studentProfile,
-                                  liveKT: e.target.value
+                                  activeBacklog: e.target.value
                                 }
                               });
                             }}
@@ -368,7 +376,7 @@ function UpdatePlacementProfile() {
                           name='gap'
                           label="Any Gap"
                         />
-                        {
+                        {/* {
                           cgpa !== "NaN" &&
                           <div className='mt-4 text-2xl text-green-500 font-bold'>
                             <span className=''>CGPA: </span>
@@ -376,7 +384,7 @@ function UpdatePlacementProfile() {
                               {cgpa}
                             </span>
                           </div>
-                        }
+                        } */}
                       </div>
                     </div>
                   </div>
@@ -390,8 +398,8 @@ function UpdatePlacementProfile() {
                           <Form.Select
                             aria-label="Floating label select SSCBoard"
                             className='cursor-pointer'
-                            name='sscBoard'
-                            value={userData?.studentProfile?.pastQualification?.ssc?.board || "undefined"}
+                            name='sslcBoard'
+                            value={userData?.studentProfile?.pastQualification?.sslc?.board || "undefined"}
                             onChange={(e) => {
                               setUserData({
                                 ...userData,
@@ -399,8 +407,8 @@ function UpdatePlacementProfile() {
                                   ...userData?.studentProfile,
                                   pastQualification: {
                                     ...userData?.studentProfile?.pastQualification,
-                                    ssc: {
-                                      ...userData?.studentProfile?.pastQualification?.ssc,
+                                    sslc: {
+                                      ...userData?.studentProfile?.pastQualification?.sslc,
                                       board: e.target.value
                                     }
                                   }
@@ -415,12 +423,12 @@ function UpdatePlacementProfile() {
                             <option value="Other">Other</option>
                           </Form.Select>
                         </FloatingLabel>
-                        <FloatingLabel controlId="floatingSSCMarks" label="SSC Percentage">
+                        <FloatingLabel controlId="floatingSSCMarks" label="SSLC Percentage">
                           <Form.Control
                             type="number"
                             placeholder="SSLC Percentage"
-                            name='sscPercentage'
-                            value={userData?.studentProfile?.pastQualification?.ssc?.percentage}
+                            name='sslcPercentage'
+                            value={userData?.studentProfile?.pastQualification?.sslc?.percentage}
                             onChange={(e) => {
                               setUserData({
                                 ...userData,
@@ -428,8 +436,8 @@ function UpdatePlacementProfile() {
                                   ...userData?.studentProfile,
                                   pastQualification: {
                                     ...userData?.studentProfile?.pastQualification,
-                                    ssc: {
-                                      ...userData?.studentProfile?.pastQualification?.ssc,
+                                    sslc: {
+                                      ...userData?.studentProfile?.pastQualification?.sslc,
                                       percentage: e.target.value
                                     }
                                   }
@@ -442,8 +450,8 @@ function UpdatePlacementProfile() {
                           <Form.Control
                             type="number"
                             placeholder="SSLC Passing Year"
-                            name='sscPassingYear'
-                            value={userData?.studentProfile?.pastQualification?.ssc?.year}
+                            name='sslcPassingYear'
+                            value={userData?.studentProfile?.pastQualification?.sslc?.year}
                             onChange={(e) => {
                               setUserData({
                                 ...userData,
@@ -451,8 +459,8 @@ function UpdatePlacementProfile() {
                                   ...userData?.studentProfile,
                                   pastQualification: {
                                     ...userData?.studentProfile?.pastQualification,
-                                    ssc: {
-                                      ...userData?.studentProfile?.pastQualification?.ssc,
+                                    sslc: {
+                                      ...userData?.studentProfile?.pastQualification?.sslc,
                                       year: e.target.value
                                     }
                                   }
@@ -468,8 +476,8 @@ function UpdatePlacementProfile() {
                           <Form.Select
                             aria-label="Floating label select PUC Board"
                             className='cursor-pointer'
-                            name='hscBoard'
-                            value={userData?.studentProfile?.pastQualification?.hsc?.board || "undefined"}
+                            name='pucBoard'
+                            value={userData?.studentProfile?.pastQualification?.puc?.board || "undefined"}
                             onChange={(e) => {
                               setUserData({
                                 ...userData,
@@ -477,8 +485,8 @@ function UpdatePlacementProfile() {
                                   ...userData?.studentProfile,
                                   pastQualification: {
                                     ...userData?.studentProfile?.pastQualification,
-                                    hsc: {
-                                      ...userData?.studentProfile?.pastQualification?.hsc,
+                                    puc: {
+                                      ...userData?.studentProfile?.pastQualification?.puc,
                                       board: e.target.value
                                     }
                                   }
@@ -498,8 +506,8 @@ function UpdatePlacementProfile() {
                           <Form.Control
                             type="number"
                             placeholder="PUC Percentage"
-                            name='hscPercentage'
-                            value={userData?.studentProfile?.pastQualification?.hsc?.percentage || ""}
+                            name='pucPercentage'
+                            value={userData?.studentProfile?.pastQualification?.puc?.percentage || ""}
                             onChange={(e) => {
                               setUserData({
                                 ...userData,
@@ -507,8 +515,8 @@ function UpdatePlacementProfile() {
                                   ...userData?.studentProfile,
                                   pastQualification: {
                                     ...userData?.studentProfile?.pastQualification,
-                                    hsc: {
-                                      ...userData?.studentProfile?.pastQualification?.hsc,
+                                    puc: {
+                                      ...userData?.studentProfile?.pastQualification?.puc,
                                       percentage: e.target.value
                                     }
                                   }
@@ -521,8 +529,8 @@ function UpdatePlacementProfile() {
                           <Form.Control
                             type="number"
                             placeholder="PUC Passing Year"
-                            name='hscPassingYear'
-                            value={userData?.studentProfile?.pastQualification?.hsc?.year || ""}
+                            name='pucPassingYear'
+                            value={userData?.studentProfile?.pastQualification?.puc?.year || ""}
                             onChange={(e) => {
                               setUserData({
                                 ...userData,
@@ -530,8 +538,8 @@ function UpdatePlacementProfile() {
                                   ...userData?.studentProfile,
                                   pastQualification: {
                                     ...userData?.studentProfile?.pastQualification,
-                                    hsc: {
-                                      ...userData?.studentProfile?.pastQualification?.hsc,
+                                    puc: {
+                                      ...userData?.studentProfile?.pastQualification?.puc,
                                       year: e.target.value
                                     }
                                   }
@@ -644,3 +652,4 @@ function UpdatePlacementProfile() {
   )
 }
 export default UpdatePlacementProfile
+

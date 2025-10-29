@@ -1,4 +1,3 @@
-import React from 'react';
 import NoticeBox from '../../components/NoticeBox';
 import NotificationBox from '../../components/Students/NotificationBox';
 
@@ -18,3 +17,4 @@ function Home() {
 }
 
 export default Home
+

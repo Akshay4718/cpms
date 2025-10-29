@@ -1,5 +1,5 @@
-const User = require("../../models/user.model");
-const bcrypt = require('bcrypt');
+import User from '../../models/user.model.js';
+import bcrypt from 'bcrypt';
 
 
 const Signup = async (req, res) => {
@@ -29,4 +29,4 @@ const Signup = async (req, res) => {
   }
 }
 
-module.exports = Signup;
+export default Signup;

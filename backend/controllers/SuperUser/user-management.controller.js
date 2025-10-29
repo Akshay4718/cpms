@@ -1,5 +1,5 @@
-const User = require("../../models/user.model");
-const bcrypt = require("bcrypt");
+import User from '../../models/user.model.js';
+import bcrypt from 'bcrypt';
 
 // get management user
 const managementUsers = async (req, res) => {
@@ -36,7 +36,7 @@ const managementDeleteUsers = async (req, res) => {
 }
 
 
-module.exports = {
+export {
   managementUsers,
   managementAddUsers,
   managementDeleteUsers

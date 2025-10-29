@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import {useState, useEffect } from "react";
 import Table from 'react-bootstrap/Table';
 import axios from 'axios';
 import Placeholder from 'react-bootstrap/Placeholder';
@@ -161,112 +161,115 @@ function AddInternship() {
               // fake table loading animation 
               <TablePlaceholder />
             ) : (
-              <Table
-                striped
-                bordered
-                hover
-                responsive="sm"
-                className='bg-white my-6 rounded-lg shadow w-full text-base max-lg:text-sm max-md:my-3'
-              >
-                <thead>
-                  <tr>
-                    <th style={{ width: '6%' }}>Sr. No.</th>
-                    <th style={{ width: '16%' }}><b>Company Name</b></th>
-                    <th style={{ width: '13%' }}>Company Website</th>
-                    <th style={{ width: '14%' }}>Internship Start Date</th>
-                    <th style={{ width: '14%' }}>Internship End Date</th>
-                    <th style={{ width: '13%' }}>Internship Duration</th>
-                    <th style={{ width: '11%' }}>Monthly Stipend</th>
-                    <th style={{ width: '13%' }}>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {internships?.length > 0 ? (
-                    internships?.map((internship, index) => (
-                      <tr key={internship?._id}>
-                        <td>{index + 1}</td>
-                        <td>
-                          <b>
-                            {internship?.companyName || '-'}
-                          </b>
-                        </td>
-                        <td>
-                          {
-                            internship?.companyWebsite ? (
-                              <a href={internship?.companyWebsite} target='_blanck' className='no-underline text-blue-500 hover:text-blue-700'>
-                                {internship?.companyWebsite}
-                              </a>
-                            ) : '-'
-                          }
-                        </td>
-                        <td>
-                          {new Date(internship?.startDate).toLocaleDateString('en-IN') || '-'}
-                        </td>
-                        <td>
-                          {new Date(internship?.endDate).toLocaleDateString('en-IN') || '-'}
-                        </td>
-                        <td>
-                          {internship?.internshipDuration ? internship?.internshipDuration + " days" : '-'}
-                        </td>
-                        <td>
-                          {internship?.monthlyStipend ? "Rs. " + internship?.monthlyStipend : '-'}
-                        </td>
-                        <td>
-                          {/* for hover label effect  */}
-                          <div className="flex justify-around items-center max-lg:flex-col max-lg:gap-1">
-                            <div className="px-0.5">
+              <div className="overflow-hidden rounded-lg shadow-lg border border-gray-200 my-6">
+                <Table
+                  hover
+                  responsive="sm"
+                  className='mb-0 bg-white text-base max-lg:text-sm'
+                >
+                  <thead className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+                    <tr>
+                      <th className="px-4 py-3 text-sm font-semibold" style={{ width: '6%' }}>Sr. No.</th>
+                      <th className="px-4 py-3 text-sm font-semibold" style={{ width: '16%' }}>Company</th>
+                      <th className="px-4 py-3 text-sm font-semibold" style={{ width: '13%' }}>Website</th>
+                      <th className="px-4 py-3 text-sm font-semibold" style={{ width: '14%' }}>Start Date</th>
+                      <th className="px-4 py-3 text-sm font-semibold" style={{ width: '14%' }}>End Date</th>
+                      <th className="px-4 py-3 text-sm font-semibold" style={{ width: '13%' }}>Duration</th>
+                      <th className="px-4 py-3 text-sm font-semibold" style={{ width: '11%' }}>Stipend</th>
+                      <th className="px-4 py-3 text-sm font-semibold text-center" style={{ width: '13%' }}>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white">
+                    {internships?.length > 0 ? (
+                      internships?.map((internship, index) => (
+                        <tr key={internship?._id} className="border-b border-gray-100 hover:bg-indigo-50 transition-colors">
+                          <td className="px-4 py-3 text-sm font-medium text-gray-900">{index + 1}</td>
+                          <td className="px-4 py-3 text-sm">
+                            <div className="flex items-center gap-2">
+                              <i className="fa-solid fa-building text-indigo-600 text-xs"></i>
+                              <span className="font-semibold text-gray-800">{internship?.companyName || '-'}</span>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 text-sm">
+                            {
+                              internship?.companyWebsite ? (
+                                <a href={internship?.companyWebsite} target='_blank' className='no-underline text-indigo-600 hover:text-indigo-800 flex items-center gap-1'>
+                                  <i className="fa-solid fa-globe text-xs"></i>
+                                  {internship?.companyWebsite}
+                                </a>
+                              ) : <span className="text-gray-400">-</span>
+                            }
+                          </td>
+                          <td className="px-4 py-3 text-sm text-gray-600">
+                            <div className="flex items-center gap-1">
+                              <i className="fa-regular fa-calendar text-xs text-green-500"></i>
+                              {new Date(internship?.startDate).toLocaleDateString('en-IN') || '-'}
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 text-sm text-gray-600">
+                            <div className="flex items-center gap-1">
+                              <i className="fa-regular fa-calendar text-xs text-red-500"></i>
+                              {new Date(internship?.endDate).toLocaleDateString('en-IN') || '-'}
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 text-sm">
+                            <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
+                              <i className="fa-regular fa-hourglass"></i>
+                              {internship?.internshipDuration ? internship?.internshipDuration + " days" : '-'}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3 text-sm font-semibold text-green-600">
+                            <div className="flex items-center gap-1">
+                              <i className="fa-solid fa-indian-rupee-sign text-xs"></i>
+                              {internship?.monthlyStipend || '-'}
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 text-sm">
+                            <div className="flex justify-center items-center gap-2">
                               {/* edit internship  */}
                               <OverlayTrigger
                                 placement="top"
                                 delay={{ show: 250, hide: 400 }}
                                 overlay={renderTooltipEditInternship}
                               >
-                                <i
-                                  className="fa-regular fa-pen-to-square text-2xl cursor-pointer transition-colors duration-200 ease-in-out hover:text-blue-500"
+                                <button
+                                  className="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-all"
                                   onClick={() => navigate(`../student/add-internship/${internship._id}`)}
-                                  onMouseEnter={(e) => {
-                                    e.target.classList.add('fa-solid');
-                                    e.target.classList.remove('fa-regular');
-                                  }}
-                                  onMouseLeave={(e) => {
-                                    e.target.classList.add('fa-regular');
-                                    e.target.classList.remove('fa-solid');
-                                  }}
-                                />
+                                >
+                                  <i className="fa-solid fa-pen-to-square text-base"></i>
+                                </button>
                               </OverlayTrigger>
-                            </div>
-                            <div className="px-0.5">
                               {/* delete internship  */}
                               <OverlayTrigger
                                 placement="top"
                                 delay={{ show: 250, hide: 400 }}
                                 overlay={renderTooltipDeleteInternship}
                               >
-                                <i
-                                  className="fa-regular fa-trash-can text-2xl cursor-pointer transition-colors duration-200 ease-in-out hover:text-red-500"
+                                <button
+                                  className="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all"
                                   onClick={() => handleDeleteInternship(internship?._id, internship?.companyName)}
-                                  onMouseEnter={(e) => {
-                                    e.target.classList.add('fa-solid');
-                                    e.target.classList.remove('fa-regular');
-                                  }}
-                                  onMouseLeave={(e) => {
-                                    e.target.classList.add('fa-regular');
-                                    e.target.classList.remove('fa-solid');
-                                  }}
-                                />
+                                >
+                                  <i className="fa-solid fa-trash-can text-base"></i>
+                                </button>
                               </OverlayTrigger>
                             </div>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="8" className="px-4 py-8 text-center text-gray-500">
+                          <div className="flex flex-col items-center gap-2">
+                            <i className="fa-solid fa-laptop-code text-4xl text-gray-300"></i>
+                            <p className="mb-0 font-medium">No Internships Added Yet!</p>
+                            <p className="text-xs text-gray-400">Add your internship experience to showcase your skills</p>
                           </div>
                         </td>
                       </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="8">Internship Not Added Yet!</td>
-                    </tr>
-                  )}
-                </tbody>
-              </Table>
+                    )}
+                  </tbody>
+                </Table>
+              </div>
             )
           }
         </div >
@@ -287,3 +290,4 @@ function AddInternship() {
 }
 
 export default AddInternship
+

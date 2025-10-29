@@ -1,4 +1,4 @@
-import React, { useState, useEffect, lazy, Suspense } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, Outlet, useLocation, useNavigate } from "react-router-dom";
 // Landing Page 
 // import LandingPage from "./pages/LandingPage";
@@ -13,6 +13,11 @@ const UpdateJobStatus = lazy(() => import("./components/Students/UpdateJobStatus
 const AddInternship = lazy(() => import("./components/Students/AddInternship.jsx"));
 const MyAppliedJobs = lazy(() => import("./components/Students/MyApplied.jsx"));
 const ResumeAnalyzer = lazy(() => import("./components/Students/resumeAnalyzer.jsx"));
+const AllBlogs = lazy(() => import("./components/Students/AllBlogs.jsx"));
+const CreateBlog = lazy(() => import("./components/Students/CreateBlog.jsx"));
+const ViewBlog = lazy(() => import("./components/Students/ViewBlog.jsx"));
+const GenerateRoadmap = lazy(() => import("./components/Students/GenerateRoadmap.jsx"));
+const StudentMeetings = lazy(() => import("./components/Students/OnlineMeetings.jsx"));
 // TPO pages
 const LoginTPO = lazy(() => import("./pages/TPO/Login.jsx"));
 const HomeTPO = lazy(() => import('./pages/TPO/Home.jsx'));
@@ -20,6 +25,7 @@ const StudentAccYearTPO = lazy(() => import("./components/TPO/StudentYearAndBran
 const PostJobTPO = lazy(() => import("./components/TPO/PostJob.jsx"));
 const AddNewUser = lazy(() => import("./components/Management/AddNewUser.jsx"));
 const AddCompany = lazy(() => import("./components/TPO/AddCompany.jsx"));
+const TPOMeetings = lazy(() => import("./components/TPO/OnlineMeetings.jsx"));
 // Management pages
 const HomeManagement = lazy(() => import('./pages/Management/Home.jsx'));
 const LoginManagement = lazy(() => import("./pages/Management/Login.jsx"));
@@ -187,6 +193,24 @@ function App() {
               <Route element={<Layout header="" />}>
                 <Route path="/student/resume-analyzer" element={<ResumeAnalyzer />} />
               </Route>
+              {/* learning path */}
+              <Route element={<Layout header="Learning Path Generator" />}>
+                <Route path="/student/learning-path" element={<GenerateRoadmap />} />
+              </Route>
+              {/* blogs */}
+              <Route element={<Layout header="Student Blogs" />}>
+                <Route path="/student/blogs" element={<AllBlogs />} />
+              </Route>
+              <Route element={<Layout header="Create Blog" />}>
+                <Route path="/student/create-blog" element={<CreateBlog />} />
+              </Route>
+              <Route element={<Layout header="Blog Details" />}>
+                <Route path="/student/blog/:blogId" element={<ViewBlog />} />
+              </Route>
+              {/* meetings */}
+              <Route element={<Layout header="Online Meetings" />}>
+                <Route path="/student/meetings" element={<StudentMeetings />} />
+              </Route>
             </Route>
 
 
@@ -248,6 +272,10 @@ function App() {
               {/* send notice */}
               <Route element={<Layout header="Send Notice" />}>
                 <Route path="/tpo/send-notice" element={<SendNotice />} />
+              </Route>
+              {/* meetings */}
+              <Route element={<Layout header="Online Meetings" />}>
+                <Route path="/tpo/meetings" element={<TPOMeetings />} />
               </Route>
             </Route>
 

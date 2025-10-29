@@ -1,4 +1,3 @@
-import React from "react";
 
 const ResumeAnalyzer = () => {
   return (
@@ -14,3 +13,4 @@ const ResumeAnalyzer = () => {
 };
 
 export default ResumeAnalyzer;
+

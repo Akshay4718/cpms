@@ -1,23 +1,21 @@
-const express = require('express');
+import express from 'express';
 
 // router after /management/
 const router = express.Router();
 
-const authenticateToken = require('../middleware/auth.middleware');
+import authenticateToken from '../middleware/auth.middleware.js';
 
 
 // management login controller
-const Login = require('../controllers/Management/login.controller');
+import Login from '../controllers/Management/login.controller.js';
 // management UsersTPO controller
-const UsersTPO = require('../controllers/Management/tpo-users.controller');
+import UsersTPO from '../controllers/Management/tpo-users.controller.js';
 // management DeleteTPO controller
-const DeleteTPO = require('../controllers/Management/delete-tpo.controller');
+import DeleteTPO from '../controllers/Management/delete-tpo.controller.js';
 // management AddTPO controller
-const { AddTPO, AddManagement, AddStudent } = require('../controllers/Management/add-user.controller');
-
+import { AddTPO, AddManagement, AddStudent } from '../controllers/Management/add-user.controller.js';
 // all notice related here
-const { SendNotice, GetAllNotice, DeleteNotice, GetNotice } = require('../controllers/Management/notice.controller');
-
+import { SendNotice, GetAllNotice, DeleteNotice, GetNotice } from '../controllers/Management/notice.controller.js';
 
 
 
@@ -42,4 +40,4 @@ router.get('/get-notice', authenticateToken, GetNotice);
 router.post('/delete-notice', authenticateToken, DeleteNotice);
 
 
-module.exports = router;
+export default router;

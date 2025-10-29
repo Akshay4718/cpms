@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import {useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Logo from '../../assets/CPMS.png';
@@ -114,3 +114,4 @@ function LoginSuperUser() {
 }
 
 export default LoginSuperUser;
+

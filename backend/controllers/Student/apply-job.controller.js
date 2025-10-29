@@ -1,5 +1,5 @@
-const User = require("../../models/user.model");
-const jobSchema = require("../../models/job.model");
+import User from '../../models/user.model.js';
+import jobSchema from '../../models/job.model.js';
 
 
 const AppliedToJob = async (req, res) => {
@@ -47,7 +47,7 @@ const CheckAlreadyApplied = async (req, res) => {
   }
 }
 
-module.exports = {
+export {
   AppliedToJob,
   CheckAlreadyApplied
 };

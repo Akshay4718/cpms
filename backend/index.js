@@ -1,6 +1,11 @@
-const express = require('express');
-const cors = require('cors');
-const path = require("path");
+import express from 'express';
+import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 
@@ -13,25 +18,42 @@ app.use('/resume', express.static(path.join(__dirname, 'public/resumes')));
 app.use('/offerLetter', express.static(path.join(__dirname, 'public/offerLetter')));
 
 // database import 
-const mongodb = require('./config/MongoDB');
+import mongodb from './config/MongoDB.js';
 mongodb();
 
+// routes import
+import userRoute from './routes/user.route.js';
+import studentRoute from './routes/student.route.js';
+import tpoRoute from './routes/tpo.route.js';
+import managementRoute from './routes/management.route.js';
+import superuserRoute from './routes/superuser.route.js';
+import companyRoute from './routes/company.route.js';
+import blogRoute from './routes/blog.routes.js';
+import roadmapRoute from './routes/roadmap.routes.js';
+import meetingRoute from './routes/meeting.routes.js';
 
 // routes for user
-app.use('/user', require('./routes/user.route'));
+app.use('/user', userRoute);
 // routes for student user
-app.use('/student', require('./routes/student.route'));
+app.use('/student', studentRoute);
 // routes for tpo user
-app.use('/tpo', require('./routes/tpo.route'));
+app.use('/tpo', tpoRoute);
 // routes for management user
-app.use('/management', require('./routes/management.route'));
+app.use('/management', managementRoute);
 // routes for admin user
-app.use('/admin', require('./routes/superuser.route'));
+app.use('/admin', superuserRoute);
 
 // route for company
-app.use('/company', require('./routes/company.route'));
+app.use('/company', companyRoute);
 
+// route for blogs
+app.use('/blog', blogRoute);
 
+// route for roadmap generation
+app.use('/roadmap', roadmapRoute);
+
+// route for meetings
+app.use('/meeting', meetingRoute);
 
 app.listen(process.env.PORT, () => {
   console.log(`server is running in http://localhost:${process.env.PORT}`);

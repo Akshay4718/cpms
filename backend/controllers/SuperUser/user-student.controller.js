@@ -1,6 +1,6 @@
-const User = require("../../models/user.model");
-const JobSchema = require("../../models/job.model");
-const bcrypt = require("bcrypt");
+import User from '../../models/user.model.js';
+import JobSchema from '../../models/job.model.js';
+import bcrypt from 'bcrypt';
 
 
 const studentUsers = async (req, res) => {
@@ -69,7 +69,7 @@ const studentApprove = async (req, res) => {
 }
 
 
-module.exports = {
+export {
   studentUsers,
   studentAddUsers,
   studentDeleteUsers,

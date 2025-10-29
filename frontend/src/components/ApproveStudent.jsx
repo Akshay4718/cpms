@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import {useEffect, useState } from "react";
 import AddUserTable from './AddUserTable';
 import Toast from './Toast';
 import ModalBox from './Modal';
@@ -152,3 +152,4 @@ function ApproveStudent() {
 }
 
 export default ApproveStudent;
+

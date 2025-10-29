@@ -1,12 +1,12 @@
-const express = require('express');
+import express from 'express';
 
 // router after /company/
 const router = express.Router();
 
-const authenticateToken = require('../middleware/auth.middleware');
+import authenticateToken from '../middleware/auth.middleware.js';
 
 
-const { AddCompany, UpdateCompany, CompanyDetail, AllCompanyDetail, DeleteCompany } = require('../controllers/Company/company.all-company.controller');
+import { AddCompany, UpdateCompany, CompanyDetail, AllCompanyDetail, DeleteCompany } from '../controllers/Company/company.all-company.controller.js';
 
 
 
@@ -26,4 +26,4 @@ router.get('/company-data', CompanyDetail);
 
 
 
-module.exports = router;
+export default router;

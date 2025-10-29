@@ -1,5 +1,4 @@
 // Navbar.jsx
-import React from 'react';
 import { FaBars } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 
@@ -25,3 +24,4 @@ function Navbar({ isSidebarVisible, toggleSidebar }) {
 }
 
 export default Navbar;
+

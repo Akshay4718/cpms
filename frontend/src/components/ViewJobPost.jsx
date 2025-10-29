@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import {useEffect, useState } from "react";
 import Accordion from 'react-bootstrap/Accordion';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -453,3 +453,4 @@ function ViewJobPost() {
 }
 
 export default ViewJobPost
+

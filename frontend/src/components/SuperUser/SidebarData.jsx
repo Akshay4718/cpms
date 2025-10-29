@@ -1,4 +1,3 @@
-import React from "react";
 import { FaCheckSquare, FaUsers } from "react-icons/fa";
 import { AiFillHome } from "react-icons/ai";
 import { GrUserManager, GrUserWorker } from "react-icons/gr";
@@ -121,3 +120,4 @@ export const SidebarData = [
     ],
   },
 ];
+

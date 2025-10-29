@@ -1,6 +1,6 @@
-const User = require("../../models/user.model.js");
-const JobSchema = require("../../models/job.model.js");
-const cloudinary = require("../../config/Cloudinary.js");
+import User from '../../models/user.model.js';
+import JobSchema from '../../models/job.model.js';
+import cloudinary from '../../config/Cloudinary.js';
 
 // Upload Offer Letter to Cloudinary
 const UploadOfferLetter = async (req, res) => {
@@ -56,7 +56,8 @@ const DeleteOfferLetter = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   UploadOfferLetter,
   DeleteOfferLetter,
 };
+

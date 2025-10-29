@@ -1,4 +1,3 @@
-import React from 'react';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { FaRegSave } from 'react-icons/fa';
@@ -416,3 +415,4 @@ function Account() {
 }
 
 export default Account
+

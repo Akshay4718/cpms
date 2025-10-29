@@ -1,5 +1,5 @@
-const User = require("../../models/user.model.js");
-const cloudinary = require("../../config/Cloudinary.js");
+import User from '../../models/user.model.js';
+import cloudinary from '../../config/Cloudinary.js';
 
 const UpdatePhoto = async (req, res) => {
   try {
@@ -35,4 +35,5 @@ const UpdatePhoto = async (req, res) => {
   }
 };
 
-module.exports = UpdatePhoto;
+export default UpdatePhoto;
+

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import {useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
@@ -384,44 +384,38 @@ function UserDetails() {
                       <span className='text-2xl md:text-4xl'>College Information</span>
                       <div className="grid grid-cols-1 md:grid-cols-3">
                         <div className="px-2 py-3 flex flex-col gap-3">
-                          <FloatingLabel controlId="floatingUIN" label="UIN" >
+                          <FloatingLabel controlId="floatingUSN" label="USN" >
                             <Form.Control
                               type="text"
                               placeholder="USN"
-                              name='uin'
+                              name='usn'
                               onChange={(e) => {
                                 setUserData({
                                   ...userData,
                                   studentProfile: {
                                     ...userData?.studentProfile,
-                                    UIN: e.target.value
+                                    USN: e.target.value
                                   }
                                 });
                               }}
-                              value={userData?.studentProfile?.UIN}
+                              value={userData?.studentProfile?.USN}
                               required={completeProfileReq}
                               disabled={!completeProfileReq && currentUserData.role !== 'superuser'}
                             />
                           </FloatingLabel>
-                          <FloatingLabel controlId="floatingRollNumber" label="Roll Number" >
-                            <Form.Control
-                              type="number"
-                              placeholder="Roll Number"
-                              name='rollNumber'
-                              value={userData?.studentProfile?.rollNumber}
-                              onChange={(e) => {
-                                setUserData({
-                                  ...userData,
-                                  studentProfile: {
-                                    ...userData?.studentProfile,
-                                    rollNumber: e.target.value
-                                  }
-                                });
-                              }}
-                              required={completeProfileReq}
-                              disabled={!completeProfileReq && currentUserData.role !== 'superuser'}
-                            />
-                          </FloatingLabel>
+                          {/* Roll Number is auto-generated - Display only */}
+                          {userData?.studentProfile?.rollNumber && (
+                            <FloatingLabel controlId="floatingRollNumber" label="Roll Number (Auto-generated)" >
+                              <Form.Control
+                                type="number"
+                                placeholder="Roll Number"
+                                name='rollNumber'
+                                value={userData?.studentProfile?.rollNumber}
+                                disabled
+                                readOnly
+                              />
+                            </FloatingLabel>
+                          )}
                         </div>
 
                         <div className="px-2 py-3 flex flex-col gap-3">
@@ -609,12 +603,12 @@ function UserDetails() {
                       <span className='text-2xl md:text-4xl'>Past Qualification</span>
                       <div className="grid grid-cols-1 md:grid-cols-3">
                         <div className="px-2 py-3 flex flex-col gap-2">
-                          <FloatingLabel controlId="floatingSelectSSC" label="SSC Board Name">
+                          <FloatingLabel controlId="floatingSelectSSLC" label="SSLC Board Name">
                             <Form.Select
-                              aria-label="Floating label select SSCBoard"
+                              aria-label="Floating label select SSLC Board"
                               className='cursor-pointer'
-                              name='sscBoard'
-                              value={userData?.studentProfile?.pastQualification?.ssc?.board || "undefined"}
+                              name='sslcBoard'
+                              value={userData?.studentProfile?.pastQualification?.sslc?.board || "undefined"}
                               onChange={(e) => {
                                 setUserData({
                                   ...userData,
@@ -622,8 +616,8 @@ function UserDetails() {
                                     ...userData?.studentProfile,
                                     pastQualification: {
                                       ...userData?.studentProfile?.pastQualification,
-                                      ssc: {
-                                        ...userData?.studentProfile?.pastQualification?.ssc,
+                                      sslc: {
+                                        ...userData?.studentProfile?.pastQualification?.sslc,
                                         board: e.target.value
                                       }
                                     }
@@ -640,12 +634,12 @@ function UserDetails() {
                               <option value="Other">Other</option>
                             </Form.Select>
                           </FloatingLabel>
-                          <FloatingLabel controlId="floatingSSCMarks" label="SSC Percentage">
+                          <FloatingLabel controlId="floatingSSLCMarks" label="SSLC Percentage">
                             <Form.Control
                               type="number"
-                              placeholder="SSC Percentage"
-                              name='sscPercentage'
-                              value={userData?.studentProfile?.pastQualification?.ssc?.percentage}
+                              placeholder="SSLC Percentage"
+                              name='sslcPercentage'
+                              value={userData?.studentProfile?.pastQualification?.sslc?.percentage}
                               onChange={(e) => {
                                 setUserData({
                                   ...userData,
@@ -653,8 +647,8 @@ function UserDetails() {
                                     ...userData?.studentProfile,
                                     pastQualification: {
                                       ...userData?.studentProfile?.pastQualification,
-                                      ssc: {
-                                        ...userData?.studentProfile?.pastQualification?.ssc,
+                                      sslc: {
+                                        ...userData?.studentProfile?.pastQualification?.sslc,
                                         percentage: e.target.value
                                       }
                                     }
@@ -665,12 +659,12 @@ function UserDetails() {
                               disabled={!completeProfileReq && currentUserData.role !== 'superuser'}
                             />
                           </FloatingLabel>
-                          <FloatingLabel controlId="floatingSelectSSCPassingYear" label="SSC Passing Year">
+                          <FloatingLabel controlId="floatingSelectSSLCPassingYear" label="SSLC Passing Year">
                             <Form.Control
                               type="number"
-                              placeholder="SSC Passing Year"
-                              name='sscPassingYear'
-                              value={userData?.studentProfile?.pastQualification?.ssc?.year}
+                              placeholder="SSLC Passing Year"
+                              name='sslcPassingYear'
+                              value={userData?.studentProfile?.pastQualification?.sslc?.year}
                               onChange={(e) => {
                                 setUserData({
                                   ...userData,
@@ -678,8 +672,8 @@ function UserDetails() {
                                     ...userData?.studentProfile,
                                     pastQualification: {
                                       ...userData?.studentProfile?.pastQualification,
-                                      ssc: {
-                                        ...userData?.studentProfile?.pastQualification?.ssc,
+                                      sslc: {
+                                        ...userData?.studentProfile?.pastQualification?.sslc,
                                         year: e.target.value
                                       }
                                     }
@@ -697,8 +691,8 @@ function UserDetails() {
                             <Form.Select
                               aria-label="Floating label select PUC Board"
                               className='cursor-pointer'
-                              name='hscBoard'
-                              value={userData?.studentProfile?.pastQualification?.hsc?.board || "undefined"}
+                              name='pucBoard'
+                              value={userData?.studentProfile?.pastQualification?.puc?.board || "undefined"}
                               onChange={(e) => {
                                 setUserData({
                                   ...userData,
@@ -706,8 +700,8 @@ function UserDetails() {
                                     ...userData?.studentProfile,
                                     pastQualification: {
                                       ...userData?.studentProfile?.pastQualification,
-                                      hsc: {
-                                        ...userData?.studentProfile?.pastQualification?.hsc,
+                                      puc: {
+                                        ...userData?.studentProfile?.pastQualification?.puc,
                                         board: e.target.value
                                       }
                                     }
@@ -728,8 +722,8 @@ function UserDetails() {
                             <Form.Control
                               type="number"
                               placeholder="PUC Percentage"
-                              name='hscPercentage'
-                              value={userData?.studentProfile?.pastQualification?.hsc?.percentage}
+                              name='pucPercentage'
+                              value={userData?.studentProfile?.pastQualification?.puc?.percentage}
                               onChange={(e) => {
                                 setUserData({
                                   ...userData,
@@ -737,8 +731,8 @@ function UserDetails() {
                                     ...userData?.studentProfile,
                                     pastQualification: {
                                       ...userData?.studentProfile?.pastQualification,
-                                      hsc: {
-                                        ...userData?.studentProfile?.pastQualification?.hsc,
+                                      puc: {
+                                        ...userData?.studentProfile?.pastQualification?.puc,
                                         percentage: e.target.value
                                       }
                                     }
@@ -753,8 +747,8 @@ function UserDetails() {
                             <Form.Control
                               type="number"
                               placeholder="PUC Passing Year"
-                              name='hscPassingYear'
-                              value={userData?.studentProfile?.pastQualification?.hsc?.year}
+                              name='pucPassingYear'
+                              value={userData?.studentProfile?.pastQualification?.puc?.year}
                               onChange={(e) => {
                                 setUserData({
                                   ...userData,
@@ -762,8 +756,8 @@ function UserDetails() {
                                     ...userData?.studentProfile,
                                     pastQualification: {
                                       ...userData?.studentProfile?.pastQualification,
-                                      hsc: {
-                                        ...userData?.studentProfile?.pastQualification?.hsc,
+                                      puc: {
+                                        ...userData?.studentProfile?.pastQualification?.puc,
                                         year: e.target.value
                                       }
                                     }
@@ -877,3 +871,4 @@ function UserDetails() {
 }
 
 export default UserDetails
+

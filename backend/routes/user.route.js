@@ -1,20 +1,19 @@
-const express = require('express');
+import express from 'express';
 
 // router after /user/
 const router = express.Router();
 
 // import multer for user profile update 
-const upload = require('../config/Multer.js');
-
-const authenticateToken = require('../middleware/auth.middleware');
+import upload from '../config/Multer.js';
+import authenticateToken from '../middleware/auth.middleware.js';
 
 // users controller methods
-const UserDetail = require('../controllers/user/user.detail.controller.js');
-const AllUsersLen = require('../controllers/user/user.all-users.controller.js');
-const UpdatePhoto = require('../controllers/user/user.update-photo.controller.js');
-const UpdateProfile = require('../controllers/user/user.update-profile.controller.js');
-const UpdatePassword = require('../controllers/user/user.update-password.js');
-const UserData = require('../controllers/user/user.show-data.js');
+import UserDetail from '../controllers/user/user.detail.controller.js';
+import AllUsersLen from '../controllers/user/user.all-users.controller.js';
+import UpdatePhoto from '../controllers/user/user.update-photo.controller.js';
+import UpdateProfile from '../controllers/user/user.update-profile.controller.js';
+import UpdatePassword from '../controllers/user/user.update-password.js';
+import UserData from '../controllers/user/user.show-data.js';
 
 // details of users student
 router.get('/detail', authenticateToken, UserDetail);
@@ -31,4 +30,4 @@ router.post('/update-profile', authenticateToken, UpdateProfile);
 router.post('/change-password', authenticateToken, UpdatePassword);
 
 
-module.exports = router;
+export default router;

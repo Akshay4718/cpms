@@ -1,4 +1,4 @@
-const User = require("../../models/user.model");
+import User from '../../models/user.model.js';
 
 
 const GetInternships = async (req, res) => {
@@ -105,7 +105,7 @@ const DeleteInternship = async (req, res) => {
 }
 
 
-module.exports = {
+export {
   GetInternships,
   UpdateInternship,
   DeleteInternship

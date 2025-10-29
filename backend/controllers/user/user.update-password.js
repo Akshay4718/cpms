@@ -1,5 +1,5 @@
-const User = require('../../models/user.model');
-const bcrypt = require('bcrypt');
+import User from '../../models/user.model.js';
+import bcrypt from 'bcrypt';
 
 const UpdatePassword = async (req, res) => {
   const { oldpass, newpass } = req.body;
@@ -25,4 +25,4 @@ const UpdatePassword = async (req, res) => {
   }
 }
 
-module.exports = UpdatePassword;
+export default UpdatePassword;

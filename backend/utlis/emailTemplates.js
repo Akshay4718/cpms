@@ -43,4 +43,4 @@ const emailTemplate = ({ role, name, email, password }) => {
   `;
 };
 
-module.exports = emailTemplate;
+export default emailTemplate;

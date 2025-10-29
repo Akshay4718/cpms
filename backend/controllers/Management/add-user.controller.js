@@ -1,8 +1,8 @@
-const Users = require('../../models/user.model');
-const bcrypt = require('bcrypt');
-const sendMail = require("../../config/Nodemailer");
-const emailTemplate = require("../../utlis/emailTemplates");
-const generatePassword = require('../../utlis/generatePassword');
+import Users from '../../models/user.model.js';
+import bcrypt from 'bcrypt';
+import sendMail from '../../config/Nodemailer.js';
+import emailTemplate from '../../utlis/emailTemplates.js';
+import generatePassword from '../../utlis/generatePassword.js';
 
 const AddTPO = async (req, res) => {
   const { email, first_name, number } = req.body;
@@ -93,7 +93,7 @@ const AddStudent = async (req, res) => {
   }
 }
 
-module.exports = {
+export {
   AddTPO,
   AddManagement,
   AddStudent

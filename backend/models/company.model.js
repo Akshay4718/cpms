@@ -1,6 +1,5 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
-const JobSchema = require('./job.model');
 
 const companySchema = new Schema({
   companyName: { type: String, required: true },
@@ -29,4 +28,4 @@ companySchema.pre('deleteOne', { document: true, query: false }, async function 
 });
 
 
-module.exports = mongoose.model('Company', companySchema);
+export default mongoose.model('Company', companySchema);

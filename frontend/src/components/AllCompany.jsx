@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import {useState, useEffect } from "react";
 import Table from 'react-bootstrap/Table';
 import axios from 'axios';
 import Placeholder from 'react-bootstrap/Placeholder';
@@ -166,124 +166,129 @@ function AllCompany() {
               // fake table loading animation 
               <TablePlaceholder />
             ) : (
-              <Table
-                striped
-                bordered
-                hover
-                responsive="sm"
-                className='bg-white my-6 rounded-lg shadow w-full text-base max-sm:text-sm max-sm:my-3'
-              >
-                <thead>
-                  <tr>
-                    <th style={{ width: '7%' }}>Sr. No.</th>
-                    <th style={{ width: '18%' }}><b>Company Name</b></th>
-                    <th style={{ width: '15%' }}>Company Website</th>
-                    <th style={{ width: '15%' }}>Company Location</th>
-                    <th style={{ width: '17%' }}>Company Difficulty Level</th>
-                    <th style={{ width: '13%' }}>No. of Jobs Posted</th>
-                    <th style={{ width: '15%' }}>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {companys?.length > 0 ? (
-                    companys?.map((company, index) => (
-                      <tr key={company?._id}>
-                        <td>{index + 1}</td>
-                        <td>
-                          <b>
-                            {company?.companyName}
-                          </b>
-                        </td>
-                        <td>
-                          <a
-                            href={company?.companyWebsite}
-                            target="_blank"
-                            className='text-blue-500 no-underline'
-                            rel="noopener noreferrer"
-                          >
-                            {company?.companyWebsite}
-                          </a>
-                        </td>
-                        <td>
-                          {company?.companyLocation}
-                        </td>
-                        <td>
-                          {company?.companyDifficulty === "Easy" && (
-                            <span className='bg-green-500 text-white px-2 py-1 rounded'>{company?.companyDifficulty}</span>
-                          )}
-                          {company?.companyDifficulty === "Moderate" && (
-                            <span className='bg-orange-500 text-white px-2 py-1 rounded'>{company?.companyDifficulty}</span>
-                          )}
-                          {company?.companyDifficulty === "Hard" && (
-                            <span className='bg-red-500 text-white px-2 py-1 rounded'>{company?.companyDifficulty}</span>
-                          )}
-                        </td>
-                        <td>
-                          {jobs.length
-                            ? jobs?.filter(job => job?.company == company?._id)?.length
-                            : ""
-                          }
-                        </td>
-                        <td>
-                          {/* for hover label effect  */}
-                          <div className="flex justify-around items-center max-sm:flex-col max-sm:gap-1">
-                            <div className="px-0.5">
+              <div className="overflow-hidden rounded-lg shadow-lg border border-gray-200 my-6">
+                <Table
+                  hover
+                  responsive="sm"
+                  className='mb-0 bg-white w-full text-base max-sm:text-sm'
+                >
+                  <thead className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+                    <tr>
+                      <th className="px-4 py-3 text-sm font-semibold" style={{ width: '7%' }}>Sr. No.</th>
+                      <th className="px-4 py-3 text-sm font-semibold" style={{ width: '18%' }}>Company Name</th>
+                      <th className="px-4 py-3 text-sm font-semibold" style={{ width: '15%' }}>Website</th>
+                      <th className="px-4 py-3 text-sm font-semibold" style={{ width: '15%' }}>Location</th>
+                      <th className="px-4 py-3 text-sm font-semibold" style={{ width: '17%' }}>Difficulty</th>
+                      <th className="px-4 py-3 text-sm font-semibold text-center" style={{ width: '13%' }}>Jobs Posted</th>
+                      <th className="px-4 py-3 text-sm font-semibold text-center" style={{ width: '15%' }}>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white">
+                    {companys?.length > 0 ? (
+                      companys?.map((company, index) => (
+                        <tr key={company?._id} className="border-b border-gray-100 hover:bg-indigo-50 transition-colors">
+                          <td className="px-4 py-3 text-sm font-medium text-gray-900">{index + 1}</td>
+                          <td className="px-4 py-3 text-sm">
+                            <div className="flex items-center gap-2">
+                              <i className="fa-solid fa-building text-indigo-600 text-xs"></i>
+                              <span className="font-semibold text-gray-800">{company?.companyName}</span>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 text-sm">
+                            <a
+                              href={company?.companyWebsite}
+                              target="_blank"
+                              className='text-indigo-600 hover:text-indigo-800 no-underline flex items-center gap-1'
+                              rel="noopener noreferrer"
+                            >
+                              <i className="fa-solid fa-globe text-xs"></i>
+                              {company?.companyWebsite}
+                            </a>
+                          </td>
+                          <td className="px-4 py-3 text-sm text-gray-600">
+                            <div className="flex items-center gap-1">
+                              <i className="fa-solid fa-location-dot text-xs text-gray-400"></i>
+                              {company?.companyLocation}
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 text-sm">
+                            {company?.companyDifficulty === "Easy" && (
+                              <span className='inline-flex items-center gap-1 bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold'>
+                                <i className="fa-solid fa-circle-check"></i>
+                                Easy
+                              </span>
+                            )}
+                            {company?.companyDifficulty === "Moderate" && (
+                              <span className='inline-flex items-center gap-1 bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-semibold'>
+                                <i className="fa-solid fa-circle-minus"></i>
+                                Moderate
+                              </span>
+                            )}
+                            {company?.companyDifficulty === "Hard" && (
+                              <span className='inline-flex items-center gap-1 bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold'>
+                                <i className="fa-solid fa-circle-xmark"></i>
+                                Hard
+                              </span>
+                            )}
+                          </td>
+                          <td className="px-4 py-3 text-sm text-center">
+                            <span className="inline-flex items-center justify-center w-10 h-10 bg-purple-100 text-purple-600 rounded-full font-bold">
+                              {jobs.length
+                                ? jobs?.filter(job => job?.company == company?._id)?.length
+                                : "0"
+                              }
+                            </span>
+                          </td>
+                          <td className="px-4 py-3 text-sm">
+                            {/* for hover label effect  */}
+                            <div className="flex justify-center items-center gap-2">
                               {/* edit company  */}
                               <OverlayTrigger
                                 placement="top"
                                 delay={{ show: 250, hide: 400 }}
                                 overlay={renderTooltipEditCompany}
                               >
-                                <i
-                                  className="fa-regular fa-pen-to-square text-2xl max-sm:text-lg cursor-pointer transition-colors duration-200 ease-in-out hover:text-blue-500"
-                                  onClick={() => {
-                                    if (currentUser === 'tpo_admin') navigate(`../tpo/add-company/${company._id}`)
-                                    else if (currentUser === 'management_admin') navigate(`../management/add-company/${company._id}`);
-                                    else if (currentUser === 'superuser') navigate(`../admin/add-company/${company._id}`);
-                                  }}
-                                  onMouseEnter={(e) => {
-                                    e.target.classList.add('fa-solid');
-                                    e.target.classList.remove('fa-regular');
-                                  }}
-                                  onMouseLeave={(e) => {
-                                    e.target.classList.add('fa-regular');
-                                    e.target.classList.remove('fa-solid');
-                                  }}
-                                />
+                                <button className="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-all">
+                                  <i
+                                    className="fa-solid fa-pen-to-square text-base cursor-pointer"
+                                    onClick={() => {
+                                      if (currentUser === 'tpo_admin') navigate(`../tpo/add-company/${company._id}`)
+                                      else if (currentUser === 'management_admin') navigate(`../management/add-company/${company._id}`);
+                                      else if (currentUser === 'superuser') navigate(`../admin/add-company/${company._id}`);
+                                    }}
+                                  />
+                                </button>
                               </OverlayTrigger>
-                            </div>
-                            <div className="px-0.5">
                               {/* delete company  */}
                               <OverlayTrigger
                                 placement="top"
                                 delay={{ show: 250, hide: 400 }}
                                 overlay={renderTooltipDeleteCompany}
                               >
-                                <i
-                                  className="fa-regular fa-trash-can text-2xl max-sm:text-lg cursor-pointer transition-colors duration-200 ease-in-out hover:text-red-500"
-                                  onClick={() => handleDeleteCompany(company?.companyName, company?._id)}
-                                  onMouseEnter={(e) => {
-                                    e.target.classList.add('fa-solid');
-                                    e.target.classList.remove('fa-regular');
-                                  }}
-                                  onMouseLeave={(e) => {
-                                    e.target.classList.add('fa-regular');
-                                    e.target.classList.remove('fa-solid');
-                                  }}
-                                />
+                                <button className="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all">
+                                  <i
+                                    className="fa-solid fa-trash-can text-base cursor-pointer"
+                                    onClick={() => handleDeleteCompany(company?.companyName, company?._id)}
+                                  />
+                                </button>
                               </OverlayTrigger>
                             </div>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="7" className="px-4 py-8 text-center text-gray-500">
+                          <div className="flex flex-col items-center gap-2">
+                            <i className="fa-solid fa-building-slash text-4xl text-gray-300"></i>
+                            <p className="mb-0 font-medium">No Companies Found</p>
                           </div>
                         </td>
                       </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="7">No Jobs found</td>
-                    </tr>
-                  )}
-                </tbody>
-              </Table>
+                    )}
+                  </tbody>
+                </Table>
+              </div>
             )
           }
         </div >
@@ -304,3 +309,4 @@ function AllCompany() {
 }
 
 export default AllCompany
+

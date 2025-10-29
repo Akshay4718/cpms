@@ -1,9 +1,9 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/user.model');
+import jwt from 'jsonwebtoken';
+import User from '../models/user.model.js';
 
 const authenticateToken = async (req, res, next) => {
   try {
-    const authHeader = req.header('Authorization');
+    const authHeader = req.headers['authorization'];
 
     if (!authHeader) return res.status(401).json({ msg: 'Login Required!' });
 
@@ -38,4 +38,4 @@ const authenticateToken = async (req, res, next) => {
   }
 };
 
-module.exports = authenticateToken;
+export default authenticateToken;

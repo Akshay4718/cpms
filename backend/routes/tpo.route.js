@@ -1,17 +1,17 @@
-const express = require('express');
+import express from 'express';
 
 // router after /tpo/
 const router = express.Router();
 
-const authenticateToken = require('../middleware/auth.middleware');
+import authenticateToken from '../middleware/auth.middleware.js';
 
 
 // tpo login controller
-const Login = require('../controllers/TPO/tpo.login.controller');
+import Login from '../controllers/TPO/tpo.login.controller.js';
 
-const PostJob = require('../controllers/TPO/tpo.post-job.controller');
+import PostJob from '../controllers/TPO/tpo.post-job.controller.js';
 
-const { AllJobs, DeleteJob, JobData, JobWithApplicants, StudentJobsApplied } = require('../controllers/user/user.all-jobs.controller');
+import { AllJobs, DeleteJob, JobData, JobWithApplicants, StudentJobsApplied } from '../controllers/user/user.all-jobs.controller.js';
 
 // login post request for student
 router.post('/login', Login);
@@ -36,4 +36,4 @@ router.get('/job/applicants/:jobId', authenticateToken, JobWithApplicants)
 router.get('/myjob/:studentId', authenticateToken, StudentJobsApplied)
 
 
-module.exports = router;
+export default router;

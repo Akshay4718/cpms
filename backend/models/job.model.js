@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const jobSchema = new mongoose.Schema({
@@ -50,4 +50,4 @@ jobSchema.pre('deleteOne', { document: true, query: false }, async function (nex
 });
 
 
-module.exports = mongoose.model('Job', jobSchema);
+export default mongoose.model('Job', jobSchema);

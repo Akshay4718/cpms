@@ -1,4 +1,4 @@
-const User = require("../../models/user.model");
+import User from '../../models/user.model.js';
 
 // update any user data by admin
 const UpdateProfile = async (req, res) => {
@@ -18,9 +18,9 @@ const UpdateProfile = async (req, res) => {
     }
 
 
-    if (req.body.studentProfile.UIN !== undefined) {
-      if (await User.findOne({ 'studentProfile.UIN': req.body.studentProfile.UIN }) !== null)
-        return res.status(400).json({ msg: "UIN is Already Exist, Please Enter Correct UIN!" });
+    if (req.body.studentProfile.USN !== undefined) {
+      if (await User.findOne({ 'studentProfile.USN': req.body.studentProfile.USN }) !== null)
+        return res.status(400).json({ msg: "USN is Already Exist, Please Enter Correct USN!" });
     }
 
     if (req.body.first_name) user.first_name = req.body.first_name;
@@ -37,13 +37,13 @@ const UpdateProfile = async (req, res) => {
 
     // Check for student-specific fields
     if (user.role === "student" && req.body.studentProfile) {
-      if (req.body.studentProfile.rollNumber) user.studentProfile.rollNumber = req.body.studentProfile.rollNumber;
-      if (req.body.studentProfile.UIN) user.studentProfile.UIN = req.body.studentProfile.UIN;
+      // rollNumber is auto-generated, cannot be manually updated
+      if (req.body.studentProfile.USN) user.studentProfile.USN = req.body.studentProfile.USN;
       if (req.body.studentProfile.department) user.studentProfile.department = req.body.studentProfile.department;
       if (req.body.studentProfile.year) user.studentProfile.year = req.body.studentProfile.year;
       if (req.body.studentProfile.addmissionYear) user.studentProfile.addmissionYear = req.body.studentProfile.addmissionYear;
       if (req.body.studentProfile.gap !== undefined) user.studentProfile.gap = req.body.studentProfile.gap;
-      if (req.body.studentProfile.liveKT) user.studentProfile.liveKT = req.body.studentProfile.liveKT;
+      if (req.body.studentProfile.activeBacklog !== undefined) user.studentProfile.activeBacklog = req.body.studentProfile.activeBacklog;
 
       if (req.body.studentProfile.SGPA) {
         if (req.body.studentProfile.SGPA.sem1 && req.body.studentProfile.SGPA.sem1 !== "undefined") user.studentProfile.SGPA.sem1 = req.body.studentProfile.SGPA.sem1;
@@ -57,16 +57,16 @@ const UpdateProfile = async (req, res) => {
       }
 
       if (req.body.studentProfile.pastQualification) {
-        if (req.body.studentProfile.pastQualification.ssc) {
-          if (req.body.studentProfile.pastQualification.ssc.board) user.studentProfile.pastQualification.ssc.board = req.body.studentProfile.pastQualification.ssc.board;
-          if (req.body.studentProfile.pastQualification.ssc.year) user.studentProfile.pastQualification.ssc.year = req.body.studentProfile.pastQualification.ssc.year;
-          if (req.body.studentProfile.pastQualification.ssc.percentage) user.studentProfile.pastQualification.ssc.percentage = req.body.studentProfile.pastQualification.ssc.percentage;
+        if (req.body.studentProfile.pastQualification.sslc) {
+          if (req.body.studentProfile.pastQualification.sslc.board) user.studentProfile.pastQualification.sslc.board = req.body.studentProfile.pastQualification.sslc.board;
+          if (req.body.studentProfile.pastQualification.sslc.year) user.studentProfile.pastQualification.sslc.year = req.body.studentProfile.pastQualification.sslc.year;
+          if (req.body.studentProfile.pastQualification.sslc.percentage) user.studentProfile.pastQualification.sslc.percentage = req.body.studentProfile.pastQualification.sslc.percentage;
         }
 
-        if (req.body.studentProfile.pastQualification.hsc && req.body.studentProfile.pastQualification.hsc.board !== "undefined") {
-          user.studentProfile.pastQualification.hsc.board = req.body.studentProfile.pastQualification.hsc.board;
-          user.studentProfile.pastQualification.hsc.year = req.body.studentProfile.pastQualification.hsc.year;
-          user.studentProfile.pastQualification.hsc.percentage = req.body.studentProfile.pastQualification.hsc.percentage;
+        if (req.body.studentProfile.pastQualification.puc && req.body.studentProfile.pastQualification.puc.board !== "undefined") {
+          user.studentProfile.pastQualification.puc.board = req.body.studentProfile.pastQualification.puc.board;
+          user.studentProfile.pastQualification.puc.year = req.body.studentProfile.pastQualification.puc.year;
+          user.studentProfile.pastQualification.puc.percentage = req.body.studentProfile.pastQualification.puc.percentage;
         }
 
         if (req.body.studentProfile.pastQualification.diploma && req.body.studentProfile.pastQualification.diploma.board !== "undefined") {
@@ -92,4 +92,4 @@ const UpdateProfile = async (req, res) => {
 }
 
 
-module.exports = UpdateProfile;
+export default UpdateProfile;

@@ -1,4 +1,4 @@
-const JobSchema = require("../../models/job.model");
+import JobSchema from '../../models/job.model.js';
 
 const PostJob = async (req, res) => {
   try {
@@ -52,4 +52,4 @@ const PostJob = async (req, res) => {
   }
 }
 
-module.exports = PostJob;
+export default PostJob;

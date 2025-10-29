@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useUser } from "../context/userContext";
 import Loading from "./Loading";
@@ -8,64 +8,61 @@ const ProtectedRoute = ({ allowedRoles }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [load, setLoad] = useState(true);
+  useEffect(() => {
+    // Only run checks after user is loaded and we have user data
+    if (loading || !user) return;
 
-  // const [load, setLoad] = useState(true);
-
-  const redirectUser = () => {
-    if (!user) {
-      return <Navigate to="/" state={{ from: location }} replace />;
-    }
-
-    // check if any user trying another users request
-    if (!allowedRoles.includes(user.role)) {
-      // console.log(user.role);
-      if (user.role === 'student') navigate("/student/dashboard", { replace: true })
-      else if (user.role === 'tpo_admin') navigate("/tpo/dashboard")
-      else if (user.role === 'management_admin') navigate("/management/dashboard", { replace: true })
-      else if (user.role === 'superuser') navigate("/admin/dashboard")
-      else navigate("/404")
-
+    // Check if profile is complete
+    if (user.isProfileCompleted === 'false' || user.isProfileCompleted === false) {
+      if (user.role === 'student') {
+        navigate(`/student/complete-profile/${user.id}`, { replace: true });
+      } else if (user.role === 'tpo_admin') {
+        navigate(`/tpo/complete-profile/${user.id}`, { replace: true });
+      } else if (user.role === 'management_admin') {
+        navigate(`/management/complete-profile/${user.id}`, { replace: true });
+      }
       return;
     }
-    setLoad(false);
+
+    // Check if user has wrong role - redirect to their proper dashboard
+    if (!allowedRoles.includes(user.role)) {
+      if (user.role === 'student') {
+        navigate("/student/dashboard", { replace: true });
+      } else if (user.role === 'tpo_admin') {
+        navigate("/tpo/dashboard", { replace: true });
+      } else if (user.role === 'management_admin') {
+        navigate("/management/dashboard", { replace: true });
+      } else if (user.role === 'superuser') {
+        navigate("/admin/dashboard", { replace: true });
+      } else {
+        navigate("/404", { replace: true });
+      }
+    }
+  }, [user, loading, navigate, allowedRoles]);
+
+  // Show loading while fetching user
+  if (loading) {
+    return <Loading />;
   }
 
-  useEffect(() => {
-    redirectUser();
+  // If no user after loading, redirect to home
+  if (!user) {
+    return <Navigate to="/" state={{ from: location }} replace />;
+  }
 
-  }, [loading, navigate, user, allowedRoles]);
+  // If user doesn't have the required role, show loading while redirecting
+  if (!allowedRoles.includes(user.role)) {
+    return <Loading />;
+  }
 
-  // if (!(user && allowedRoles.includes(user.role))) {
-  //   navigate('../404');    
-  // }
+  // If profile not complete, show loading while redirecting
+  if (user.isProfileCompleted === 'false' || user.isProfileCompleted === false) {
+    return <Loading />;
+  }
 
-  useEffect(() => {
-    if (user.isProfileCompleted === 'false') {
-      if (user.role === 'student') navigate(`/student/complete-profile/${user.id}`);
-      if (user.role === 'tpo_admin') navigate(`/tpo/complete-profile/${user.id}`);
-      if (user.role === 'management_admin') navigate(`/management/complete-profile/${user.id}`);
-      return;
-    }
-    setLoad(false);
-  }, []);
-
-
-  // If user has the proper role, render the children routes
-  return (
-    <>
-      {
-        (loading || load) ? (
-          // <div className="flex justify-center h-72 items-center">
-          //   <i className="fa-solid fa-spinner fa-spin text-3xl" />
-          // </div>
-          <Loading />
-        ) : (
-          <Outlet />
-        )
-      }
-    </>
-  )
+  // All checks passed, render the protected content
+  return <Outlet />;
 };
 
 export default ProtectedRoute;
+

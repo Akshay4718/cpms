@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import {useEffect } from "react";
 import { Toast, ToastContainer } from 'react-bootstrap';
 
 const CustomToast = ({ show, onClose, message, delay = 3000, position = 'bottom-end' }) => {
@@ -25,3 +25,4 @@ const CustomToast = ({ show, onClose, message, delay = 3000, position = 'bottom-
 };
 
 export default CustomToast;
+

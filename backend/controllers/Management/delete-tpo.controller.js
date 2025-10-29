@@ -1,4 +1,4 @@
-const Users = require('../../models/user.model');
+import Users from '../../models/user.model.js';
 
 const DeleteTPO = async (req, res) => {
   // const user = await Users.find({email: req.body.email});
@@ -10,4 +10,4 @@ const DeleteTPO = async (req, res) => {
   }
 }
 
-module.exports = DeleteTPO;
+export default DeleteTPO;

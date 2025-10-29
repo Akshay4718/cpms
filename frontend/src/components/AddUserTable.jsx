@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import {useState, useEffect } from "react";
 import Table from 'react-bootstrap/Table';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -70,132 +70,131 @@ function AddUserTable({
               {/* <i className="fa-solid fa-spinner fa-spin text-3xl" /> */}
             </div>
           ) : (
-            <Table
-              striped
-              bordered
-              hover
-              responsive="sm"
-              className='bg-white my-6 rounded-lg shadow w-full text-base max-sm:text-sm'
-            >
-              <thead>
-                <tr>
-                  <th style={{ width: '10%' }}>Sr. No.</th>
-                  <th style={{ width: '15%' }}>Name</th>
-                  <th style={{ width: '25%' }}>Email</th>
-                  <th style={{ width: '15%' }}>Phone Number</th>
-                  <th style={{ width: '20%' }}>Date of Joining</th>
-                  <th style={{ width: '15%' }}>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.length > 0 ? (
-                  users.map((user, index) => (
-                    <tr key={user?.email}>
-                      <td>{index + 1}</td>
-                      <td>
-                        {user && (
-                          <Link
-                            to={
-                              currentUser.role === "superuser"
-                                ? `/admin/user/${user?._id}`
-                                : currentUser.role === "management_admin"
-                                  ? `/management/user/${user?._id}`
-                                  : currentUser.role === "tpo_admin"
-                                    ? `/tpo/user/${user?._id}`
-                                    : "#"
-                            }
-                            className="text-blue-500 no-underline hover:text-blue-700"
-                          >
-                            {user?.first_name + " "}
-                            {user?.last_name && user?.last_name}
-                          </Link>
-                        )}
-                      </td>
-                      <td>
-                        <Link to={`mailto:${user.email}`} className='no-underline'>
-                          {user.email}
-                        </Link>
-                      </td>
-                      <td>{user.number}</td>
-                      <td>{new Date(user.createdAt).toLocaleDateString('en-IN')}</td>
-                      <td>
-                        {/* for hover label effect  */}
-                        <div className="">
-                          {
-                            userToAdd === 'approve-student' ? (
-                              <div className="flex justify-around items-center gap-1 max-sm:flex-col">
-                                <OverlayTrigger
-                                  placement="top"
-                                  delay={{ show: 250, hide: 400 }}
-                                  overlay={renderTooltipDeleteUser}
-                                >
-                                  <i
-                                    className="fa-solid fa-circle-xmark text-2xl max-sm:text-lg cursor-pointer hover:text-red-500"
-                                    onClick={() => handleDeleteUser(user.email)}
-                                    onMouseEnter={(e) => {
-                                      e.target.classList.remove('fa-solid');
-                                      e.target.classList.add('fa-regular');
-                                    }}
-                                    onMouseLeave={(e) => {
-                                      e.target.classList.remove('fa-regular');
-                                      e.target.classList.add('fa-solid');
-                                    }}
-                                  />
-                                </OverlayTrigger >
-                                <OverlayTrigger
-                                  placement="top"
-                                  delay={{ show: 250, hide: 400 }}
-                                  overlay={renderTooltipApproveUser}
-                                >
-                                  <i
-                                    className="fa-solid fa-square-check text-2xl max-sm:text-lg cursor-pointer hover:text-green-500"
-                                    onClick={() => handleApproveStudent(user.email)}
-                                    onMouseEnter={(e) => {
-                                      e.target.classList.remove('fa-solid');
-                                      e.target.classList.add('fa-regular');
-                                    }}
-                                    onMouseLeave={(e) => {
-                                      e.target.classList.remove('fa-regular');
-                                      e.target.classList.add('fa-solid');
-                                    }}
-                                  />
-                                </OverlayTrigger >
-                              </div>
+            <div className="overflow-hidden rounded-lg shadow-lg border border-gray-200">
+              <Table
+                hover
+                responsive="sm"
+                className='mb-0 bg-white w-full text-base max-sm:text-sm'
+              >
+                <thead className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+                  <tr>
+                    <th className="px-4 py-3 text-sm font-semibold" style={{ width: '10%' }}>Sr. No.</th>
+                    <th className="px-4 py-3 text-sm font-semibold" style={{ width: '15%' }}>Name</th>
+                    <th className="px-4 py-3 text-sm font-semibold" style={{ width: '25%' }}>Email</th>
+                    <th className="px-4 py-3 text-sm font-semibold" style={{ width: '15%' }}>Phone Number</th>
+                    <th className="px-4 py-3 text-sm font-semibold" style={{ width: '20%' }}>Date of Joining</th>
+                    <th className="px-4 py-3 text-sm font-semibold text-center" style={{ width: '15%' }}>Action</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white">
+                  {users.length > 0 ? (
+                    users.map((user, index) => (
+                      <tr key={user?.email} className="border-b border-gray-100 hover:bg-indigo-50 transition-colors">
+                        <td className="px-4 py-3 text-sm font-medium text-gray-900">{index + 1}</td>
+                        <td className="px-4 py-3 text-sm">
+                          {user && (
+                            <Link
+                              to={
+                                currentUser.role === "superuser"
+                                  ? `/admin/user/${user?._id}`
+                                  : currentUser.role === "management_admin"
+                                    ? `/management/user/${user?._id}`
+                                    : currentUser.role === "tpo_admin"
+                                      ? `/tpo/user/${user?._id}`
+                                      : "#"
+                              }
+                              className="text-indigo-600 no-underline hover:text-indigo-800 font-medium flex items-center gap-1"
+                            >
+                              <i className="fa-solid fa-user text-xs"></i>
+                              {user?.first_name + " "}
+                              {user?.last_name && user?.last_name}
+                            </Link>
+                          )}
+                        </td>
+                        <td className="px-4 py-3 text-sm">
+                          <a href={`mailto:${user.email}`} className='no-underline text-indigo-600 hover:text-indigo-800 flex items-center gap-1'>
+                            <i className="fa-regular fa-envelope text-xs"></i>
+                            {user.email}
+                          </a>
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-600">
+                          <div className="flex items-center gap-1">
+                            <i className="fa-solid fa-phone text-xs text-gray-400"></i>
+                            {user.number}
+                          </div>
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-600">
+                          <div className="flex items-center gap-1">
+                            <i className="fa-regular fa-calendar text-xs text-gray-400"></i>
+                            {new Date(user.createdAt).toLocaleDateString('en-IN')}
+                          </div>
+                        </td>
+                        <td className="px-4 py-3 text-sm">
+                          {/* for hover label effect  */}
+                          <div className="flex justify-center items-center">
+                            {
+                              userToAdd === 'approve-student' ? (
+                                <div className="flex justify-center items-center gap-3">
+                                  <OverlayTrigger
+                                    placement="top"
+                                    delay={{ show: 250, hide: 400 }}
+                                    overlay={renderTooltipDeleteUser}
+                                  >
+                                    <button className="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all">
+                                      <i
+                                        className="fa-solid fa-circle-xmark text-lg cursor-pointer"
+                                        onClick={() => handleDeleteUser(user.email)}
+                                      />
+                                    </button>
+                                  </OverlayTrigger >
+                                  <OverlayTrigger
+                                    placement="top"
+                                    delay={{ show: 250, hide: 400 }}
+                                    overlay={renderTooltipApproveUser}
+                                  >
+                                    <button className="p-2 rounded-lg bg-green-50 text-green-600 hover:bg-green-600 hover:text-white transition-all">
+                                      <i
+                                        className="fa-solid fa-square-check text-lg cursor-pointer"
+                                        onClick={() => handleApproveStudent(user.email)}
+                                      />
+                                    </button>
+                                  </OverlayTrigger >
+                                </div>
 
-                            ) : (
-                              <div className="">
-                                <OverlayTrigger
-                                  placement="top"
-                                  delay={{ show: 250, hide: 400 }}
-                                  overlay={renderTooltipDeleteUser}
-                                >
-                                  <i
-                                    className="fa-regular fa-trash-can text-2xl cursor-pointer hover:text-red-500"
-                                    onClick={() => handleDeleteUser(user.email)}
-                                    onMouseEnter={(e) => {
-                                      e.target.classList.add('fa-solid');
-                                      e.target.classList.remove('fa-regular');
-                                    }}
-                                    onMouseLeave={(e) => {
-                                      e.target.classList.add('fa-regular');
-                                      e.target.classList.remove('fa-solid');
-                                    }}
-                                  />
-                                </OverlayTrigger >
-                              </div>
-                            )
-                          }
+                              ) : (
+                                <div className="flex justify-center">
+                                  <OverlayTrigger
+                                    placement="top"
+                                    delay={{ show: 250, hide: 400 }}
+                                    overlay={renderTooltipDeleteUser}
+                                  >
+                                    <button className="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all">
+                                      <i
+                                        className="fa-regular fa-trash-can text-lg cursor-pointer"
+                                        onClick={() => handleDeleteUser(user.email)}
+                                      />
+                                    </button>
+                                  </OverlayTrigger >
+                                </div>
+                              )
+                            }
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="6" className="px-4 py-8 text-center text-gray-500">
+                        <div className="flex flex-col items-center gap-2">
+                          <i className="fa-solid fa-user-slash text-4xl text-gray-300"></i>
+                          <p className="mb-0 font-medium">No users found</p>
                         </div>
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="6">No users found</td>
-                  </tr>
-                )}
-              </tbody>
-            </Table>
+                  )}
+                </tbody>
+              </Table>
+            </div>
           )
         }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import {useState } from "react";
 import Table from 'react-bootstrap/Table';
 
 function Students() {
@@ -46,3 +46,4 @@ function Students() {
 }
 
 export default Students
+

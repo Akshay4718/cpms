@@ -1,5 +1,5 @@
-const User = require("../../models/user.model");
-const Job = require("../../models/job.model");
+import User from '../../models/user.model.js';
+import Job from '../../models/job.model.js';
 
 
 const StudentDataYearBranchWise = async (req, res) => {
@@ -136,7 +136,7 @@ const NotifyStudentStatus = async (req, res) => {
 }
 
 
-module.exports = {
+export {
   StudentDataYearBranchWise,
   NotifyStudentStatus
 };

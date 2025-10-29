@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import {useState, useEffect } from "react";
 import Table from 'react-bootstrap/Table';
 import axios from 'axios';
 import Placeholder from 'react-bootstrap/Placeholder';
@@ -150,119 +150,149 @@ function AllJobPost() {
           loading || !currentUser ? (
             <TablePlaceholder />
           ) : (
-            <div className="overflow-x-auto max-sm:text-sm max-sm:p-1">
-              <div className="table-scrollbar">
-                <Table striped bordered hover className='bg-white my-6 rounded-lg shadow w-full'>
-                  <thead>
-                    <tr>
-                      <th>Sr. No.</th>
-                      <th><b>Company Name</b></th>
-                      <th>Job Title</th>
-                      <th>Annual CTC</th>
-                      <th>Last date of Application</th>
-                      <th>No. of Students Applied</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {jobs?.length > 0 ? (
-                      jobs?.map((job, index) => {
-                        const isMatched = job?.applicants?.find(student => student.studentId == currentUser.id);
-                        return (
-                          <tr
-                            key={job?._id}
-                            className={`${isMatched ? 'table-success' : ''}`}
-                          >
-                            <td>{index + 1}</td>
-                            <td>
-                              <b>
-                                {companies[job?.company] || <Placeholder as="p" animation="glow">
-                                  <Placeholder xs={12} />
+            <div className="overflow-hidden rounded-lg shadow-lg border border-gray-200 my-6">
+              <Table hover responsive="sm" className='mb-0 bg-white text-base max-sm:text-sm'>
+                <thead className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+                  <tr>
+                    <th className="px-4 py-3 text-sm font-semibold" style={{ width: '7%' }}>Sr. No.</th>
+                    <th className="px-4 py-3 text-sm font-semibold" style={{ width: '20%' }}>Company</th>
+                    <th className="px-4 py-3 text-sm font-semibold" style={{ width: '20%' }}>Job Title</th>
+                    <th className="px-4 py-3 text-sm font-semibold" style={{ width: '12%' }}>CTC</th>
+                    <th className="px-4 py-3 text-sm font-semibold" style={{ width: '13%' }}>Deadline</th>
+                    <th className="px-4 py-3 text-sm font-semibold text-center" style={{ width: '13%' }}>Applicants</th>
+                    <th className="px-4 py-3 text-sm font-semibold text-center" style={{ width: '15%' }}>Action</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white">
+                  {jobs?.length > 0 ? (
+                    jobs?.map((job, index) => {
+                      const isMatched = job?.applicants?.find(student => student.studentId == currentUser.id);
+                      return (
+                        <tr
+                          key={job?._id}
+                          className={`border-b border-gray-100 hover:bg-indigo-50 transition-colors ${isMatched ? 'bg-green-50' : ''}`}
+                        >
+                          <td className="px-4 py-3 text-sm font-medium text-gray-900">{index + 1}</td>
+                          <td className="px-4 py-3 text-sm">
+                            <div className="flex items-center gap-2">
+                              <i className="fa-solid fa-building text-indigo-600 text-xs"></i>
+                              <span className="font-semibold text-gray-800">
+                                {companies[job?.company] || <Placeholder as="span" animation="glow">
+                                  <Placeholder xs={8} />
                                 </Placeholder>}
-                              </b>
-                            </td>
-                            <td>{job?.jobTitle}</td>
-                            <td>{job?.salary}</td>
-                            <td>{new Date(job?.applicationDeadline).toLocaleDateString('en-In')}</td>
-                            <td>{job?.applicants?.length}</td>
-                            <td>
-                              <div className="flex justify-around items-center">
-                                <div className="px-0.5">
-                                  {/* View Post */}
-                                  <OverlayTrigger
-                                    placement="top"
-                                    delay={{ show: 250, hide: 400 }}
-                                    overlay={<Tooltip>View Post</Tooltip>}
-                                  >
-                                    <i
-                                      className="fa-solid fa-circle-info text-2xl max-sm:text-lg cursor-pointer transition-colors duration-200 ease-in-out hover:text-blue-500"
-                                      onClick={() => {
-                                        const rolePaths = {
-                                          'tpo_admin': `../tpo/job/${job._id}`,
-                                          'management_admin': `../management/job/${job._id}`,
-                                          'superuser': `../admin/job/${job._id}`,
-                                          'student': `../student/job/${job._id}`,
-                                        };
-                                        navigate(rolePaths[currentUser.role]);
-                                      }}
-                                    />
-                                  </OverlayTrigger>
-                                </div>
-                                {
-                                  currentUser.role !== 'student' && (
-                                    <>
-                                      {/* Edit Post */}
-                                      <div className="px-0.5">
-                                        <OverlayTrigger
-                                          placement="top"
-                                          delay={{ show: 250, hide: 400 }}
-                                          overlay={<Tooltip>Edit Post</Tooltip>}
-                                        >
-                                          <i
-                                            className="fa-regular fa-pen-to-square text-2xl max-sm:text-lg cursor-pointer transition-colors duration-200 ease-in-out hover:text-green-500 hover:fa-solid"
-                                            onClick={() => {
-                                              const rolePaths = {
-                                                'tpo_admin': `../tpo/post-job/${job._id}`,
-                                                'management_admin': `../management/post-job/${job._id}`,
-                                                'superuser': `../admin/post-job/${job._id}`,
-                                              };
-                                              navigate(rolePaths[currentUser.role]);
-                                            }}
-                                          />
-                                        </OverlayTrigger>
-                                      </div>
+                              </span>
+                              {isMatched && (
+                                <span className="ml-2 inline-flex items-center gap-1 bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-xs font-semibold">
+                                  <i className="fa-solid fa-check"></i>
+                                  Applied
+                                </span>
+                              )}
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 text-sm text-gray-700">
+                            <div className="flex items-center gap-1">
+                              <i className="fa-solid fa-briefcase text-xs text-gray-400"></i>
+                              {job?.jobTitle}
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 text-sm font-semibold text-green-600">
+                            <div className="flex items-center gap-1">
+                              <i className="fa-solid fa-indian-rupee-sign text-xs"></i>
+                              {job?.salary}
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 text-sm text-gray-600">
+                            <div className="flex items-center gap-1">
+                              <i className="fa-regular fa-calendar text-xs text-red-500"></i>
+                              {new Date(job?.applicationDeadline).toLocaleDateString('en-In')}
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 text-sm text-center">
+                            <span className="inline-flex items-center justify-center w-10 h-10 bg-purple-100 text-purple-600 rounded-full font-bold">
+                              {job?.applicants?.length || 0}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3 text-sm">
+                            <div className="flex justify-center items-center gap-2">
+                              {/* View Post */}
+                              <OverlayTrigger
+                                placement="top"
+                                delay={{ show: 250, hide: 400 }}
+                                overlay={<Tooltip>View Details</Tooltip>}
+                              >
+                                <button
+                                  className="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-all"
+                                  onClick={() => {
+                                    const rolePaths = {
+                                      'tpo_admin': `../tpo/job/${job._id}`,
+                                      'management_admin': `../management/job/${job._id}`,
+                                      'superuser': `../admin/job/${job._id}`,
+                                      'student': `../student/job/${job._id}`,
+                                    };
+                                    navigate(rolePaths[currentUser.role]);
+                                  }}
+                                >
+                                  <i className="fa-solid fa-eye text-base"></i>
+                                </button>
+                              </OverlayTrigger>
+                              {
+                                currentUser.role !== 'student' && (
+                                  <>
+                                    {/* Edit Post */}
+                                    <OverlayTrigger
+                                      placement="top"
+                                      delay={{ show: 250, hide: 400 }}
+                                      overlay={<Tooltip>Edit Post</Tooltip>}
+                                    >
+                                      <button
+                                        className="p-2 rounded-lg bg-green-50 text-green-600 hover:bg-green-600 hover:text-white transition-all"
+                                        onClick={() => {
+                                          const rolePaths = {
+                                            'tpo_admin': `../tpo/post-job/${job._id}`,
+                                            'management_admin': `../management/post-job/${job._id}`,
+                                            'superuser': `../admin/post-job/${job._id}`,
+                                          };
+                                          navigate(rolePaths[currentUser.role]);
+                                        }}
+                                      >
+                                        <i className="fa-solid fa-pen-to-square text-base"></i>
+                                      </button>
+                                    </OverlayTrigger>
 
-                                      {/* Delete Post */}
-                                      <div className="px-0.5">
-                                        <OverlayTrigger
-                                          placement="top"
-                                          delay={{ show: 250, hide: 400 }}
-                                          overlay={<Tooltip>Delete Post</Tooltip>}
-                                        >
-                                          <i
-                                            className="fa-regular fa-trash-can text-2xl max-sm:text-lg cursor-pointer transition-colors duration-200 ease-in-out hover:text-red-500 hover:fa-solid"
-                                            onClick={() => handleDeletePost(job?._id, companies[job?.company], job?.jobTitle)}
-                                          />
-                                        </OverlayTrigger>
-                                      </div>
-                                    </>
-                                  )
-                                }
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })
-                    ) : (
-                      <tr>
-                        <td colSpan="7" className="text-center">
-                          No Job Posts Found!
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </Table>
-              </div>
+                                    {/* Delete Post */}
+                                    <OverlayTrigger
+                                      placement="top"
+                                      delay={{ show: 250, hide: 400 }}
+                                      overlay={<Tooltip>Delete Post</Tooltip>}
+                                    >
+                                      <button
+                                        className="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all"
+                                        onClick={() => handleDeletePost(job?._id, companies[job?.company], job?.jobTitle)}
+                                      >
+                                        <i className="fa-solid fa-trash-can text-base"></i>
+                                      </button>
+                                    </OverlayTrigger>
+                                  </>
+                                )
+                              }
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <td colSpan="7" className="px-4 py-8 text-center text-gray-500">
+                        <div className="flex flex-col items-center gap-2">
+                          <i className="fa-solid fa-briefcase text-4xl text-gray-300"></i>
+                          <p className="mb-0 font-medium">No Job Posts Found!</p>
+                          <p className="text-xs text-gray-400">Check back later for new opportunities</p>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </Table>
             </div>
 
 
@@ -292,3 +322,4 @@ function AllJobPost() {
 }
 
 export default AllJobPost;
+

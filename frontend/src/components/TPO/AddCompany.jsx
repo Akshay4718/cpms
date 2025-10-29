@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import {useEffect, useState } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
@@ -226,3 +226,4 @@ function AddCompany() {
   )
 }
 export default AddCompany
+

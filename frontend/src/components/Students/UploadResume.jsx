@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import {useState, useEffect } from "react";
 import axios from 'axios';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
@@ -83,3 +83,4 @@ const UploadResume = ({ fetchCurrentUserData }) => {
 };
 
 export default UploadResume;
+

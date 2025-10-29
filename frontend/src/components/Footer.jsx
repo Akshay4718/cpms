@@ -1,29 +1,31 @@
-import React from 'react';
 
 function Footer({ isSidebarVisible }) {
+  const currentYear = new Date().getFullYear();
+  
   return (
     <>
-      <div className={`bg-white bottom-0 right-0 border-t-2 border-gray-200 shadow-inner text-gray-500 transition-all duration-300 flex justify-between items-center h-fit w-full max-md:py-4 md:py-6 max-sm:text-sm ${isSidebarVisible ? 'md:ml-60 md:w-[calc(100%-15rem)] px-10' : 'ml-0 px-4'}`}>
-        <div className="flex flex-col md:flex-row text-left md:items-center">
-          <span className="font-semibold">Developed & Maintained by</span>
-          <span className="px-1">
-            <a
-              
-              className='cursor-pointer font-bold text-blue-500 no-underline hover:text-blue-700'
-            >
-              Major Project Team - NIE
-            </a>
-          </span>
+      <footer className={`bg-white border-t border-gray-200 transition-all duration-300 ${isSidebarVisible ? 'md:ml-64' : 'ml-0'}`}>
+        <div className="px-6 py-3">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-2 text-sm">
+            {/* Left - Copyright */}
+            <p className="text-gray-600 mb-0">
+              © {currentYear} CPMS. All rights reserved.
+            </p>
+
+            {/* Center - Credits */}
+            <p className="text-gray-600 mb-0">
+              Developed by <span className="font-semibold text-indigo-600">Major Project Team - NIE</span>
+            </p>
+
+            {/* Right - Version */}
+            <p className="text-gray-500 mb-0">
+              Version <span className="font-semibold">1.0.1</span>
+            </p>
+          </div>
         </div>
-
-        <div className="flex flex-col sm:flex-row sm:items-center text-right mt-2 sm:mt-0">
-          <span className="font-semibold">Version</span>
-          <span className="px-1">1.0.1</span>
-        </div>
-      </div>
-
-
+      </footer>
     </>
   )
 }
 export default Footer
+

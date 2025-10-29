@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import Img from '../assets/404Img.jpg';
 
@@ -26,3 +25,4 @@ function PageNotFound() {
 }
 
 export default PageNotFound
+

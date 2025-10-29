@@ -1,6 +1,6 @@
-const User = require("../../models/user.model.js");
-const cloudinary = require("../../config/Cloudinary.js");
-const path = require("path");
+import User from '../../models/user.model.js';
+import cloudinary from '../../config/Cloudinary.js';
+import path from 'path';
 
 const UploadResume = async (req, res) => {
   try {
@@ -65,4 +65,5 @@ const UploadResume = async (req, res) => {
   }
 };
 
-module.exports = UploadResume;
+export default UploadResume;
+

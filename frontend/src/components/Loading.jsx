@@ -1,4 +1,3 @@
-import React from 'react';
 import LogoImg from '../assets/CPMS.png';
 import LogoVid from '../assets/CPMS.mp4';
 
@@ -24,3 +23,4 @@ function LoadingComponent() {
 }
 
 export default LoadingComponent;
+

@@ -1,10 +1,10 @@
 // Filename - components/SidebarData.js
 
-import React from "react";
 import { AiFillHome } from "react-icons/ai";
 import { ImProfile } from "react-icons/im";
 import { RiArrowDownSFill, RiArrowUpSFill, RiPlayListAddLine } from "react-icons/ri";
-import { FaIndustry, FaListCheck, FaBuildingColumns, FaListUl, FaRegCalendarCheck } from "react-icons/fa6";
+import { FaIndustry, FaListCheck, FaBuildingColumns, FaListUl, FaRegCalendarCheck, FaBlog } from "react-icons/fa6";
+import { FaPencilAlt, FaRoad, FaVideo } from "react-icons/fa";
 
 export const SidebarData = [
   {
@@ -63,5 +63,35 @@ export const SidebarData = [
     path: "/student/resume-analyzer",
     icon: <FaRegCalendarCheck />,
   },
+  {
+    title: "Learning Path",
+    path: "/student/learning-path",
+    icon: <FaRoad />,
+  },
+  {
+    title: "Student Blogs",
+    icon: <FaBlog />,
+    iconClosed: <RiArrowDownSFill />,
+    iconOpened: <RiArrowUpSFill />,
+    subNav: [
+      {
+        title: "All Blogs",
+        path: "/student/blogs",
+        icon: <FaListUl />,
+        cName: "sub-nav",
+      },
+      {
+        title: "Create Blog",
+        path: "/student/create-blog",
+        icon: <FaPencilAlt />,
+      },
+    ],
+  },
+  {
+    title: "Meetings",
+    path: "/student/meetings",
+    icon: <FaVideo />
+  },
 
 ];
+

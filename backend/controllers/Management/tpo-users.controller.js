@@ -1,8 +1,8 @@
-const Users = require('../../models/user.model');
+import Users from '../../models/user.model.js';
 
 const UsersTPO = async (req, res) => {
   const tpoUsers = await Users.find({ role: "tpo_admin" });
   return res.json({ tpoUsers })
 }
 
-module.exports = UsersTPO;
+export default UsersTPO;

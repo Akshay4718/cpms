@@ -1,5 +1,5 @@
-const User = require("../../models/user.model");
-const JobSchema = require("../../models/job.model");
+import User from '../../models/user.model.js';
+import JobSchema from '../../models/job.model.js';
 
 
 const AllJobs = async (req, res) => {
@@ -109,7 +109,7 @@ const StudentJobsApplied = async (req, res) => {
 
 
 
-module.exports = {
+export {
   AllJobs,
   DeleteJob,
   JobData,

@@ -1,5 +1,5 @@
-const User = require("../../models/user.model");
-const JobSchema = require("../../models/job.model");
+import User from '../../models/user.model.js';
+import JobSchema from '../../models/job.model.js';
 
 
 const UpdateJobStatus = async (req, res) => {
@@ -37,6 +37,6 @@ const UpdateJobStatus = async (req, res) => {
 }
 
 
-module.exports = {
+export {
   UpdateJobStatus
 };

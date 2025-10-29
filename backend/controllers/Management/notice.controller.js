@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const Notice = require('../../models/notice.model');
+import mongoose from 'mongoose';
+import Notice from '../../models/notice.model.js';
 
 const SendNotice = async (req, res) => {
   try {
@@ -52,7 +52,7 @@ const DeleteNotice = async (req, res) => {
   }
 }
 
-module.exports = {
+export {
   SendNotice,
   GetAllNotice,
   DeleteNotice,

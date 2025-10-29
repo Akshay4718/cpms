@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import {useEffect, useState } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Col from 'react-bootstrap/Col';
@@ -381,11 +381,11 @@ function ViewUserData() {
                         {/* College Information */}
                         <div className="grid grid-flow-col">
                           <div className="space-y-4">
-                            {userData?.studentProfile?.UIN && (
+                            {userData?.studentProfile?.USN && (
                               <div>
                                 <span className="text-gray-700 font-bold">USN: </span>
                                 <span className="text-gray-800">
-                                  {userData?.studentProfile?.UIN}
+                                  {userData?.studentProfile?.USN}
                                 </span>
                               </div>
                             )}
@@ -428,9 +428,9 @@ function ViewUserData() {
                               </div>
                             )}
                             <div>
-                              <span className="font-bold text-gray-700 ">Live KT's: </span>
+                              <span className="font-bold text-gray-700 ">Active Backlog: </span>
                               <span className="text-gray-800">
-                                {userData?.studentProfile?.liveKT || 0}
+                                {userData?.studentProfile?.activeBacklog || 0}
                               </span>
                             </div>
                             <div>
@@ -444,7 +444,13 @@ function ViewUserData() {
                           {userData?.studentProfile?.SGPA && (
                             <>
                               <div className="flex flex-col gap-3">
-                                <div className="font-bold">SGPA:</div>
+                                <div className="font-bold">SGPA:
+                                  {userData?.studentProfile?.CGPA && (
+                                    <span className="ml-4 text-blue-600 text-lg">
+                                      CGPA: {userData?.studentProfile?.CGPA}
+                                    </span>
+                                  )}
+                                </div>
                                 <div className="flex gap-6 justify-center items-start max-sm:flex-col max-sm:gap-3">
                                   <div className="space-y-6 max-sm:space-y-3">
                                     {
@@ -550,9 +556,9 @@ function ViewUserData() {
                   <div className=''>
                     <h3 className="text-2xl max-md:text-xl font-semibold text-gray-800 mb-4">Past Qualification</h3>
                     <div className="grid gap-4">
-                      {/* past Qualification ssc */}
+                      {/* past Qualification sslc */}
                       {
-                        userData?.studentProfile?.pastQualification?.ssc && (
+                        userData?.studentProfile?.pastQualification?.sslc && (
                           <>
                             <div className="">
                               <div className="font-bold">
@@ -560,32 +566,32 @@ function ViewUserData() {
                               </div>
                               <div className="space-y-1 pl-2">
                                 {
-                                  userData?.studentProfile?.pastQualification?.ssc?.board && (
+                                  userData?.studentProfile?.pastQualification?.sslc?.board && (
                                     <div>
                                       <span className="text-gray-700 font-bold">Board: </span>
                                       <span className="text-gray-800">
-                                        {userData?.studentProfile?.pastQualification?.ssc?.board}
+                                        {userData?.studentProfile?.pastQualification?.sslc?.board}
                                       </span>
                                     </div>
                                   )
                                 }
                                 {
-                                  userData?.studentProfile?.pastQualification?.ssc?.year && (
+                                  userData?.studentProfile?.pastQualification?.sslc?.year && (
                                     <div>
                                       <span className="font-bold text-gray-700">Passing Year: </span>
                                       <span className="text-gray-800">
-                                        {userData?.studentProfile?.pastQualification?.ssc?.year}
+                                        {userData?.studentProfile?.pastQualification?.sslc?.year}
                                       </span>
                                     </div>
 
                                   )
                                 }
                                 {
-                                  userData?.studentProfile?.pastQualification?.ssc?.percentage && (
+                                  userData?.studentProfile?.pastQualification?.sslc?.percentage && (
                                     <div>
                                       <span className="font-bold text-gray-700">Percentage: </span>
                                       <span className="text-gray-800">
-                                        {userData?.studentProfile?.pastQualification?.ssc?.percentage + "%"}
+                                        {userData?.studentProfile?.pastQualification?.sslc?.percentage + "%"}
                                       </span>
                                     </div>
                                   )
@@ -595,9 +601,9 @@ function ViewUserData() {
                           </>
                         )
                       }
-                      {/* past Qualification hsc */}
+                      {/* past Qualification puc */}
                       {
-                        userData?.studentProfile?.pastQualification?.hsc && (
+                        userData?.studentProfile?.pastQualification?.puc && (
                           <>
                             <div className="">
                               <div className="font-bold">
@@ -605,32 +611,32 @@ function ViewUserData() {
                               </div>
                               <div className="space-y-1 pl-2">
                                 {
-                                  userData?.studentProfile?.pastQualification?.hsc?.board && (
+                                  userData?.studentProfile?.pastQualification?.puc?.board && (
                                     <div>
                                       <span className="text-gray-700 font-bold">Board: </span>
                                       <span className="text-gray-800">
-                                        {userData?.studentProfile?.pastQualification?.hsc?.board}
+                                        {userData?.studentProfile?.pastQualification?.puc?.board}
                                       </span>
                                     </div>
                                   )
                                 }
                                 {
-                                  userData?.studentProfile?.pastQualification?.hsc?.year && (
+                                  userData?.studentProfile?.pastQualification?.puc?.year && (
                                     <div>
                                       <span className="font-bold text-gray-700">Passing Year: </span>
                                       <span className="text-gray-800">
-                                        {userData?.studentProfile?.pastQualification?.hsc?.year}
+                                        {userData?.studentProfile?.pastQualification?.puc?.year}
                                       </span>
                                     </div>
 
                                   )
                                 }
                                 {
-                                  userData?.studentProfile?.pastQualification?.hsc?.percentage && (
+                                  userData?.studentProfile?.pastQualification?.puc?.percentage && (
                                     <div>
                                       <span className="font-bold text-gray-700">Percentage: </span>
                                       <span className="text-gray-800">
-                                        {userData?.studentProfile?.pastQualification?.hsc?.percentage + "%"}
+                                        {userData?.studentProfile?.pastQualification?.puc?.percentage + "%"}
                                       </span>
                                     </div>
                                   )
@@ -767,3 +773,4 @@ function ViewUserData() {
 }
 
 export default ViewUserData
+

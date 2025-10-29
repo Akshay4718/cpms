@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import TablePlaceholder from '../TablePlaceholder';
 import axios from 'axios';
 import { Table } from 'react-bootstrap';
@@ -73,80 +73,127 @@ function MyApplied() {
         loading ? (
           <TablePlaceholder />
         ) : (
-          <Table
-            striped
-            bordered
-            hover
-            responsive="sm"
-            className='bg-white my-6 rounded-lg shadow text-base max-sm:text-sm'
-          >
-            <thead>
-              <tr>
-                <th style={{ width: '6%' }}>Sr. No.</th>
-                <th style={{ width: '16%' }}><b>Company Name</b></th>
-                <th style={{ width: '16%' }}>Job Title</th>
-                <th style={{ width: '10%' }}>Annual CTC</th>
-                <th style={{ width: '10%' }}>Applied On</th>
-                <th style={{ width: '10%' }}>Last date of Application</th>
-                <th style={{ width: '10%' }}>Status</th>
-                <th style={{ width: '12%' }}>No. of Students Applied</th>
-                <th style={{ width: '10%' }}>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {jobs?.length > 0 ? (
-                jobs?.map((job, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>
-                      <b>
-                        {job?.companyName}
-                      </b>
-                    </td>
-                    <td>
-                      {job?.jobTitle}
-                    </td>
-                    <td>
-                      {job?.salary}
-                    </td>
-                    <td>
-                      {new Date(job?.appliedAt.split('T')).toLocaleDateString('en-IN')}
-                    </td>
-                    <td>
-                      {new Date(job?.applicationDeadline).toLocaleDateString('en-IN')}
-                    </td>
-                    <td>
-                      {job?.status.charAt(0).toUpperCase() + job?.status.slice(1)}
-                    </td>
-                    <td>
-                      {job?.numberOfApplicants}
-                    </td>
-                    <td>
-                      {/* for hover label effect  */}
-                      <div className="flex justify-around items-center">
-                        <div className="px-0.5">
-                          {/* view post  */}
+          <div className="overflow-hidden rounded-lg shadow-lg border border-gray-200 my-6">
+            <Table
+              hover
+              responsive="sm"
+              className='mb-0 bg-white text-base max-sm:text-sm'
+            >
+              <thead className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+                <tr>
+                  <th className="px-4 py-3 text-sm font-semibold" style={{ width: '6%' }}>Sr. No.</th>
+                  <th className="px-4 py-3 text-sm font-semibold" style={{ width: '16%' }}>Company</th>
+                  <th className="px-4 py-3 text-sm font-semibold" style={{ width: '16%' }}>Job Title</th>
+                  <th className="px-4 py-3 text-sm font-semibold" style={{ width: '10%' }}>CTC</th>
+                  <th className="px-4 py-3 text-sm font-semibold" style={{ width: '10%' }}>Applied On</th>
+                  <th className="px-4 py-3 text-sm font-semibold" style={{ width: '10%' }}>Deadline</th>
+                  <th className="px-4 py-3 text-sm font-semibold" style={{ width: '10%' }}>Status</th>
+                  <th className="px-4 py-3 text-sm font-semibold text-center" style={{ width: '12%' }}>Applicants</th>
+                  <th className="px-4 py-3 text-sm font-semibold text-center" style={{ width: '10%' }}>Action</th>
+                </tr>
+              </thead>
+              <tbody className="bg-white">
+                {jobs?.length > 0 ? (
+                  jobs?.map((job, index) => (
+                    <tr key={index} className="border-b border-gray-100 hover:bg-indigo-50 transition-colors">
+                      <td className="px-4 py-3 text-sm font-medium text-gray-900">{index + 1}</td>
+                      <td className="px-4 py-3 text-sm">
+                        <div className="flex items-center gap-2">
+                          <i className="fa-solid fa-building text-indigo-600 text-xs"></i>
+                          <span className="font-semibold text-gray-800">{job?.companyName}</span>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-700">
+                        <div className="flex items-center gap-1">
+                          <i className="fa-solid fa-briefcase text-xs text-gray-400"></i>
+                          {job?.jobTitle}
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 text-sm font-semibold text-green-600">
+                        <div className="flex items-center gap-1">
+                          <i className="fa-solid fa-indian-rupee-sign text-xs"></i>
+                          {job?.salary}
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-600">
+                        <div className="flex items-center gap-1">
+                          <i className="fa-regular fa-calendar-check text-xs text-blue-500"></i>
+                          {new Date(job?.appliedAt.split('T')).toLocaleDateString('en-IN')}
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-600">
+                        <div className="flex items-center gap-1">
+                          <i className="fa-regular fa-calendar-xmark text-xs text-red-500"></i>
+                          {new Date(job?.applicationDeadline).toLocaleDateString('en-IN')}
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 text-sm">
+                        {job?.status === 'applied' && (
+                          <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
+                            <i className="fa-solid fa-paper-plane"></i>
+                            Applied
+                          </span>
+                        )}
+                        {job?.status === 'shortlisted' && (
+                          <span className="inline-flex items-center gap-1 bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-semibold">
+                            <i className="fa-solid fa-list-check"></i>
+                            Shortlisted
+                          </span>
+                        )}
+                        {job?.status === 'selected' && (
+                          <span className="inline-flex items-center gap-1 bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
+                            <i className="fa-solid fa-circle-check"></i>
+                            Selected
+                          </span>
+                        )}
+                        {job?.status === 'rejected' && (
+                          <span className="inline-flex items-center gap-1 bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold">
+                            <i className="fa-solid fa-circle-xmark"></i>
+                            Rejected
+                          </span>
+                        )}
+                        {!['applied', 'shortlisted', 'selected', 'rejected'].includes(job?.status) && (
+                          <span className="inline-flex items-center gap-1 bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-semibold">
+                            {job?.status.charAt(0).toUpperCase() + job?.status.slice(1)}
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-center">
+                        <span className="inline-flex items-center justify-center w-10 h-10 bg-purple-100 text-purple-600 rounded-full font-bold">
+                          {job?.numberOfApplicants}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-sm">
+                        <div className="flex justify-center items-center">
                           <OverlayTrigger
                             placement="top"
                             delay={{ show: 250, hide: 400 }}
                             overlay={renderTooltipViewPost}
                           >
-                            <Link className="text-black" to={`/student/job/${job.jobId}`}>
-                              <i className='fa-solid fa-circle-info text-2xl max-sm:text-lg cursor-pointer transition-colors duration-200 ease-in-out hover:text-blue-500' />
+                            <Link to={`/student/job/${job.jobId}`}>
+                              <button className="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-all">
+                                <i className='fa-solid fa-eye text-base' />
+                              </button>
                             </Link>
                           </OverlayTrigger>
                         </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="9" className="px-4 py-8 text-center text-gray-500">
+                      <div className="flex flex-col items-center gap-2">
+                        <i className="fa-solid fa-briefcase-blank text-4xl text-gray-300"></i>
+                        <p className="mb-0 font-medium">No Applications Found</p>
+                        <p className="text-xs text-gray-400">You haven't applied to any jobs yet</p>
                       </div>
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="9">No Jobs found</td>
-                </tr>
-              )}
-            </tbody>
-          </Table>
+                )}
+              </tbody>
+            </Table>
+          </div>
         )
       }
     </>

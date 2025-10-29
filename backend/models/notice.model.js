@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const NoticeSchema = new mongoose.Schema({
   sender: { type: mongoose.Schema.Types.ObjectId, ref: 'Users', required: true },
@@ -9,4 +9,4 @@ const NoticeSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('Notice', NoticeSchema);
+export default mongoose.model('Notice', NoticeSchema);

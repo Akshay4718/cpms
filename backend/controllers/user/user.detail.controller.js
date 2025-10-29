@@ -24,39 +24,40 @@ const UserDetail = async (req, res) => {
 
     // student data
     studentProfile: {
-      rollNumber: `${req.user.studentProfile.rollNumber}`,
-      uin: `${req.user.studentProfile.UIN}`,
-      department: `${req.user.studentProfile.department}`,
-      year: `${req.user.studentProfile.year}`,
-      addmissionYear: `${req.user.studentProfile.addmissionYear}`,
-      gap: `${req.user.studentProfile.gap}`,
-      liveKT: `${req.user.studentProfile.liveKT}`,
-      resume: `${req.user.studentProfile.resume}`,
+      USN: `${req.user.studentProfile?.USN || ''}`,
+      rollNumber: `${req.user.studentProfile?.rollNumber || ''}`,
+      department: `${req.user.studentProfile?.department || ''}`,
+      year: `${req.user.studentProfile?.year || ''}`,
+      addmissionYear: `${req.user.studentProfile?.addmissionYear || ''}`,
+      gap: `${req.user.studentProfile?.gap || false}`,
+      activeBacklog: `${req.user.studentProfile?.activeBacklog || 0}`,
+      resume: `${req.user.studentProfile?.resume || ''}`,
       SGPA: {
-        sem1: `${req.user.studentProfile.SGPA.sem1}`,
-        sem2: `${req.user.studentProfile.SGPA.sem2}`,
-        sem3: `${req.user.studentProfile.SGPA.sem3}`,
-        sem4: `${req.user.studentProfile.SGPA.sem4}`,
-        sem5: `${req.user.studentProfile.SGPA.sem5}`,
-        sem6: `${req.user.studentProfile.SGPA.sem6}`,
-        sem7: `${req.user.studentProfile.SGPA.sem7}`,
-        sem8: `${req.user.studentProfile.SGPA.sem8}`,
+        sem1: `${req.user.studentProfile?.SGPA?.sem1 || ''}`,
+        sem2: `${req.user.studentProfile?.SGPA?.sem2 || ''}`,
+        sem3: `${req.user.studentProfile?.SGPA?.sem3 || ''}`,
+        sem4: `${req.user.studentProfile?.SGPA?.sem4 || ''}`,
+        sem5: `${req.user.studentProfile?.SGPA?.sem5 || ''}`,
+        sem6: `${req.user.studentProfile?.SGPA?.sem6 || ''}`,
+        sem7: `${req.user.studentProfile?.SGPA?.sem7 || ''}`,
+        sem8: `${req.user.studentProfile?.SGPA?.sem8 || ''}`,
       },
+      CGPA: req.user.studentProfile?.CGPA || null,
       pastQualification: {
-        ssc: {
-          board: `${req.user.studentProfile.pastQualification.ssc.board}`,
-          percentage: `${req.user.studentProfile.pastQualification.ssc.percentage}`,
-          year: `${req.user.studentProfile.pastQualification.ssc.year}`
+        sslc: {
+          board: `${req.user.studentProfile?.pastQualification?.sslc?.board || ''}`,
+          percentage: `${req.user.studentProfile?.pastQualification?.sslc?.percentage || ''}`,
+          year: `${req.user.studentProfile?.pastQualification?.sslc?.year || ''}`
         },
-        hsc: {
-          board: `${req.user.studentProfile.pastQualification.hsc.board}`,
-          percentage: `${req.user.studentProfile.pastQualification.hsc.percentage}`,
-          year: `${req.user.studentProfile.pastQualification.hsc.year}`
+        puc: {
+          board: `${req.user.studentProfile?.pastQualification?.puc?.board || ''}`,
+          percentage: `${req.user.studentProfile?.pastQualification?.puc?.percentage || ''}`,
+          year: `${req.user.studentProfile?.pastQualification?.puc?.year || ''}`
         },
         diploma: {
-          board: `${req.user.studentProfile.pastQualification.diploma.board}`,
-          percentage: `${req.user.studentProfile.pastQualification.diploma.percentage}`,
-          year: `${req.user.studentProfile.pastQualification.diploma.year}`
+          department: `${req.user.studentProfile?.pastQualification?.diploma?.department || ''}`,
+          percentage: `${req.user.studentProfile?.pastQualification?.diploma?.percentage || ''}`,
+          year: `${req.user.studentProfile?.pastQualification?.diploma?.year || ''}`
         },
       },
     }
@@ -64,4 +65,4 @@ const UserDetail = async (req, res) => {
   });
 }
 
-module.exports = UserDetail;
+export default UserDetail;

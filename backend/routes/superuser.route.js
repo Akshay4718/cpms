@@ -1,18 +1,18 @@
-const express = require('express');
+import express from 'express';
 
 // router after /admin/
 const router = express.Router();
 
-const authenticateToken = require('../middleware/auth.middleware');
+import authenticateToken from '../middleware/auth.middleware.js';
 
-const Login = require('../controllers/SuperUser/login.controller.js');
+import Login from '../controllers/SuperUser/login.controller.js';
 
 // management methods
-const { managementUsers, managementAddUsers, managementDeleteUsers } = require('../controllers/SuperUser/user-management.controller.js');
+import { managementUsers, managementAddUsers, managementDeleteUsers } from '../controllers/SuperUser/user-management.controller.js';
 // tpo methods
-const { tpoUsers, tpoAddUsers, tpoDeleteUsers } = require('../controllers/SuperUser/user-tpo.controller.js');
+import { tpoUsers, tpoAddUsers, tpoDeleteUsers } from '../controllers/SuperUser/user-tpo.controller.js';
 // student methods
-const { studentUsers, studentAddUsers, studentDeleteUsers, studentApprove } = require('../controllers/SuperUser/user-student.controller.js');
+import { studentUsers, studentAddUsers, studentDeleteUsers, studentApprove } from '../controllers/SuperUser/user-student.controller.js';
 
 
 
@@ -36,4 +36,4 @@ router.post('/student-delete-user', authenticateToken, studentDeleteUsers);
 router.post('/student-approve', authenticateToken, studentApprove);
 
 
-module.exports = router;
+export default router;

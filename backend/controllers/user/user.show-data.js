@@ -1,4 +1,4 @@
-const User = require('../../models/user.model');
+import User from '../../models/user.model.js';
 
 const userData = async (req, res) => {
   const { userId } = req.params;
@@ -30,4 +30,4 @@ const userData = async (req, res) => {
 }
 
 
-module.exports = userData;
+export default userData;
