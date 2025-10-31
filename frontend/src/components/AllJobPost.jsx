@@ -202,9 +202,15 @@ function AllJobPost() {
                             </div>
                           </td>
                           <td className="px-4 py-3 text-sm text-gray-600">
-                            <div className="flex items-center gap-1">
-                              <i className="fa-regular fa-calendar text-xs text-red-500"></i>
-                              {new Date(job?.applicationDeadline).toLocaleDateString('en-In')}
+                            <div className="flex flex-col gap-1">
+                              <div className="flex items-center gap-1">
+                                <i className="fa-regular fa-calendar text-xs text-red-500"></i>
+                                {new Date(job?.applicationDeadline).toLocaleDateString('en-In')}
+                              </div>
+                              <div className="flex items-center gap-1 text-xs text-gray-500">
+                                <i className="fa-regular fa-clock text-xs"></i>
+                                {new Date(job?.applicationDeadline).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
+                              </div>
                             </div>
                           </td>
                           <td className="px-4 py-3 text-sm text-center">

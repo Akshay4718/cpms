@@ -48,7 +48,7 @@ function UserDetails() {
         if (!(userId === response.data.id)) navigate('../404')
 
         // checking if user completed profile then redirect to dashboard
-        if (response.data.isProfileCompleted === "true") {
+        if (response.data.isProfileCompleted === true || response.data.isProfileCompleted === "true") {
           if (response.data.role === "student") navigate('../student/dashboard')
           if (response.data.role === "tpo_admin") navigate('../tpo/dashboard')
           if (response.data.role === "management_admin") navigate('../management/dashboard')
@@ -132,11 +132,21 @@ function UserDetails() {
           setToastMessage(response.data.msg);
           setShowToast(true);
           if (completeProfileReq) {
-            if (response.data.msg === "Data Updated Successfully!")
-              navigate('../management/dashboard');
+            if (response.data.msg === "Data Updated Successfully!") {
+              // Wait a moment for toast to show, then redirect
+              setTimeout(() => {
+                // Redirect based on user role
+                if (userData.role === 'student') {
+                  navigate('../student/dashboard');
+                } else if (userData.role === 'tpo_admin') {
+                  navigate('../tpo/dashboard');
+                } else if (userData.role === 'management_admin') {
+                  navigate('../management/dashboard');
+                }
+              }, 1000);
+            }
           }
         }
-        //   navigate("../student/dashboard");
       }
     } catch (error) {
       if (error?.response?.data?.msg) {

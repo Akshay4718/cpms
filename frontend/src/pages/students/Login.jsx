@@ -40,7 +40,16 @@ function Login() {
     try {
       const response = await axios.post(`${BASE_URL}/student/login`, formData);
       localStorage.setItem('token', response.data.token);
-      navigate('../student/dashboard');
+      
+      // Check if profile is completed
+      const user = response.data.user;
+      if (user && (user.isProfileCompleted === false || user.isProfileCompleted === 'false')) {
+        // Redirect to complete profile page
+        navigate(`../student/complete-profile/${user.id}`);
+      } else {
+        // Profile is complete, go to dashboard
+        navigate('../student/dashboard');
+      }
     } catch (error) {
       if (error?.response?.data?.msg) {
         setToastMessage(error.response.data.msg);

@@ -17,7 +17,7 @@ const Login = async (req, res) => {
       return res.status(400).json({ msg: 'Credentials Not Matched!' });
 
     const payload = { userId: user.id };
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d' });
 
     user.token = token;
     await user.save();

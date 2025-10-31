@@ -20,12 +20,22 @@ const Login = async (req, res) => {
     //   return res.status(400).json({ msg: 'TPO has not approved you application, please try after some time!' });
 
     const payload = { userId: user.id };
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d' });
 
     user.token = token;
     await user.save();
 
-    return res.json({ token });
+    return res.json({ 
+      token,
+      user: {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+        isProfileCompleted: user.isProfileCompleted,
+        first_name: user.first_name,
+        last_name: user.last_name
+      }
+    });
   } catch (error) {
     console.log("student.login.controller.js => ", error);
     return res.status(500).json({ msg: "Internal Server Error!" });

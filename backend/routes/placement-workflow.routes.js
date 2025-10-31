@@ -4,7 +4,8 @@ import {
   markShortlistedStudents,
   updateInterviewRound,
   markStudentsAsPlaced,
-  getJobWorkflowStatus
+  getJobWorkflowStatus,
+  finishDrive
 } from '../controllers/TPO/placement-workflow.controller.js';
 import authMiddleware from '../middleware/auth.middleware.js';
 
@@ -24,6 +25,9 @@ router.post('/interview-round/:jobId/:studentId', updateInterviewRound);
 
 // Step 4: Mark students as placed
 router.post('/mark-placed/:jobId', markStudentsAsPlaced);
+
+// Step 5: Finish drive (lock job)
+router.post('/finish-drive/:jobId', finishDrive);
 
 // Get workflow status
 router.get('/status/:jobId', getJobWorkflowStatus);

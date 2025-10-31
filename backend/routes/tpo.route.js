@@ -13,6 +13,10 @@ import PostJob from '../controllers/TPO/tpo.post-job.controller.js';
 
 import { AllJobs, DeleteJob, JobData, JobWithApplicants, StudentJobsApplied } from '../controllers/user/user.all-jobs.controller.js';
 
+import { notifyEligibleStudents } from '../controllers/TPO/notify-eligible-students.controller.js';
+
+import { getRecentPlacements } from '../controllers/TPO/recent-placements.controller.js';
+
 // login post request for student
 router.post('/login', Login);
 
@@ -34,6 +38,12 @@ router.get('/job/applicants/:jobId', authenticateToken(), JobWithApplicants)
 
 // student jobs applied 
 router.get('/myjob/:studentId', authenticateToken(), StudentJobsApplied)
+
+// notify eligible students about job posting
+router.post('/notify-eligible/:jobId', authenticateToken(), notifyEligibleStudents)
+
+// get recent placements (last 24 hours)
+router.get('/recent-placements', authenticateToken(), getRecentPlacements)
 
 
 export default router;

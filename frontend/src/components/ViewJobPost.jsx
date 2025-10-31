@@ -424,10 +424,12 @@ function ViewJobPost() {
                           <span className="font-semibold text-gray-700">Deadline</span>
                         </div>
                         <div className="text-lg font-bold text-red-600">
-                          {new Date(data?.applicationDeadline).toLocaleDateString('en-IN', {
+                          {new Date(data?.applicationDeadline).toLocaleString('en-IN', {
                             month: 'short',
                             day: 'numeric',
                             year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit',
                           })}
                         </div>
                       </div>
@@ -449,20 +451,41 @@ function ViewJobPost() {
                           currentUser.role === 'student' && (
                             <div className="flex justify-center py-4">
                               {
-                                applied === false ? (
-                                  <button 
-                                    onClick={handleApply}
-                                    className="px-8 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center gap-2"
-                                  >
-                                    <i className="fa-solid fa-paper-plane"></i>
-                                    Apply Now
-                                  </button>
-                                ) : (
-                                  <div className="px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold rounded-lg shadow-lg flex items-center gap-2">
-                                    <i className="fa-solid fa-circle-check"></i>
-                                    Already Applied
-                                  </div>
-                                )
+                                (() => {
+                                  // Check if deadline has passed
+                                  const isDeadlinePassed = data?.applicationDeadline && new Date() > new Date(data.applicationDeadline);
+                                  
+                                  if (applied === true) {
+                                    return (
+                                      <div className="px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold rounded-lg shadow-lg flex items-center gap-2">
+                                        <i className="fa-solid fa-circle-check"></i>
+                                        Already Applied
+                                      </div>
+                                    );
+                                  }
+                                  
+                                  if (isDeadlinePassed) {
+                                    return (
+                                      <div className="flex flex-col items-center gap-2">
+                                        <div className="px-8 py-3 bg-gradient-to-r from-gray-400 to-gray-500 text-white font-semibold rounded-lg shadow-lg flex items-center gap-2 cursor-not-allowed opacity-75">
+                                          <i className="fa-solid fa-lock"></i>
+                                          Application Closed
+                                        </div>
+                                        <p className="text-sm text-red-600">Deadline has passed</p>
+                                      </div>
+                                    );
+                                  }
+                                  
+                                  return (
+                                    <button 
+                                      onClick={handleApply}
+                                      className="px-8 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center gap-2"
+                                    >
+                                      <i className="fa-solid fa-paper-plane"></i>
+                                      Apply Now
+                                    </button>
+                                  );
+                                })()
                               }
                             </div>
                           )

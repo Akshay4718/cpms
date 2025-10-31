@@ -9,6 +9,14 @@ const jobSchema = new mongoose.Schema({
   howToApply: { type: String },
   postedAt: { type: Date, default: Date.now },
   applicationDeadline: { type: Date },
+  
+  // Eligibility Criteria (Optional)
+  eligibilityCriteria: {
+    sslcPercentage: { type: Number, min: 0, max: 100 }, // 10th percentage
+    pucPercentage: { type: Number, min: 0, max: 100 },  // 12th percentage
+    degreeCgpa: { type: Number, min: 0, max: 10 }       // Degree CGPA
+  },
+  
   // company details
   company: { type: Schema.Types.ObjectId, ref: 'Company', required: true },
   
@@ -69,7 +77,12 @@ const jobSchema = new mongoose.Schema({
       // Notes by TPO
       tpoRemarks: { type: String }
     }
-  ]
+  ],
+  
+  // Drive completion tracking
+  driveFinished: { type: Boolean, default: false },
+  driveFinishedAt: { type: Date },
+  driveFinishedBy: { type: Schema.Types.ObjectId, ref: 'Users' }
 });
 
 

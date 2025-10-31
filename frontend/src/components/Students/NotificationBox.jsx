@@ -34,12 +34,29 @@ function NotificationBox() {
 
   const fetchJobs = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/tpo/jobs`);
-      // console.log(response.data.data)
-      // retriving lastest post
-      setJobs(response.data.data.sort((a, b) => new Date(b.postedAt) - new Date(a.postedAt)).slice(0, 10));
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${BASE_URL}/tpo/jobs`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      const currentDate = new Date();
+      
+      // Filter jobs that haven't reached deadline yet
+      const activeJobs = response.data.data.filter(job => {
+        // If no deadline set, show the job
+        if (!job.applicationDeadline) return true;
+        
+        // Check if deadline has not passed
+        const deadline = new Date(job.applicationDeadline);
+        return currentDate <= deadline;
+      });
+      
+      // Sort by posted date and take latest 10
+      setJobs(activeJobs.sort((a, b) => new Date(b.postedAt) - new Date(a.postedAt)).slice(0, 10));
     } catch (error) {
-      console.log('Error while fetching notices => ', error);
+      console.log('Error while fetching job openings => ', error);
     } finally {
       setLoading(false);
     }

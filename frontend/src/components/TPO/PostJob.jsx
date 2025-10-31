@@ -136,6 +136,19 @@ function PostJob() {
     return date.toISOString().split('T')[0]; // Returns YYYY-MM-DD
   };
 
+  // for formatting datetime for datetime-local input
+  const formatDateTime = (isoString) => {
+    if (!isoString || isoString === "undefined") return "";
+    const date = new Date(isoString);
+    // Format to YYYY-MM-DDTHH:mm for datetime-local input
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+
   return (
     <>
       {/*  any message here  */}
@@ -256,18 +269,101 @@ function PostJob() {
 
                       <FloatingLabel controlId="floatingDeadlineDate" label={
                         <>
-                          <span>Deadline Date <span className='text-red-500'>*</span></span>
+                          <span>Deadline Date & Time <span className='text-red-500'>*</span></span>
                         </>
                       }>
                         <Form.Control
-                          type="date"
-                          placeholder="Deadline Date"
+                          type="datetime-local"
+                          placeholder="Deadline Date & Time"
                           name='applicationDeadline'
-                          value={formatDate(data?.applicationDeadline) || ''}
+                          value={formatDateTime(data?.applicationDeadline) || ''}
                           onChange={handleDataChange}
 
                         />
                       </FloatingLabel>
+                    </div>
+
+                    {/* Eligibility Criteria Section */}
+                    <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border-2 border-blue-200">
+                      <div className="flex items-center gap-2 mb-4">
+                        <i className="fa-solid fa-graduation-cap text-blue-600 text-xl"></i>
+                        <h4 className="text-lg font-bold text-slate-800">Eligibility Criteria (Optional)</h4>
+                      </div>
+                      <p className="text-sm text-gray-600 mb-4">Set minimum academic requirements. Leave blank if no specific criteria.</p>
+                      
+                      <div className="grid grid-cols-3 gap-3 max-md:grid-cols-1">
+                        <FloatingLabel controlId="floatingSslc" label="SSLC Percentage (10th)">
+                          <Form.Control
+                            type="number"
+                            placeholder="SSLC %"
+                            name="sslcPercentage"
+                            min="0"
+                            max="100"
+                            step="0.01"
+                            value={data?.eligibilityCriteria?.sslcPercentage || ''}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              if (value === '' || (parseFloat(value) >= 0 && parseFloat(value) <= 100)) {
+                                setData({
+                                  ...data,
+                                  eligibilityCriteria: {
+                                    ...data?.eligibilityCriteria,
+                                    sslcPercentage: value === '' ? undefined : parseFloat(value)
+                                  }
+                                });
+                              }
+                            }}
+                          />
+                        </FloatingLabel>
+
+                        <FloatingLabel controlId="floatingPuc" label="PUC Percentage (12th)">
+                          <Form.Control
+                            type="number"
+                            placeholder="PUC %"
+                            name="pucPercentage"
+                            min="0"
+                            max="100"
+                            step="0.01"
+                            value={data?.eligibilityCriteria?.pucPercentage || ''}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              if (value === '' || (parseFloat(value) >= 0 && parseFloat(value) <= 100)) {
+                                setData({
+                                  ...data,
+                                  eligibilityCriteria: {
+                                    ...data?.eligibilityCriteria,
+                                    pucPercentage: value === '' ? undefined : parseFloat(value)
+                                  }
+                                });
+                              }
+                            }}
+                          />
+                        </FloatingLabel>
+
+                        <FloatingLabel controlId="floatingCgpa" label="Degree CGPA">
+                          <Form.Control
+                            type="number"
+                            placeholder="CGPA"
+                            name="degreeCgpa"
+                            min="0"
+                            max="10"
+                            step="0.01"
+                            value={data?.eligibilityCriteria?.degreeCgpa || ''}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              if (value === '' || (parseFloat(value) >= 0 && parseFloat(value) <= 10)) {
+                                setData({
+                                  ...data,
+                                  eligibilityCriteria: {
+                                    ...data?.eligibilityCriteria,
+                                    degreeCgpa: value === '' ? undefined : parseFloat(value)
+                                  }
+                                });
+                              }
+                            }}
+                          />
+                        </FloatingLabel>
+                      </div>
                     </div>
 
                     {/* text editor  */}

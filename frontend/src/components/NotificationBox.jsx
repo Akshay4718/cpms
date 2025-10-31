@@ -34,29 +34,39 @@ function NotificationBox() {
 
   const fetchUpdates = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/student/notify-interview-hired`, {
+      // Fetch recent placements (finished drives in last 24 hours)
+      const response = await axios.get(`${BASE_URL}/tpo/recent-placements`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         }
       });
-      const students = response?.data?.studentsWithJobDetails;
-
-      // Filtering students with 'interview' or 'hired' status
-      const filteredJobs = students.map(student => {
-        return {
-          id: student._id,
+      
+      const placements = response?.data?.placements || [];
+      
+      // Transform data to match component structure
+      const formattedUpdates = placements.flatMap(placement => 
+        placement.placedStudents.map(student => ({
+          id: student.studentId,
           studentName: student.name,
+          usn: student.usn,
           department: student.department,
-          year: student.year,
-          jobs: student.jobs.filter(job => job.status === 'interview' || job.status === 'hired')
-        };
-      }).filter(student => student.jobs.length > 0);
+          jobs: [{
+            jobId: placement.jobId,
+            jobTitle: placement.jobTitle,
+            companyName: placement.company.name,
+            companyLocation: placement.company.location,
+            salary: placement.salary,
+            status: 'placed',
+            placedAt: student.placedAt
+          }]
+        }))
+      );
 
-      setNotify(filteredJobs);
+      setNotify(formattedUpdates);
     } catch (error) {
-      console.log('Error while fetching updates notification: ', error);
+      console.log('Error while fetching placement updates: ', error);
     } finally {
-      setLoading(false); // Turn off loading after fetching
+      setLoading(false);
     }
   };
 
@@ -104,12 +114,7 @@ function NotificationBox() {
                               {student.studentName}
                             </p>
                             <p className='text-xs text-gray-600 mb-0'>
-                              <span className='font-semibold'>
-                                {student.year === 1 && 'First Year'}
-                                {student.year === 2 && 'Second Year'}
-                                {student.year === 3 && 'Third Year'}
-                                {student.year === 4 && 'Fourth Year'}
-                              </span>
+                              <span className='font-semibold'>{student.usn}</span>
                               <span className='mx-1'>•</span>
                               <span>{student.department}</span>
                             </p>
@@ -138,17 +143,15 @@ function NotificationBox() {
                                 <span className="text-gray-400 text-xs">at</span>
                                 <span className="text-gray-700 text-sm font-medium">{job?.companyName}</span>
                               </div>
-                              <div className="flex items-center gap-2">
-                                {job?.status === 'interview' && (
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className='bg-green-100 text-green-700 text-xs font-semibold px-2 py-0.5 rounded-full flex items-center gap-1'>
+                                  <i className="fa-solid fa-trophy"></i>
+                                  Placed
+                                </span>
+                                {job?.salary && (
                                   <span className='bg-blue-100 text-blue-700 text-xs font-semibold px-2 py-0.5 rounded-full flex items-center gap-1'>
-                                    <i className="fa-solid fa-handshake"></i>
-                                    Interview
-                                  </span>
-                                )}
-                                {job?.status === 'hired' && (
-                                  <span className='bg-green-100 text-green-700 text-xs font-semibold px-2 py-0.5 rounded-full flex items-center gap-1'>
-                                    <i className="fa-solid fa-circle-check"></i>
-                                    Hired
+                                    <i className="fa-solid fa-indian-rupee-sign"></i>
+                                    {job.salary} LPA
                                   </span>
                                 )}
                               </div>

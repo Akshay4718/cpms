@@ -12,8 +12,11 @@ const ProtectedRoute = ({ allowedRoles }) => {
     // Only run checks after user is loaded and we have user data
     if (loading || !user) return;
 
-    // Check if profile is complete
-    if (user.isProfileCompleted === 'false' || user.isProfileCompleted === false) {
+    // Skip profile completion check if already on complete-profile page
+    const isOnCompleteProfilePage = location.pathname.includes('/complete-profile/');
+
+    // Check if profile is complete (only if not already on complete-profile page)
+    if (!isOnCompleteProfilePage && (user.isProfileCompleted === 'false' || user.isProfileCompleted === false)) {
       if (user.role === 'student') {
         navigate(`/student/complete-profile/${user.id}`, { replace: true });
       } else if (user.role === 'tpo_admin') {
@@ -38,7 +41,7 @@ const ProtectedRoute = ({ allowedRoles }) => {
         navigate("/404", { replace: true });
       }
     }
-  }, [user, loading, navigate, allowedRoles]);
+  }, [user, loading, navigate, allowedRoles, location.pathname]);
 
   // Show loading while fetching user
   if (loading) {
@@ -55,8 +58,11 @@ const ProtectedRoute = ({ allowedRoles }) => {
     return <Loading />;
   }
 
-  // If profile not complete, show loading while redirecting
-  if (user.isProfileCompleted === 'false' || user.isProfileCompleted === false) {
+  // Check if on complete-profile page
+  const isOnCompleteProfilePage = location.pathname.includes('/complete-profile/');
+
+  // If profile not complete, show loading while redirecting (unless on complete-profile page)
+  if (!isOnCompleteProfilePage && (user.isProfileCompleted === 'false' || user.isProfileCompleted === false)) {
     return <Loading />;
   }
 
