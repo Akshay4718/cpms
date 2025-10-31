@@ -8,6 +8,9 @@ function OnlineMeetings() {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
+  const [showMeetingModal, setShowMeetingModal] = useState(false);
+  const [currentMeetingLink, setCurrentMeetingLink] = useState('');
+  const [currentMeetingTitle, setCurrentMeetingTitle] = useState('');
   
   const [formData, setFormData] = useState({
     title: '',
@@ -83,6 +86,18 @@ function OnlineMeetings() {
     });
   };
 
+  const handleStartMeeting = (meetingLink, meetingTitle) => {
+    setCurrentMeetingLink(meetingLink);
+    setCurrentMeetingTitle(meetingTitle);
+    setShowMeetingModal(true);
+  };
+
+  const handleCloseMeeting = () => {
+    setShowMeetingModal(false);
+    setCurrentMeetingLink('');
+    setCurrentMeetingTitle('');
+  };
+
   return (
     <div className="container py-4">
       {/* Header */}
@@ -139,15 +154,13 @@ function OnlineMeetings() {
                   </div>
 
                   <div className="d-flex gap-2">
-                    <a
-                      href={meeting.meetingLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button
+                      onClick={() => handleStartMeeting(meeting.meetingLink, meeting.title)}
                       className="btn btn-sm btn-success flex-grow-1"
                     >
-                      <FaExternalLinkAlt className="me-1" />
+                      <FaVideo className="me-1" />
                       Start
-                    </a>
+                    </button>
                     <button
                       className="btn btn-sm btn-outline-danger"
                       onClick={() => handleDelete(meeting._id)}
@@ -239,6 +252,38 @@ function OnlineMeetings() {
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Meeting Modal */}
+      {showMeetingModal && (
+        <div className="modal show d-block" style={{ backgroundColor: 'rgba(0,0,0,0.7)' }}>
+          <div className="modal-dialog modal-xl modal-dialog-centered">
+            <div className="modal-content" style={{ backgroundColor: '#1a1a1a' }}>
+              <div className="modal-header border-0" style={{ backgroundColor: '#2d2d2d' }}>
+                <h5 className="modal-title text-white">
+                  <FaVideo className="me-2" />
+                  {currentMeetingTitle}
+                </h5>
+                <button 
+                  type="button" 
+                  className="btn-close btn-close-white" 
+                  onClick={handleCloseMeeting}
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div className="modal-body p-0" style={{ height: '70vh' }}>
+                <iframe
+                  src={currentMeetingLink}
+                  title={currentMeetingTitle}
+                  className="w-100 h-100"
+                  style={{ border: 'none' }}
+                  allow="camera; microphone; fullscreen; speaker; display-capture"
+                  allowFullScreen
+                ></iframe>
+              </div>
             </div>
           </div>
         </div>

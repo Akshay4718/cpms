@@ -6,6 +6,9 @@ import { FaVideo, FaCalendarAlt, FaClock, FaUser, FaExternalLinkAlt, FaInfoCircl
 function OnlineMeetings() {
   const [meetings, setMeetings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showMeetingModal, setShowMeetingModal] = useState(false);
+  const [currentMeetingLink, setCurrentMeetingLink] = useState('');
+  const [currentMeetingTitle, setCurrentMeetingTitle] = useState('');
 
   useEffect(() => {
     fetchMeetings();
@@ -41,6 +44,18 @@ function OnlineMeetings() {
     const diffMinutes = (meetingTime - now) / (1000 * 60);
     
     return diffMinutes <= 15 && diffMinutes >= -30;
+  };
+
+  const handleJoinMeeting = (meetingLink, meetingTitle) => {
+    setCurrentMeetingLink(meetingLink);
+    setCurrentMeetingTitle(meetingTitle);
+    setShowMeetingModal(true);
+  };
+
+  const handleCloseMeeting = () => {
+    setShowMeetingModal(false);
+    setCurrentMeetingLink('');
+    setCurrentMeetingTitle('');
   };
 
   if (loading) {
@@ -110,15 +125,13 @@ function OnlineMeetings() {
                     
                     <div className="col-md-4 text-md-end mt-3 mt-md-0">
                       {isJoinable(meeting.scheduledTime) ? (
-                        <a
-                          href={meeting.meetingLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                        <button
+                          onClick={() => handleJoinMeeting(meeting.meetingLink, meeting.title)}
                           className="btn btn-success btn-lg"
                         >
-                          <FaExternalLinkAlt className="me-2" />
+                          <FaVideo className="me-2" />
                           Join Meeting
-                        </a>
+                        </button>
                       ) : (
                         <button className="btn btn-secondary btn-lg" disabled>
                           Not Yet Available
@@ -132,6 +145,38 @@ function OnlineMeetings() {
           ))
         )}
       </div>
+
+      {/* Meeting Modal */}
+      {showMeetingModal && (
+        <div className="modal show d-block" style={{ backgroundColor: 'rgba(0,0,0,0.7)' }}>
+          <div className="modal-dialog modal-xl modal-dialog-centered">
+            <div className="modal-content" style={{ backgroundColor: '#1a1a1a' }}>
+              <div className="modal-header border-0" style={{ backgroundColor: '#2d2d2d' }}>
+                <h5 className="modal-title text-white">
+                  <FaVideo className="me-2" />
+                  {currentMeetingTitle}
+                </h5>
+                <button 
+                  type="button" 
+                  className="btn-close btn-close-white" 
+                  onClick={handleCloseMeeting}
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div className="modal-body p-0" style={{ height: '70vh' }}>
+                <iframe
+                  src={currentMeetingLink}
+                  title={currentMeetingTitle}
+                  className="w-100 h-100"
+                  style={{ border: 'none' }}
+                  allow="camera; microphone; fullscreen; speaker; display-capture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
