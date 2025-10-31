@@ -17,6 +17,7 @@ import { AppliedToJob, CheckAlreadyApplied } from '../controllers/Student/apply-
 import { UpdateJobStatus } from '../controllers/Student/update-job-status.controller.js';
 import { GetInternships, UpdateInternship, DeleteInternship } from '../controllers/Student/internship.controller.js';
 import { StudentDataYearBranchWise, NotifyStudentStatus } from '../controllers/Student/student-data-for-admin.controller.js';
+import GetPlacementStatus from '../controllers/Student/placement-status.controller.js';
 
 // signup post request for student
 router.post('/signup', Signup);
@@ -49,6 +50,8 @@ router.post('/update-internship', authenticateToken(), UpdateInternship);
 // delete internship of a student
 router.post('/delete-internship', authenticateToken(), DeleteInternship);
 
+// get placement status (ladder policy)
+router.get('/placement-status', authenticateToken(), GetPlacementStatus);
 
 
 // for tpo and management only

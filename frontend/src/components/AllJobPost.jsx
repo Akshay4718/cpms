@@ -102,7 +102,15 @@ function AllJobPost() {
 
   const confirmDelete = async (jobId) => {
     try {
-      const response = await axios.post(`${BASE_URL}/tpo/delete-job`, { jobId });
+      const token = localStorage.getItem('token');
+      const response = await axios.post(`${BASE_URL}/tpo/delete-job`, 
+        { jobId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
       setShowModal(false);
       fetchJobs();
       if (response?.data?.msg) {
@@ -310,18 +318,11 @@ function AllJobPost() {
       {/* Modal Box for Confirm Delete */}
       <ModalBox
         show={showModal}
-        modalHeader={`Confirm Delete ${modalBody?.cmpName}`}
-        modalBody={<>
-          Are you sure you want to delete this post of <b>{modalBody?.jbTitle}</b> from {modalBody?.cmpName}?
-        </>}
-        modalActions={<>
-          <button className='btn btn-secondary' onClick={closeModal}>
-            Cancel
-          </button>
-          <button className='btn btn-danger' onClick={() => confirmDelete(dataToParasModal)}>
-            Delete
-          </button>
-        </>}
+        close={closeModal}
+        header={`Confirm Delete - ${modalBody?.cmpName}`}
+        body={`Are you sure you want to delete "${modalBody?.jbTitle}" from ${modalBody?.cmpName}? This action cannot be undone.`}
+        btn="Delete"
+        confirmAction={() => confirmDelete(dataToParasModal)}
       />
     </>
   );

@@ -1,5 +1,6 @@
 import User from '../../models/user.model.js';
 import jobSchema from '../../models/job.model.js';
+import { checkPlacementEligibility } from '../../helpers/placementPolicy.js';
 
 
 const AppliedToJob = async (req, res) => {
@@ -37,6 +38,22 @@ const AppliedToJob = async (req, res) => {
 
     // retune if already applied
     if (user?.studentProfile?.appliedJobs?.some(job => job.jobId == req.params.jobId)) return res.json({ msg: "Already Applied!" });
+
+    // Check Placement Policy Eligibility (Ladder Policy)
+    console.log("\n🎯 === PLACEMENT POLICY CHECK START ===");
+    const policyCheck = await checkPlacementEligibility(req.params.studentId, req.params.jobId);
+    console.log("Policy Check Result:", policyCheck);
+    
+    if (!policyCheck.eligible) {
+      console.log("❌ Policy check FAILED:", policyCheck.reason);
+      return res.status(403).json({ 
+        msg: policyCheck.reason,
+        currentPlacements: policyCheck.currentPlacements,
+        allowedCategories: policyCheck.allowedCategories
+      });
+    }
+    console.log("✅ Policy check PASSED");
+    console.log("🎯 === PLACEMENT POLICY CHECK END ===\n");
 
     if (!user?.studentProfile?.resume) return res.json({ msg: 'Please Upload Resume First, Under "Placements" > "Placement Profile"' });
 

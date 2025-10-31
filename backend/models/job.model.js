@@ -10,6 +10,17 @@ const jobSchema = new mongoose.Schema({
   postedAt: { type: Date, default: Date.now },
   applicationDeadline: { type: Date },
   
+  // Job Category for Placement Policy
+  jobCategory: {
+    type: String,
+    enum: ['mass', 'core', 'dream', 'open_dream'],
+    required: true
+  },
+  
+  // Internship with conversion option (for policy exception)
+  isInternship: { type: Boolean, default: false },
+  hasConversionOption: { type: Boolean, default: false },
+  
   // Eligibility Criteria (Optional)
   eligibilityCriteria: {
     sslcPercentage: { type: Number, min: 0, max: 100 }, // 10th percentage

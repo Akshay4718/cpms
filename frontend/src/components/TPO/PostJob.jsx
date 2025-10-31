@@ -34,12 +34,13 @@ function PostJob() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!data?.company || !data?.jobTitle || !data?.salary || !data?.applicationDeadline || !data?.jobDescription || !data?.eligibility || !data?.howToApply) {
+    if (!data?.company || !data?.jobTitle || !data?.salary || !data?.applicationDeadline || !data?.jobDescription || !data?.eligibility || !data?.howToApply || !data?.jobCategory) {
       setToastMessage("All Fields Required!");
       setShowToast(true);
       return;
     }
-    // console.log(data)
+    console.log('📋 Job Data before submission:', data);
+    console.log('🏷️ Job Category:', data.jobCategory);
     setShowModal(true);
   }
 
@@ -77,7 +78,11 @@ function PostJob() {
   }
 
   const handleDataChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value })
+    const updatedData = { ...data, [e.target.name]: e.target.value };
+    if (e.target.name === 'jobCategory') {
+      console.log('Job Category selected:', e.target.value);
+    }
+    setData(updatedData);
   }
 
   const fetchJobDetail = async () => {
@@ -281,6 +286,48 @@ function PostJob() {
 
                         />
                       </FloatingLabel>
+                    </div>
+
+                    {/* Job Category and Internship Options */}
+                    <div className="grid grid-cols-3 gap-2 max-md:grid-cols-1 mt-3">
+                      <FloatingLabel controlId="floatingJobCategory" label={
+                        <>
+                          <span>Job Category <span className='text-red-500'>*</span></span>
+                        </>
+                      }>
+                        <Form.Select
+                          aria-label="Select job category"
+                          className='cursor-pointer'
+                          name='jobCategory'
+                          value={data?.jobCategory || ''}
+                          onChange={handleDataChange}
+                        >
+                          <option disabled value=''>Select Category</option>
+                          <option value='mass'>Mass (Generic hiring)</option>
+                          <option value='core'>Core (Branch specific)</option>
+                          <option value='dream'>Dream (&gt;8 LPA / Top 500)</option>
+                          <option value='open_dream'>Open Dream (&gt;20 LPA)</option>
+                        </Form.Select>
+                      </FloatingLabel>
+
+                      <div className="flex items-center gap-4 px-3">
+                        <Form.Check
+                          type="checkbox"
+                          label="Internship"
+                          name="isInternship"
+                          checked={data?.isInternship || false}
+                          onChange={(e) => setData({ ...data, isInternship: e.target.checked })}
+                        />
+                        {data?.isInternship && (
+                          <Form.Check
+                            type="checkbox"
+                            label="Has Conversion"
+                            name="hasConversionOption"
+                            checked={data?.hasConversionOption || false}
+                            onChange={(e) => setData({ ...data, hasConversionOption: e.target.checked })}
+                          />
+                        )}
+                      </div>
                     </div>
 
                     {/* Eligibility Criteria Section */}

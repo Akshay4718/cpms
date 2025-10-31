@@ -9,12 +9,23 @@ const PostJob = async (req, res) => {
     const salary = req.body.salary;
     const howToApply = req.body.howToApply;
     const applicationDeadline = req.body.applicationDeadline;
+    
+    // New placement policy fields
+    const jobCategory = req.body.jobCategory;
+    const isInternship = req.body.isInternship || false;
+    const hasConversionOption = req.body.hasConversionOption || false;
+    
+    // Eligibility criteria fields
+    const eligibilityCriteria = req.body.eligibilityCriteria;
 
-
-    // console.log(newJob);
+    console.log('📋 Creating/Updating job with category:', jobCategory);
 
     if (!jobTitle || !jobDescription || !eligibility || !company) {
       return res.status(400).json({ msg: 'Job title, job description, eligibility and company name are required.' });
+    }
+    
+    if (!jobCategory) {
+      return res.status(400).json({ msg: 'Job category is required for placement policy.' });
     }
 
     const job = await JobSchema.findById(req.body._id);
@@ -27,8 +38,13 @@ const PostJob = async (req, res) => {
         eligibility,
         salary,
         howToApply,
-        applicationDeadline
+        applicationDeadline,
+        jobCategory,
+        isInternship,
+        hasConversionOption,
+        eligibilityCriteria
       });
+      console.log('✅ Job updated with category:', jobCategory);
       res.status(201).json({ msg: 'Job Updated successfully' });
     } else {
       // Create a new job object
@@ -40,9 +56,14 @@ const PostJob = async (req, res) => {
         howToApply,
         postedAt: new Date(),
         applicationDeadline,
-        company
+        company,
+        jobCategory,
+        isInternship,
+        hasConversionOption,
+        eligibilityCriteria
       });
       await newJob.save();
+      console.log('✅ Job created with category:', jobCategory);
       return res.status(201).json({ msg: 'Job posted successfully' });
     }
 
