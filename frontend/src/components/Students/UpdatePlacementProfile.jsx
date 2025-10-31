@@ -79,16 +79,24 @@ function UpdatePlacementProfile() {
           }
         }
       );
-      // console.log(response.data);
+      
+      console.log('✅ Profile update response:', response.data);
+      
       if (response.data) {
         if (response.data.msg) {
           setToastMessage(response.data.msg);
           setShowToast(true);
+          
+          // Refresh user data after successful update
+          setTimeout(() => {
+            fetchCurrentUserData();
+          }, 1000);
         }
-        //   navigate("../student/dashboard");
       }
     } catch (error) {
-      console.log("UserDetails => ", error);
+      console.error("Error updating profile:", error);
+      setToastMessage(error.response?.data?.msg || 'Failed to update profile. Please try again.');
+      setShowToast(true);
     }
   }
 

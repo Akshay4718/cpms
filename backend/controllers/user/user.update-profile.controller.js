@@ -7,20 +7,36 @@ const UpdateProfile = async (req, res) => {
   try {
     const user = await User.findById(req.body._id || req.body.id);
 
-    if (!user) return res.status(400).json({ msg: "User Doesn't Exist!" });
+    if (!user) {
+      return res.status(404).json({ 
+        success: false,
+        msg: "User not found!" 
+      });
+    }
 
     // checking if email which is to update is already there or not 
     if (req.body.email !== user.email) {
-      if (await User.findOne({ email: req.body.email }))
-        return res.status(400).json({ msg: "Email is Already Exist, Please Enter Another Email!" });
-      else
+      if (await User.findOne({ email: req.body.email })) {
+        return res.status(400).json({ 
+          success: false,
+          msg: "❌ Email already exists. Please use a different email." 
+        });
+      } else {
         user.email = req.body.email;
+      }
     }
 
-
-    if (req.body.studentProfile.USN !== undefined) {
-      if (await User.findOne({ 'studentProfile.USN': req.body.studentProfile.USN }) !== null)
-        return res.status(400).json({ msg: "USN is Already Exist, Please Enter Correct USN!" });
+    if (req.body.studentProfile?.USN !== undefined) {
+      const existingUSN = await User.findOne({ 
+        'studentProfile.USN': req.body.studentProfile.USN,
+        _id: { $ne: user._id } // Exclude current user
+      });
+      if (existingUSN) {
+        return res.status(400).json({ 
+          success: false,
+          msg: "❌ USN already exists. Please enter a valid USN." 
+        });
+      }
     }
 
     if (req.body.first_name) user.first_name = req.body.first_name;
@@ -84,10 +100,17 @@ const UpdateProfile = async (req, res) => {
     // Save the updated user data
     await user.save();
 
-    return res.json({ msg: "Data Updated Successfully!" });
+    console.log(`✅ Profile updated successfully for user: ${user.email}`);
+    return res.status(200).json({ 
+      success: true,
+      msg: "✅ Profile Updated Successfully!" 
+    });
   } catch (error) {
-    console.log("user.update-profile.controller ==> ", error)
-    return res.json({ msg: "Internal Server Error!" });
+    console.error("❌ Error updating profile:", error);
+    return res.status(500).json({ 
+      success: false,
+      msg: "Failed to update profile. Please try again." 
+    });
   }
 }
 
