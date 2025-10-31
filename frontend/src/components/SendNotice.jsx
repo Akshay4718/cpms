@@ -102,12 +102,31 @@ function SendNotice() {
 
       {loading ? (
         <div className="flex justify-center h-72 items-center">
-          <i className="fa-solid fa-spinner fa-spin text-3xl" />
+          <i className="fa-solid fa-spinner fa-spin text-4xl text-slate-500" />
         </div>
       ) : (
         <>
+          {/* Page Header */}
+          <div className="bg-gradient-to-r from-slate-600 via-gray-600 to-slate-700 text-white rounded-xl shadow-lg p-6 mb-6">
+            <div className="flex items-center gap-3">
+              <div className="p-3 bg-white/20 rounded-full">
+                <i className="fa-solid fa-bell text-3xl"></i>
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold">Send Notice</h1>
+                <p className="text-slate-100 text-sm mt-1">Send important notifications to students or TPO</p>
+              </div>
+            </div>
+          </div>
+
           <div className="">
-            <div className="my-8 backdrop-blur-md bg-white/30 border border-white/20 rounded-lg shadow shadow-red-400 p-6 max-sm:text-sm max-sm:p-3">
+            <div className="bg-white/95 border-2 border-slate-200 rounded-xl shadow-lg p-8 max-sm:p-4">
+              <div className="flex items-center gap-2 mb-6">
+                <div className="p-2 bg-slate-100 rounded-lg">
+                  <i className="fa-solid fa-envelope text-slate-600 text-xl"></i>
+                </div>
+                <h3 className="text-xl font-bold text-slate-800">Notice Details</h3>
+              </div>
               <div className="grid grid-cols-2 gap-2">
 
                 {/* Receiver Role (Only for Management Admin) */}
@@ -174,21 +193,23 @@ function SendNotice() {
             </div>
 
             {/* Submit Button */}
-            <div className="flex flex-col justify-center items-center gap-2">
-              <Button
-                variant="primary"
-                size='lg'
+            <div className="flex justify-center items-center gap-4 mt-6">
+              <button
+                type="button"
                 onClick={handleSubmit}
-                onMouseEnter={(e) => {
-                  e.target.querySelector('i').classList.add('fa-solid', 'fa-bounce');
-                }}
-                onMouseLeave={(e) => {
-                  e.target.querySelector('i').classList.remove('fa-solid', 'fa-bounce');
-                }}
+                className="px-8 py-3 bg-gradient-to-r from-slate-600 to-gray-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 flex items-center gap-2"
               >
-                <i className="fa-regular fa-paper-plane mr-2" />
-                Send
-              </Button>
+                <i className="fa-solid fa-paper-plane" />
+                Send Notice
+              </button>
+              <button 
+                type='button'
+                onClick={() => navigate(-1)}
+                className="px-8 py-3 bg-slate-200 text-slate-700 font-semibold rounded-lg shadow hover:bg-slate-300 transition-colors duration-300 flex items-center gap-2"
+              >
+                <i className="fa-solid fa-xmark"></i>
+                Cancel
+              </button>
             </div>
           </div>
         </>

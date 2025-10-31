@@ -105,12 +105,25 @@ function AddCompany() {
       {
         loading ? (
           <div className="flex justify-center h-72 items-center">
-            <i className="fa-solid fa-spinner fa-spin text-3xl" />
+            <i className="fa-solid fa-spinner fa-spin text-4xl text-slate-500" />
           </div>
         ) : (
           <>
+            {/* Page Header */}
+            <div className="bg-gradient-to-r from-slate-600 via-slate-500 to-gray-600 text-white rounded-xl shadow-lg p-6 mb-6">
+              <div className="flex items-center gap-3">
+                <div className="p-3 bg-white/20 rounded-full">
+                  <i className="fa-solid fa-building text-3xl"></i>
+                </div>
+                <div>
+                  <h1 className="text-3xl font-bold">{companyId ? 'Update Company' : 'Add New Company'}</h1>
+                  <p className="text-slate-100 text-sm mt-1">Fill in the company details below</p>
+                </div>
+              </div>
+            </div>
+
             <Form onSubmit={handleSubmit}>
-              <div className="my-8 text-base backdrop-blur-md bg-white/30 border border-white/20 rounded-lg shadow shadow-red-400 p-6 max-sm:text-sm max-sm:p-3">
+              <div className="my-6 bg-white/95 border-2 border-slate-200 rounded-xl shadow-lg p-8 max-sm:p-4">
                 <div className="flex flex-col gap-2">
                   <div className="grid grid-cols-2 gap-2 max-sm:grid-cols-1">
                     <FloatingLabel controlId="floatingCompanyName" label={
@@ -198,14 +211,22 @@ function AddCompany() {
                   </div>
                 }
               </div>
-              <div className="flex flex-col justify-center items-center gap-2">
-                <Button variant="primary" type='submit' size='lg'>
-                  {
-                    companyId
-                      ? 'Update Company'
-                      : 'Add Company'
-                  }
-                </Button>
+              <div className="flex justify-center items-center gap-4 mt-6">
+                <button 
+                  type='submit'
+                  className="px-8 py-3 bg-gradient-to-r from-slate-600 to-gray-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 flex items-center gap-2"
+                >
+                  <i className="fa-solid fa-building"></i>
+                  {companyId ? 'Update Company' : 'Add Company'}
+                </button>
+                <button 
+                  type='button'
+                  onClick={() => navigate(-1)}
+                  className="px-8 py-3 bg-slate-200 text-slate-700 font-semibold rounded-lg shadow hover:bg-slate-300 transition-colors duration-300 flex items-center gap-2"
+                >
+                  <i className="fa-solid fa-xmark"></i>
+                  Cancel
+                </button>
               </div>
             </Form>
           </>

@@ -139,9 +139,32 @@ function AddNewUser() {
         position="top-center"
       />
 
-      <div className="flex justify-center items-center h-full max-md:h-fit text-base max-sm:text-sm">
-        <div className="my-4 backdrop-blur-md bg-white/30 border border-white/20 rounded-lg p-8 shadow shadow-red-400 w-fit">
-          <Form onSubmit={handleModalSubmit} className='flex flex-col justify-center items-center'>
+      {/* Page Header */}
+      <div className="bg-gradient-to-r from-slate-600 via-gray-600 to-slate-700 text-white rounded-xl shadow-lg p-6 mb-6">
+        <div className="flex items-center gap-3">
+          <div className="p-3 bg-white/20 rounded-full">
+            <i className={`text-3xl ${
+              userToAdd === 'management' ? 'fa-solid fa-user-tie' :
+              userToAdd === 'tpo' ? 'fa-solid fa-user-gear' :
+              'fa-solid fa-user-graduate'
+            }`}></i>
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold">Add New {userToAdd === 'tpo' ? 'TPO' : userToAdd === 'management' ? 'Management' : 'Student'}</h1>
+            <p className="text-slate-100 text-sm mt-1">Create a new user account with email notification</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex justify-center text-base max-sm:text-sm">
+        <div className="bg-white/95 border-2 border-slate-200 rounded-xl p-8 shadow-lg w-full max-w-md">
+          <div className="flex items-center gap-2 mb-6">
+            <div className="p-2 bg-slate-100 rounded-lg">
+              <i className="fa-solid fa-user-plus text-slate-600 text-xl"></i>
+            </div>
+            <h3 className="text-xl font-bold text-slate-800">User Details</h3>
+          </div>
+          <Form onSubmit={handleModalSubmit} className='flex flex-col'>
             <div className="flex flex-col gap-3">
               <div className="grid grid-cols-1 gap-x-3 gap-y-6 max-sm:grid-cols-1 max-sm:gap-x-1 max-sm:gap-y-1">
                 <div className="">
@@ -206,10 +229,15 @@ function AddNewUser() {
                 Password will be randomly generated & send to user via mail.
               </p>
             </div>
-            <button type="submit" className="my-1 flex items-center px-3 py-2 bg-blue-500 text-white rounded">
-              <GrFormAdd className="mr-2 text-3xl max-sm:text-lg max-sm:mr-0.5" />
-              Create New
-            </button>
+            <div className="flex justify-center gap-3 mt-4">
+              <button 
+                type="submit" 
+                className="px-6 py-3 bg-gradient-to-r from-slate-600 to-gray-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 flex items-center gap-2"
+              >
+                <i className="fa-solid fa-user-plus"></i>
+                Create User
+              </button>
+            </div>
           </Form>
         </div>
       </div>

@@ -120,6 +120,19 @@ function AddStudent() {
         position="bottom-end"
       />
 
+      {/* Page Header */}
+      <div className="bg-gradient-to-r from-slate-600 via-purple-600 to-slate-700 text-white rounded-xl shadow-lg p-6 mb-6">
+        <div className="flex items-center gap-3">
+          <div className="p-3 bg-white/20 rounded-full">
+            <i className="fa-solid fa-user-graduate text-3xl"></i>
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold">Student Users</h1>
+            <p className="text-slate-100 text-sm mt-1">Manage all student accounts</p>
+          </div>
+        </div>
+      </div>
+
       {/* AddUserTable Component */}
       <AddUserTable
         users={users}

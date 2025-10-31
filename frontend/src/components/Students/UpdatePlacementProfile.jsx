@@ -156,8 +156,11 @@ function UpdatePlacementProfile() {
               <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-2 gap-4 my-4 text-base max-sm:text-sm">
                   {/* basic info  */}
-                  <div className="grid backdrop-blur-md bg-white/30 border border-white/20 rounded-lg shadow shadow-red-400 p-6 max-md:col-span-2">
-                    <span className='text-2xl max-sm:text-xl'>Basic Details</span>
+                  <div className="grid backdrop-blur-md bg-white/90 border-2 border-indigo-200 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 max-md:col-span-2">
+                    <div className="flex items-center gap-2 mb-4">
+                      <i className="fa-solid fa-user-circle text-indigo-600 text-2xl"></i>
+                      <span className='text-2xl max-sm:text-xl font-bold text-gray-800'>Basic Details</span>
+                    </div>
                     <div className="flex flex-col justify-between py-2">
                       {/* Basic Info */}
                       <div className="flex justify-between">
@@ -219,8 +222,11 @@ function UpdatePlacementProfile() {
                   </div>
 
                   {/* college info  */}
-                  <div className="backdrop-blur-md bg-white/30 border border-white/20 rounded-lg shadow shadow-red-400 p-6 max-md:col-span-2">
-                    <span className='text-2xl max-sm:text-xl'>College Information</span>
+                  <div className="backdrop-blur-md bg-white/90 border-2 border-green-200 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 max-md:col-span-2">
+                    <div className="flex items-center gap-2 mb-4">
+                      <i className="fa-solid fa-graduation-cap text-green-600 text-2xl"></i>
+                      <span className='text-2xl max-sm:text-xl font-bold text-gray-800'>College Information</span>
+                    </div>
                     <div className="grid grid-cols-2">
                       {/* semester sgpa  */}
                       <div className="grid grid-cols-2 gap-2">
@@ -390,8 +396,11 @@ function UpdatePlacementProfile() {
                   </div>
 
                   {/* past qualification  */}
-                  <div className="col-span-2 backdrop-blur-md bg-white/30 border border-white/20 rounded-lg shadow shadow-red-400 p-6">
-                    <span className='text-2xl max-sm:text-xl'>Past Qualification</span>
+                  <div className="col-span-2 backdrop-blur-md bg-white/90 border-2 border-purple-200 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6">
+                    <div className="flex items-center gap-2 mb-4">
+                      <i className="fa-solid fa-certificate text-purple-600 text-2xl"></i>
+                      <span className='text-2xl max-sm:text-xl font-bold text-gray-800'>Past Qualification</span>
+                    </div>
                     <div className="grid grid-cols-3 max-sm:grid-cols-1">
                       <div className="px-2 py-3 flex flex-col gap-2">
                         <FloatingLabel controlId="floatingSelectSSC" label="SSLC Board Name">
@@ -638,10 +647,13 @@ function UpdatePlacementProfile() {
                     e.target.querySelector('Button i').classList.remove('fa-beat');
                   }}
                 >
-                  <Button variant="primary" type='submit' size='lg'>
-                    <i className="fa-regular fa-floppy-disk mr-2" />
-                    Save
-                  </Button>
+                  <button 
+                    type='submit'
+                    className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center gap-2"
+                  >
+                    <i className="fa-regular fa-floppy-disk" />
+                    Save Profile
+                  </button>
                 </div>
               </form>
             </div>

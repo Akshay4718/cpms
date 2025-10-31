@@ -178,7 +178,13 @@ function Account() {
               <div className="container grid grid-cols-3 gap-3 p-4 max-lg:grid-cols-2 max-sm:grid-cols-1">
 
                 {/* basic details */}
-                <div className="col-span-2 bg-white p-6 rounded-lg shadow-md w-full">
+                <div className="col-span-2 bg-white/90 border-2 border-indigo-200 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 w-full">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2 bg-indigo-100 rounded-full">
+                      <i className="fa-solid fa-user text-indigo-600 text-xl"></i>
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-800">Personal Information</h3>
+                  </div>
                   <Form onSubmit={handleBasicDetailSubmit}>
                     <div className="grid grid-cols-2 gap-2  justify-center items-start">
                       <FloatingLabel label="First Name">
@@ -272,16 +278,22 @@ function Account() {
                     </div>
                     <button
                       type="submit"
-                      className="flex items-center my-2 px-3 py-2 bg-blue-500 text-white rounded"
+                      className="flex items-center gap-2 my-4 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
                     >
-                      <FaRegSave className="mr-2" />
-                      Save
+                      <FaRegSave />
+                      Save Changes
                     </button>
                   </Form>
                 </div>
 
                 {/* address box */}
-                <div className="bg-white p-6 rounded-lg shadow-md w-full max-sm:col-span-2">
+                <div className="bg-white/90 border-2 border-green-200 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 w-full max-sm:col-span-2">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2 bg-green-100 rounded-full">
+                      <FaMapLocationDot className="text-green-600 text-xl" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-800">Address Details</h3>
+                  </div>
                   <Form onSubmit={handleBasicDetailSubmit}>
                     <div className="grid gap-2 ">
                       <FloatingLabel className='w-full' controlId="floatingTextareaAddress" label="Address">
@@ -331,19 +343,30 @@ function Account() {
                     </div>
                     <button
                       type="submit"
-                      className="flex items-center my-2 px-3 py-2 bg-blue-500 text-white rounded"
+                      className="flex items-center gap-2 my-4 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
                     >
-                      <FaMapLocationDot className="mr-2" />
-                      Change Address
+                      <FaMapLocationDot />
+                      Update Address
                     </button>
                   </Form>
                 </div>
 
                 {/* photo box */}
-                <div className="bg-white p-6 rounded-lg shadow-md w-full max-sm:col-span-2">
+                <div className="bg-white/90 border-2 border-blue-200 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 w-full max-sm:col-span-2">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2 bg-blue-100 rounded-full">
+                      <i className="fa-solid fa-camera text-blue-600 text-xl"></i>
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-800">Profile Photo</h3>
+                  </div>
                   <div className="">
                     <Form className='flex flex-col justify-center items-center gap-3 text-center'>
-                      <img src={data.profile} alt="Profile Img" width="150" height="150" className='rounded-full' />
+                      <div className="relative">
+                        <img src={data.profile} alt="Profile Img" width="150" height="150" className='rounded-full border-4 border-blue-200 shadow-lg' />
+                        <div className="absolute bottom-0 right-0 p-2 bg-blue-600 rounded-full">
+                          <i className="fa-solid fa-camera text-white text-sm"></i>
+                        </div>
+                      </div>
                       <Form.Group controlId="formFile" className="mb-3 text-xl" onChange={handlePhotoChange}>
                         <Form.Label>{data.first_name + " " + data.middle_name + " " + data.last_name}</Form.Label>
                         <Form.Control type="file" accept=".jpg, .jpeg, .png" />
@@ -353,7 +376,13 @@ function Account() {
                 </div>
 
                 {/* password box */}
-                <div className="bg-white p-6 rounded-lg shadow-md w-full col-span-2">
+                <div className="bg-white/90 border-2 border-orange-200 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 w-full col-span-2">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2 bg-orange-100 rounded-full">
+                      <RiKeyFill className="text-orange-600 text-xl" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-800">Change Password</h3>
+                  </div>
                   <Form onSubmit={handlePassUpdate}>
                     <div className="grid gap-2 ">
                       <FloatingLabel label="Current Password">
@@ -396,10 +425,10 @@ function Account() {
                     }
                     <button
                       type="submit"
-                      className="flex items-center my-2 px-3 py-2 bg-blue-500 text-white rounded"
+                      className="flex items-center gap-2 my-4 px-6 py-3 bg-gradient-to-r from-orange-600 to-red-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
                     >
-                      <RiKeyFill className="mr-2" />
-                      Change Password
+                      <RiKeyFill />
+                      Update Password
                     </button>
                   </Form>
                 </div>

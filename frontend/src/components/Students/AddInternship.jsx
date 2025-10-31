@@ -152,8 +152,17 @@ function AddInternship() {
           </div>
         ) : (
           <>
-            <div className="my-8 backdrop-blur-md bg-white/30 border border-white/20 rounded-lg shadow shadow-red-400 p-6">
-              <div className="grid grid-cols-2 gap-2 max-sm:grid-cols-1">
+            <div className="my-8 backdrop-blur-md bg-white/90 border-2 border-blue-200 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 bg-blue-100 rounded-full">
+                  <i className="fa-solid fa-briefcase text-blue-600 text-2xl"></i>
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-800">Add Internship Experience</h2>
+                  <p className="text-sm text-gray-600">Fill in your internship details below</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
                 <FloatingLabel controlId="floatingCompanyName" label={
                   <>
                     <span>Company Name <span style={{ color: 'red' }}>*</span></span>
@@ -267,10 +276,23 @@ function AddInternship() {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col justify-center items-center gap-2">
-              <Button variant="primary" type='submit' size='lg' onClick={handleSubmit}>
-                Update
-              </Button>
+            <div className="flex justify-center items-center gap-4 mt-6">
+              <button 
+                type='button'
+                onClick={handleSubmit}
+                className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center gap-2"
+              >
+                <i className="fa-solid fa-floppy-disk"></i>
+                {internshipId ? 'Update Internship' : 'Add Internship'}
+              </button>
+              <button 
+                type='button'
+                onClick={() => navigate(-1)}
+                className="px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg shadow hover:bg-gray-300 transition-colors duration-300 flex items-center gap-2"
+              >
+                <i className="fa-solid fa-xmark"></i>
+                Cancel
+              </button>
             </div>
           </>
         )

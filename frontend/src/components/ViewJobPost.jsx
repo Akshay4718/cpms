@@ -1,10 +1,8 @@
 import {useEffect, useState } from "react";
-import Accordion from 'react-bootstrap/Accordion';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Table from 'react-bootstrap/Table';
 import Toast from './Toast';
-import Button from 'react-bootstrap/Button';
 import ModalBox from './Modal';
 import { BASE_URL } from '../config/backend_url';
 
@@ -190,87 +188,110 @@ function ViewJobPost() {
       {
         loading ? (
           <div className="flex justify-center h-72 items-center">
-            <i className="fa-solid fa-spinner fa-spin text-3xl" />
+            <i className="fa-solid fa-spinner fa-spin text-4xl text-indigo-600" />
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 gap-2 my-6 text-base max-sm:text-sm max-sm:grid-cols-1">
-              <div className="flex flex-col grid-flow-row-dense gap-2">
+            {/* Header Section */}
+            <div className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 text-white rounded-xl shadow-xl p-8 mb-6  ">
+              <div className="flex items-center justify-between flex-wrap gap-4">
+                <div className="flex-1">
+                  <h1 className="text-4xl font-bold mb-2">{data?.jobTitle}</h1>
+                  <div className="flex items-center gap-3 text-lg">
+                    <span className="flex items-center gap-2">
+                      <i className="fa-solid fa-building"></i>
+                      {company?.companyName}
+                    </span>
+                    {company?.companyLocation && (
+                      <span className="flex items-center gap-2">
+                        <i className="fa-solid fa-location-dot"></i>
+                        {company?.companyLocation?.split(',')[0]}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-3xl font-bold mb-1">₹{data?.salary} LPA</div>
+                  <div className="text-sm opacity-90">Annual CTC</div>
+                </div>
+              </div>
+            </div>
 
-                <div className="">
-                  {/* Company Details  */}
-                  <Accordion defaultActiveKey={['0']} alwaysOpen className='shadow rounded'>
-                    <Accordion.Item eventKey="0">
-                      <Accordion.Header>Company Details</Accordion.Header>
-                      <Accordion.Body>
-                        <div className="">
-                          {/* company name  */}
-                          <h3 className='text-3xl text-center border-b-2 py-4 mb-4'>
-                            {company?.companyName}
-                          </h3>
-                          <div className="border-b-2 px-2 pb-4 text-gray-500 text-justify leading-5">
-                            {company?.companyDescription}
-                          </div>
-                          <div className="flex justify-between p-2 border-b-2 my-2">
-                            {/* company website  */}
-                            <span>Website</span>
-                            <span className='bg-blue-500 py-1 px-2 text-white rounded cursor-pointer'>
-                              <a
-                                href={`${company?.companyWebsite}`}
-                                target='_blanck'
-                                className='no-underline text-white'
-                              >
-                                {company?.companyWebsite}
-                              </a>
-                            </span>
-                          </div>
-                          <div className="flex justify-between p-2 border-b-2 my-2">
-                            {/* company location  */}
-                            <span>Job Locations</span>
-                            <div className="flex gap-2">
-                              {company?.companyLocation?.split(',').map((location, index) => (
-                                <span key={index} className='bg-blue-500 py-1 px-2 text-white rounded'>
-                                  {location.trim()}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                          <div className="flex justify-between p-2 border-b-2 my-2">
-                            {/* company difficulty  */}
-                            <span>Difficulty Level</span>
-                            {
-                              company?.companyDifficulty === "Easy" &&
-                              <span className='bg-green-500 py-1 px-2 text-white rounded'>
-                                {company?.companyDifficulty}
-                              </span>
-                            }
-                            {
-                              company?.companyDifficulty === "Moderate" &&
-                              <span className='bg-orange-500 py-1 px-2 text-white rounded'>
-                                {company?.companyDifficulty}
-                              </span>
-                            }
-                            {
-                              company?.companyDifficulty === "Hard" &&
-                              <span className='bg-red-500 py-1 px-2 text-white rounded'>
-                                {company?.companyDifficulty}
-                              </span>
-                            }
-                          </div>
+            <div className="grid grid-cols-3 gap-6 my-6 text-base max-sm:text-sm max-lg:grid-cols-1">
+              {/* Left Column - Company Details */}
+              <div className="flex flex-col gap-6">
+                {/* Company Details Card */}
+                <div className="bg-white/90 border-2 border-blue-200 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-3 bg-blue-100 rounded-full">
+                      <i className="fa-solid fa-building text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-800">Company Details</h3>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="text-xl font-semibold text-gray-800 mb-2">{company?.companyName}</h4>
+                      <p className="text-gray-600 leading-relaxed text-justify">{company?.companyDescription}</p>
+                    </div>
+                    
+                    {company?.companyWebsite && (
+                      <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <span className="font-semibold text-gray-700 flex items-center gap-2">
+                          <i className="fa-solid fa-globe text-blue-600"></i>
+                          Website
+                        </span>
+                        <a
+                          href={company?.companyWebsite}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:text-blue-800 font-medium no-underline flex items-center gap-1"
+                        >
+                          Visit <i className="fa-solid fa-arrow-up-right-from-square text-sm"></i>
+                        </a>
+                      </div>
+                    )}
+                    
+                    {company?.companyLocation && (
+                      <div className="p-3 bg-gray-50 rounded-lg">
+                        <div className="font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                          <i className="fa-solid fa-map-marker-alt text-green-600"></i>
+                          Job Locations
                         </div>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                  </Accordion>
+                        <div className="flex flex-wrap gap-2">
+                          {company?.companyLocation?.split(',').map((location, index) => (
+                            <span key={index} className='bg-green-100 text-green-700 py-1 px-3 rounded-full text-sm font-medium'>
+                              {location.trim()}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {company?.companyDifficulty && (
+                      <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <span className="font-semibold text-gray-700 flex items-center gap-2">
+                          <i className="fa-solid fa-signal text-purple-600"></i>
+                          Difficulty Level
+                        </span>
+                        <span className={`py-1 px-4 rounded-full text-sm font-semibold ${
+                          company?.companyDifficulty === "Easy" ? 'bg-green-100 text-green-700' :
+                          company?.companyDifficulty === "Moderate" ? 'bg-orange-100 text-orange-700' :
+                          'bg-red-100 text-red-700'
+                        }`}>
+                          {company?.companyDifficulty}
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {
                   currentUser.role !== "student" && (
-                    <>
-                      {/* pending */}
-                      <div className="">
-                        {/* Manage Applicants Button for TPO */}
-                        {(currentUser.role === 'tpo_admin' || currentUser.role === 'management_admin') && applicant?.length > 0 && (
-                          <div className="mb-4">
+                    <div className="space-y-4">
+                      {/* Manage Applicants Button for TPO */}
+                      {(currentUser.role === 'tpo_admin' || currentUser.role === 'management_admin') && applicant?.length > 0 && (
+                        <div>
                             <Link 
                               to={`/tpo/manage-applicants/${jobId}`}
                               className="inline-flex items-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-colors no-underline shadow-md"
@@ -283,11 +304,15 @@ function ViewJobPost() {
                         )}
                         
                         {/* Applicants applied */}
-                        <Accordion defaultActiveKey={['3']} alwaysOpen className='shadow rounded'>
-                          <Accordion.Item eventKey="3">
-                            <Accordion.Header>Applicants Applied</Accordion.Header>
-                            <Accordion.Body>
-                              <Table striped bordered hover size='sm' className='text-center'>
+                        <div className="bg-white/90 border-2 border-indigo-200 rounded-xl shadow-lg p-6">
+                          <div className="flex items-center gap-3 mb-4">
+                            <div className="p-3 bg-indigo-100 rounded-full">
+                              <i className="fa-solid fa-users text-indigo-600 text-2xl"></i>
+                            </div>
+                            <h3 className="text-2xl font-bold text-gray-800">Applicants Applied</h3>
+                          </div>
+                          <div className="overflow-x-auto">
+                            <Table striped hover size='sm' className='text-center'>
                                 <thead>
                                   <tr>
                                     <th style={{ width: '10%' }}>#</th>
@@ -345,106 +370,106 @@ function ViewJobPost() {
                                   }
                                 </tbody>
                               </Table>
-                            </Accordion.Body>
-                          </Accordion.Item>
-                        </Accordion>
-                      </div>
-                    </>
+                            </div>
+                          </div>
+                    </div>
                   )
                 }
 
               </div>
 
 
-              <div className="">
-                {/* Job details  */}
-                <Accordion defaultActiveKey={['1']} alwaysOpen className='shadow rounded'>
-                  <Accordion.Item eventKey="1">
-                    <Accordion.Header>Job Details</Accordion.Header>
-                    <Accordion.Body>
-                      <div className="flex flex-col gap-4">
-                        {/* job title  */}
-                        <div className="flex flex-col backdrop-blur-md bg-white/30 border border-white/20 rounded-lg px-2 shadow-sm shadow-red-400">
-                          <span className='text-xl text-blue-500 py-2 border-b-2'>
-                            Job Title
-                          </span>
-                          <span className='py-3'>
-                            {data?.jobTitle}
-                          </span>
+              {/* Middle Column - Job Details */}
+              <div className="col-span-2 max-lg:col-span-1">
+                <div className="bg-white/90 border-2 border-purple-200 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="p-3 bg-purple-100 rounded-full">
+                      <i className="fa-solid fa-briefcase text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-800">Job Details</h3>
+                  </div>
+                  
+                  <div className="space-y-6">
+                    {/* Job Description */}
+                    <div className="p-4 bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg border-l-4 border-purple-600">
+                      <h4 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                        <i className="fa-solid fa-file-lines text-purple-600"></i>
+                        Job Profile
+                      </h4>
+                      <div className='text-gray-700 leading-relaxed' dangerouslySetInnerHTML={{ __html: data?.jobDescription }} />
+                    </div>
+                    
+                    {/* Eligibility */}
+                    <div className="p-4 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg border-l-4 border-blue-600">
+                      <h4 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                        <i className="fa-solid fa-clipboard-check text-blue-600"></i>
+                        Eligibility Criteria
+                      </h4>
+                      <div className='text-gray-700 leading-relaxed' dangerouslySetInnerHTML={{ __html: data?.eligibility }} />
+                    </div>
+                    
+                    {/* Key Info Grid */}
+                    <div className="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
+                      <div className="p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg border-l-4 border-green-600">
+                        <div className="flex items-center gap-2 mb-2">
+                          <i className="fa-solid fa-money-bill-wave text-green-600 text-xl"></i>
+                          <span className="font-semibold text-gray-700">Package</span>
                         </div>
-                        {/* job Profile  */}
-                        <div className="flex flex-col backdrop-blur-md bg-white/30 border border-white/20 rounded-lg px-2 shadow-sm shadow-red-400">
-                          <span className='text-xl text-blue-500 py-2 border-b-2'>
-                            Job Profile
-                          </span>
-                          <span className='py-3' dangerouslySetInnerHTML={{ __html: data?.jobDescription }} />
+                        <div className="text-2xl font-bold text-green-600">₹{data?.salary} LPA</div>
+                      </div>
+                      
+                      <div className="p-4 bg-gradient-to-br from-red-50 to-orange-50 rounded-lg border-l-4 border-red-600">
+                        <div className="flex items-center gap-2 mb-2">
+                          <i className="fa-solid fa-calendar-xmark text-red-600 text-xl"></i>
+                          <span className="font-semibold text-gray-700">Deadline</span>
                         </div>
-                        {/* job eligibility  */}
-                        <div className="flex flex-col backdrop-blur-md bg-white/30 border border-white/20 rounded-lg px-2 shadow-sm shadow-red-400">
-                          <span className='text-xl text-blue-500 py-2 border-b-2'>
-                            Eligibility
-                          </span>
-                          <span className='py-3' dangerouslySetInnerHTML={{ __html: data?.eligibility }} />
+                        <div className="text-lg font-bold text-red-600">
+                          {new Date(data?.applicationDeadline).toLocaleDateString('en-IN', {
+                            month: 'short',
+                            day: 'numeric',
+                            year: 'numeric',
+                          })}
                         </div>
-                        {/* job salary  */}
-                        <div className="flex flex-col backdrop-blur-md bg-white/30 border border-white/20 rounded-lg px-2 shadow-sm shadow-red-400">
-                          <span className='text-xl text-blue-500 py-2 border-b-2'>
-                            Annual CTC
-                          </span>
-                          <span className='py-3'>
-                            {data?.salary} LPA
-                          </span>
+                      </div>
+                    </div>
+                    
+                    {/* How to Apply */}
+                    {
+                      (applied === true || currentUser?.role !== 'student') && (
+                        <div className="p-4 bg-gradient-to-br from-yellow-50 to-amber-50 rounded-lg border-l-4 border-yellow-600">
+                          <h4 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                            <i className="fa-solid fa-circle-info text-yellow-600"></i>
+                            How to Apply?
+                          </h4>
+                          <div className='text-gray-700 leading-relaxed' dangerouslySetInnerHTML={{ __html: data?.howToApply }} />
                         </div>
-                        {/* job deadline  */}
-                        <div className="flex flex-col backdrop-blur-md bg-white/30 border border-white/20 rounded-lg px-2 shadow-sm shadow-red-400">
-                          <span className='text-xl text-blue-500 py-2 border-b-2'>
-                            Last Date of Application
-                          </span>
-                          <span className='py-3'>
-                            {new Date(data?.applicationDeadline).toLocaleDateString('en-IN', {
-                              month: 'long',
-                              year: 'numeric',
-                              day: 'numeric',
-                            })}
-                          </span>
-                        </div>
-                        {/* how to apply  */}
-                        {
-                          (applied === true || currentUser?.role !== 'student') && (
-                            <div className="flex flex-col backdrop-blur-md bg-white/30 border border-white/20 rounded-lg px-2 shadow-sm shadow-red-400">
-                              <span className='text-xl text-blue-500 py-2 border-b-2'>
-                                How to Apply?
-                              </span>
-                              <span className='py-3' dangerouslySetInnerHTML={{ __html: data?.howToApply }} />
-                            </div>
-                          )
-                        }
+                      )
+                    }
                         {
                           currentUser.role === 'student' && (
-                            <div className="flex justify-center">
+                            <div className="flex justify-center py-4">
                               {
                                 applied === false ? (
-                                  <Button variant="warning" onClick={handleApply}>
-                                    <i className="fa-solid fa-check px-2" />
+                                  <button 
+                                    onClick={handleApply}
+                                    className="px-8 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center gap-2"
+                                  >
+                                    <i className="fa-solid fa-paper-plane"></i>
                                     Apply Now
-                                  </Button>
+                                  </button>
                                 ) : (
-                                  <Link to={`/student/status/${jobId}`}>
-                                    <Button variant="warning">
-                                      <i className="fa-solid fa-check px-2" />
-                                      Update Status
-                                    </Button>
-                                  </Link>
+                                  <div className="px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold rounded-lg shadow-lg flex items-center gap-2">
+                                    <i className="fa-solid fa-circle-check"></i>
+                                    Already Applied
+                                  </div>
                                 )
                               }
                             </div>
                           )
                         }
                       </div>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-              </div>
+                    </div>
+                  </div>
 
             </div>
           </>
